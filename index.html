@@ -804,10 +804,17 @@
     }
 
     .drawer-footer {
-      justify-content: flex-end;
+      justify-content: space-between;
       border-bottom: 0;
       border-top: 1px solid var(--el-border-color-light);
       background: #fff;
+    }
+
+    .drawer-footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
     }
 
     .drawer-title {
@@ -2197,8 +2204,15 @@
     </div>
 
     <footer class="drawer-footer">
-      <button class="btn" id="validateBtn" type="button">返回</button>
-      <button class="btn primary" id="saveConfigBtn" type="button">保存</button>
+      <div class="drawer-footer-actions">
+        <button class="btn" id="importConfigBtn" type="button">导入</button>
+        <button class="btn" id="exportConfigBtn" type="button">导出</button>
+        <input id="importConfigInput" type="file" accept="application/json,.json" hidden>
+      </div>
+      <div class="drawer-footer-actions">
+        <button class="btn" id="validateBtn" type="button">返回</button>
+        <button class="btn primary" id="saveConfigBtn" type="button">保存</button>
+      </div>
     </footer>
   </aside>
 
@@ -2609,7 +2623,7 @@
 
     function selectedBlock() {
       const step = selectedStep();
-      return step?.page.widgets.find((block) => block.id === state.selectedBlockId) || null;
+      return step?.page?.widgets?.find((block) => block.id === state.selectedBlockId) || null;
     }
 
     function compactOrders(items) {
@@ -2742,6 +2756,66 @@
     function setDirty() {
       state.lastSaved = "有未保存修改";
       updateStats();
+    }
+
+    function exportCurrentLocaleConfig() {
+      const payload = {
+        schemaVersion: "1.0",
+        configVersion: state.configVersion,
+        productId: "2013216258804109314",
+        productModel: "W1",
+        locale: state.activeLocale,
+        localeLabel: localeLabel(),
+        exportedAt: new Date().toISOString(),
+        steps: JSON.parse(JSON.stringify(state.steps))
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `device-assistant-W1-${state.activeLocale}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      showToast(`已导出 ${localeLabel()} 的设备助手配置文件，可导入到其他产品`);
+    }
+
+    function importCurrentLocaleConfig(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const payload = JSON.parse(reader.result);
+          const importedSteps = Array.isArray(payload.steps) ? payload.steps : payload.config?.steps;
+          if (!Array.isArray(importedSteps) || !importedSteps.length) {
+            showToast("导入失败：文件中未找到 steps 配置");
+            return;
+          }
+          state.steps = JSON.parse(JSON.stringify(importedSteps)).map((step, index) => ({
+            ...step,
+            order: Number(step.order || index + 1),
+            page: {
+              ...(step.page || {}),
+              widgets: Array.isArray(step.page?.widgets) ? step.page.widgets : []
+            }
+          }));
+          compactOrders(state.steps);
+          state.steps.forEach((step) => compactOrders(step.page.widgets || []));
+          state.selectedStepId = sortedSteps()[0].id;
+          state.selectedBlockId = sortedBlocks(selectedStep())[0]?.id || null;
+          state.layer = "page";
+          state.previewScreen = "stepList";
+          state.addWidgetMenuOpen = false;
+          state.validationRan = true;
+          setDirty();
+          renderAll();
+          showToast("导入已覆盖当前语言配置，点击保存后立即生效");
+        } catch (error) {
+          showToast("导入失败：JSON 文件格式无法解析");
+        }
+      };
+      reader.readAsText(file);
     }
 
     function renderEntry() {
@@ -4513,7 +4587,6 @@
 
       sortedSteps().forEach((step) => {
         const blocks = sortedBlocks(step);
-        addI18nIssues(issues, step, ["title", "subtitle"], `第 ${step.order} 步`);
         if (!blocks.length) {
           issues.push({ level: "错误", type: "danger", text: `步骤「${textValue(step, "title")}」为空，保存前需要至少一个 widget。` });
         }
@@ -4523,7 +4596,6 @@
 
         blocks.forEach((block) => {
           const prefix = `步骤「${textValue(step, "title")}」的${typeLabels[block.type] || block.type}组件`;
-          addI18nIssues(issues, block, widgetTextFields(block), prefix);
           if (block.type === "video") {
             if (!block.video && !block.cover) issues.push({ level: "错误", type: "danger", text: `${prefix}缺少视频文件或封面图，保存前至少上传其中之一。` });
             if (block.video && !block.cover) issues.push({ level: "警告", type: "warning", text: `${prefix}建议上传 16:9 封面图，便于 APP 播放器加载前展示。` });
@@ -4535,7 +4607,6 @@
             if ((block.groups?.length || 0) > 5) issues.push({ level: "错误", type: "danger", text: `${prefix}最多支持 5 组图文。` });
             (block.groups || []).forEach((group, index) => {
               if (!group.image) issues.push({ level: "错误", type: "danger", text: `${prefix}第 ${index + 1} 组缺少图片。` });
-              addI18nIssues(issues, group, ["body"], `${prefix}第 ${index + 1} 组正文`);
             });
           } else if (block.type === "accordion") {
             if (!block.items?.length) issues.push({ level: "错误", type: "danger", text: `${prefix}至少需要 1 个折叠项。` });
@@ -4549,17 +4620,11 @@
               if (!hasBody && !hasImages && !hasSlides) issues.push({ level: "错误", type: "danger", text: `${itemLabel}至少需要正文、图片或轮播内容之一。` });
               if (item.mediaMode === "image" && !hasImages) issues.push({ level: "错误", type: "danger", text: `${itemLabel}选择图片模式后至少需要 1 张图片。` });
               if (item.mediaMode === "carousel" && !hasSlides) issues.push({ level: "错误", type: "danger", text: `${itemLabel}选择轮播模式后至少需要 1 张轮播图片。` });
-              addI18nIssues(issues, item, ["title"], `${itemLabel} title`);
-              if (hasConfiguredTextField(item, "body")) addI18nIssues(issues, item, ["body"], `${itemLabel}正文`);
-              if (hasConfiguredTextField(item, "warning")) addI18nIssues(issues, item, ["warning"], `${itemLabel}告警文案`);
-              (item.slides || []).forEach((slide, slideIndex) => {
-                if (hasConfiguredTextField(slide, "caption")) addI18nIssues(issues, slide, ["caption"], `${itemLabel}轮播 ${slideIndex + 1} caption`);
-              });
             });
           } else if (block.type === "text") {
-            // 文本展示字段已由多语言校验覆盖。
+            // 文本组件当前没有额外结构校验。
           } else if (block.type === "segment") {
-            // 分段展示字段已由多语言校验覆盖。
+            // 分段组件当前没有额外结构校验。
           } else if (block.type === "spacer") {
             if (Number(block.height) < 0) issues.push({ level: "错误", type: "danger", text: `${prefix}高度不能小于 0。` });
           } else {
@@ -4568,23 +4633,7 @@
         });
       });
 
-      issues.push({ level: "提示", type: "info", text: "指定语言未配置素材时，服务端按现有逻辑默认返回英文版本。" });
-      issues.push({ level: "提示", type: "info", text: "英文（默认）语言缺失也不阻断保存；若 APP 回退英文后仍无配置，由 APP 侧提示和阻断用户。" });
-
       return issues;
-    }
-
-    function addI18nIssues(issues, item, fields, label) {
-      fields.forEach((field) => {
-        const fieldLabel = fields.length > 1 ? `${label} ${field}` : label;
-        if (!item?.[i18nKey(field)]?.[state.defaultLocale]?.trim() && !item?.[field]?.trim()) {
-          issues.push({ level: "警告", type: "warning", text: `${fieldLabel} 缺少英文（默认）配置；不阻断保存，APP 回退后仍无配置时由 APP 侧提示和阻断用户。` });
-        }
-        const missing = missingLocaleCodes(item, [field]);
-        if (missing.length) {
-          issues.push({ level: "警告", type: "warning", text: `${fieldLabel} 缺少 ${missing.slice(0, 4).join("、")}${missing.length > 4 ? `等 ${missing.length} 个语言` : ""}配置；语言缺失不阻断保存。` });
-        }
-      });
     }
 
     function renderValidationBox(issues = validateConfig()) {
@@ -4594,7 +4643,7 @@
             <strong>配置校验</strong>
             <span class="tag info">未运行</span>
           </div>
-          <div class="field-help">点击“保存”时会校验结构、素材和多语言缺失风险。</div>
+          <div class="field-help">点击“保存”时会校验结构和素材风险。</div>
         `;
         return;
       }
@@ -4698,11 +4747,15 @@
 
     on("#addStepBtn", "click", addStep);
     on("#saveConfigBtn", "click", saveConfig);
-    on("#exportConfigBtn", "click", () => {
-      showToast(`已导出 ${localeLabel()} 的设备助手配置文件，可导入到其他产品`);
-    });
+    on("#exportConfigBtn", "click", exportCurrentLocaleConfig);
     on("#importConfigBtn", "click", () => {
-      showToast("导入会覆盖当前语言配置，保存后 APP 即可获取");
+      const input = $("#importConfigInput");
+      if (!input) return;
+      input.value = "";
+      input.click();
+    });
+    on("#importConfigInput", "change", (event) => {
+      importCurrentLocaleConfig(event.target.files?.[0]);
     });
     on("#validateBtn", "click", () => {
       state.drawerOpen = false;
