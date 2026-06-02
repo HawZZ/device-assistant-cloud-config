@@ -1324,6 +1324,80 @@
       overflow-wrap: anywhere;
     }
 
+    .accordion-preview {
+      padding: 8px 10px 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .accordion-preview-item {
+      border: 1px solid var(--el-border-color);
+      border-radius: var(--radius);
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .accordion-preview-head {
+      width: 100%;
+      border: 0;
+      background: #fff;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-align: left;
+      color: var(--el-text-color-primary);
+      font-weight: 700;
+    }
+
+    .accordion-preview-icon {
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #f2f6fc;
+      color: var(--el-color-primary);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .accordion-preview-chevron {
+      margin-left: auto;
+      color: var(--el-text-color-secondary);
+    }
+
+    .accordion-preview-body {
+      border-top: 1px solid var(--el-border-color);
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .accordion-preview-media {
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #eef6ff, #fff7ed);
+      min-height: 70px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 8px;
+      color: #5b6472;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .accordion-preview-warning {
+      border-radius: var(--radius);
+      background: #fef0f0;
+      border: 1px solid #fde2e2;
+      color: #b42318;
+      padding: 8px;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
     .indicator {
       display: flex;
       align-items: center;
@@ -1378,29 +1452,6 @@
       font-size: 12px;
     }
 
-    .fallback-preview {
-      border: 1px solid #e6a23c;
-      background: #fdf6ec;
-      padding: 10px 12px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .fallback-code {
-      max-height: 112px;
-      overflow: auto;
-      border-radius: var(--radius);
-      background: #fff;
-      color: #303133;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 11px;
-      line-height: 16px;
-      white-space: pre-wrap;
-      word-break: break-word;
-      padding: 8px;
-      margin: 0;
-    }
-
     .empty-preview,
     .empty-state {
       border: 1px dashed var(--el-border-color);
@@ -1409,28 +1460,6 @@
       color: var(--el-text-color-secondary);
       padding: 18px;
       text-align: center;
-    }
-
-    .layer-tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-
-    .layer-tab {
-      height: 28px;
-      border-radius: var(--radius);
-      border: 1px solid var(--el-border-color);
-      background: #fff;
-      padding: 0 10px;
-      color: var(--el-text-color-regular);
-    }
-
-    .layer-tab.active {
-      color: var(--el-color-primary);
-      border-color: var(--el-color-primary);
-      background: var(--el-color-primary-light-9);
     }
 
     .form-grid {
@@ -1684,14 +1713,35 @@
       font-size: 12px;
     }
 
-    .type-grid {
+    .add-widget-panel {
+      border: 1px solid var(--el-border-color-light);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 10px;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
+      gap: 10px;
       margin-bottom: 12px;
     }
 
-    .type-btn {
+    .add-widget-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .add-widget-title {
+      font-weight: 600;
+      color: var(--el-text-color-primary);
+    }
+
+    .widget-type-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .widget-type-btn {
       min-height: 34px;
       border: 1px solid var(--el-border-color);
       border-radius: var(--radius);
@@ -1701,7 +1751,7 @@
       font-size: 13px;
     }
 
-    .type-btn:hover {
+    .widget-type-btn:hover {
       color: var(--el-color-primary);
       border-color: var(--el-color-primary);
     }
@@ -1900,7 +1950,7 @@
 
       .meta-grid,
       .stat-row,
-      .type-grid {
+      .widget-type-grid {
         grid-template-columns: 1fr;
       }
 
@@ -2142,7 +2192,6 @@
             <div class="column-subtitle" id="inspectorSubtitle">编辑当前步骤下的单列 widget。</div>
           </div>
         </div>
-        <div class="layer-tabs" id="layerTabs"></div>
         <div id="inspectorBody"></div>
       </section>
     </div>
@@ -2162,6 +2211,7 @@
       image: "图片",
       imageText: "图文",
       text: "文本",
+      accordion: "折叠说明组",
       segment: "分段",
       spacer: "空白"
     };
@@ -2171,6 +2221,7 @@
       drawerOpen: false,
       layer: "page",
       previewScreen: "stepList",
+      addWidgetMenuOpen: false,
       selectedStepId: "step-open-box",
       selectedBlockId: "block-open-images",
       draggedStepId: null,
@@ -2180,6 +2231,7 @@
       savedLocales: {},
       savedLocaleMeta: {},
       carouselIndex: {},
+      accordionOpen: {},
       videoPlaying: {},
       validationRan: false,
       defaultLocale: "en",
@@ -2215,9 +2267,20 @@
           page: {
             widgets: [
               {
+                id: "block-open-howto-video",
+                type: "video",
+                order: 1,
+                title: "开箱检查视频",
+                titleI18n: { "en": "Unbox & Inspect · 12s", "zh-Hans": "开箱检查视频" },
+                hideTitle: false,
+                titlePosition: "above",
+                video: { name: "step1-unbox-inspect.mp4", size: "12s" },
+                cover: { name: "step1-unbox-cover.jpg", size: "780KB" }
+              },
+              {
                 id: "block-open-images",
                 type: "image",
-                order: 1,
+                order: 2,
                 title: "确认包装内配件",
                 titleI18n: { "en": "Check included parts", "zh-Hans": "确认包装内配件" },
                 hideTitle: false,
@@ -2230,7 +2293,7 @@
               {
                 id: "block-open-text",
                 type: "text",
-                order: 2,
+                order: 3,
                 title: "使用前请检查",
                 titleI18n: { "en": "Before first use", "zh-Hans": "使用前请检查", "de": "Vor der ersten Nutzung" },
                 subtitle: "耗材、主机和充电盒需要完整",
@@ -2240,6 +2303,41 @@
                 collapsible: true,
                 iconMode: "preset",
                 presetIcon: "info"
+              },
+              {
+                id: "block-open-accordion",
+                type: "accordion",
+                order: 4,
+                title: "开箱说明组",
+                titleI18n: { "en": "Unbox & Inspect guide", "zh-Hans": "开箱说明组" },
+                items: [
+                  {
+                    iconMode: "preset",
+                    presetIcon: "question",
+                    title: "包装内有什么",
+                    titleI18n: { "en": "What's in the box", "zh-Hans": "包装内有什么" },
+                    body: "包装内包含 Air One 主机、充电配件、法兰插入件、测量工具和使用指南。请先放在清洁表面并确认完整。",
+                    bodyI18n: { "en": "Inside the box, you'll find your Air One pump units, charging accessories, flange inserts, sizing tools, and setup guides. Place all components on a clean surface and confirm everything is included before setup.", "zh-Hans": "包装内包含 Air One 主机、充电配件、法兰插入件、测量工具和使用指南。请先放在清洁表面并确认完整。" },
+                    mediaMode: "image",
+                    images: [{ name: "tips1.png", size: "880KB" }],
+                    slides: [],
+                    warning: "",
+                    warningI18n: {}
+                  },
+                  {
+                    iconMode: "preset",
+                    presetIcon: "alert",
+                    title: "配件缺失或损坏？",
+                    titleI18n: { "en": "Missing or damaged parts?", "zh-Hans": "配件缺失或损坏？" },
+                    body: "如发现任何配件缺失或损坏，请联系 Momcozy Support，并准备好订单号。",
+                    bodyI18n: { "en": "If any part is missing or appears damaged, please contact Momcozy Support. Having your order number ready will help us assist you faster.", "zh-Hans": "如发现任何配件缺失或损坏，请联系 Momcozy Support，并准备好订单号。" },
+                    mediaMode: "none",
+                    images: [],
+                    slides: [],
+                    warning: "不要在配件缺失或破损时启动设备。",
+                    warningI18n: { "en": "Do not power on the device when parts are missing or damaged.", "zh-Hans": "不要在配件缺失或破损时启动设备。" }
+                  }
+                ]
               }
             ]
           }
@@ -2332,17 +2430,6 @@
                 hideTitle: false,
                 titlePosition: "below",
                 images: []
-              },
-              {
-                id: "block-first-smart-check",
-                type: "smartCheck",
-                order: 4,
-                title: "智能检查",
-                titleI18n: { "en": "Smart check", "zh-Hans": "智能检查" },
-                rule: "requires-app-5.2",
-                resources: [
-                  { type: "json", uri: "oss://device-assistant/en/smart-check.json" }
-                ]
               }
             ]
           }
@@ -2460,6 +2547,15 @@
         loc: "文本组件 > 图标"
       },
       {
+        id: "accordion-design-adapter",
+        drawer: true,
+        blockType: "accordion",
+        target: "#accordionItemsField",
+        title: "适配 How to Use 设计稿",
+        body: "设计稿 #tipsStepAccordion 中的内容不是单个文本折叠，而是一组可展开说明项；因此新增 accordion widget，每项可配置图标、title、正文、图片 / 轮播和告警文案。",
+        loc: "折叠说明组 > 折叠项"
+      },
+      {
         id: "segment-style-enum",
         drawer: true,
         blockType: "segment",
@@ -2571,6 +2667,7 @@
         if (hasConfiguredTextField(widget, "content")) fields.push("content");
         return fields;
       }
+      if (widget.type === "accordion") return ["title"];
       if (widget.type === "segment") {
         return [
           ...(widget.showTitle ? ["title"] : []),
@@ -2839,6 +2936,7 @@
       state.selectedBlockId = blocks[0]?.id || null;
       state.layer = "page";
       state.previewScreen = options.previewScreen || "stepPage";
+      state.addWidgetMenuOpen = false;
       renderAll();
     }
 
@@ -2846,6 +2944,7 @@
       state.selectedBlockId = blockId;
       state.layer = "widget";
       state.previewScreen = "stepPage";
+      state.addWidgetMenuOpen = false;
       renderAll();
     }
 
@@ -2883,6 +2982,7 @@
           state.selectedStepId = button.dataset.stepLayer;
           state.layer = "steps";
           state.previewScreen = "stepPage";
+          state.addWidgetMenuOpen = false;
           renderAll();
         });
       });
@@ -3067,6 +3167,13 @@
           renderPhonePreview();
         });
       });
+      $("#phonePreview").querySelectorAll("[data-accordion-preview]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          state.accordionOpen[button.dataset.accordionPreview] = Number(button.dataset.accordionIndex);
+          renderPhonePreview();
+        });
+      });
       if (state.layer === "widget") {
         keepSelectedPreviewBlockVisible();
       }
@@ -3151,6 +3258,22 @@
         `;
       }
 
+      if (block.type === "accordion") {
+        const items = block.items || [];
+        const openIndex = Math.min(state.accordionOpen[block.id] ?? 0, Math.max(0, items.length - 1));
+        return `
+          <article class="preview-block ${selected}" data-preview-block="${escapeHtml(block.id)}">
+            <div class="preview-content">
+              <div class="preview-block-title">${escapeHtml(textValue(block, "title") || "折叠说明组")}</div>
+              <div class="preview-text">${items.length ? `共 ${items.length} 个折叠项，点击标题切换展开内容` : "保存前需要至少配置 1 个折叠项"}</div>
+            </div>
+            <div class="accordion-preview">
+              ${items.map((item, index) => renderAccordionPreviewItem(block, item, index, index === openIndex)).join("")}
+            </div>
+          </article>
+        `;
+      }
+
       if (block.type === "segment") {
         const line = segmentPreviewLine(block.style);
         return `
@@ -3174,14 +3297,54 @@
 
       return `
         <article class="preview-block ${selected}" data-preview-block="${escapeHtml(block.id)}">
-          <div class="fallback-preview">
-            <span class="tag warning" style="width: fit-content;">版本过低，影响内容展示</span>
-            <div class="preview-block-title">缺省组件：${escapeHtml(block.type)}</div>
-            <div class="preview-text">旧版 APP 不支持该 widget 时，使用缺省组件展示配置 JSON。</div>
-            <pre class="fallback-code">${escapeHtml(JSON.stringify(block, null, 2))}</pre>
-          </div>
+          <div class="empty-preview">当前原型暂不支持预览该组件类型：${escapeHtml(block.type)}</div>
         </article>
       `;
+    }
+
+    function renderAccordionPreviewItem(block, item, index, open) {
+      const title = textValue(item, "title") || `折叠项 ${index + 1}`;
+      return `
+        <div class="accordion-preview-item">
+          <button class="accordion-preview-head" type="button"
+            data-accordion-preview="${escapeHtml(block.id)}" data-accordion-index="${index}">
+            <span class="accordion-preview-icon">${accordionIconLabel(item)}</span>
+            <span>${escapeHtml(title)}</span>
+            <span class="accordion-preview-chevron">${open ? "⌃" : "⌄"}</span>
+          </button>
+          ${open ? renderAccordionPreviewBody(item) : ""}
+        </div>
+      `;
+    }
+
+    function renderAccordionPreviewBody(item) {
+      const body = textValue(item, "body");
+      const warning = textValue(item, "warning");
+      return `
+        <div class="accordion-preview-body">
+          ${renderAccordionPreviewMedia(item)}
+          ${body ? `<div class="preview-text">${escapeHtml(body)}</div>` : ""}
+          ${warning ? `<div class="accordion-preview-warning">${escapeHtml(warning)}</div>` : ""}
+        </div>
+      `;
+    }
+
+    function renderAccordionPreviewMedia(item) {
+      if (item.mediaMode === "carousel") {
+        const count = item.slides?.length || 0;
+        return count ? `<div class="accordion-preview-media">轮播 ${count} 张 / ${escapeHtml(resourceName(item.slides[0]?.image, "未上传图片"))}</div>` : "";
+      }
+      if (item.mediaMode === "image") {
+        const count = item.images?.length || 0;
+        return count ? `<div class="accordion-preview-media">${escapeHtml(resourceName(item.images[0], "未上传图片"))}${count > 1 ? ` 等 ${count} 张` : ""}</div>` : "";
+      }
+      return "";
+    }
+
+    function accordionIconLabel(item) {
+      if (item.presetIcon === "alert") return "!";
+      if (item.presetIcon === "check") return "✓";
+      return "?";
     }
 
     function renderPreviewTitle(block, fallback) {
@@ -3251,30 +3414,7 @@
       `;
     }
 
-    function renderLayerTabs() {
-      const canWidget = Boolean(selectedBlock());
-      const tabs = [
-        { key: "steps", label: "步骤层级" },
-        { key: "page", label: "页面层级" },
-        { key: "widget", label: "组件层级", disabled: !canWidget }
-      ];
-      $("#layerTabs").innerHTML = tabs.map((tab) => `
-        <button class="layer-tab ${state.layer === tab.key ? "active" : ""}" type="button"
-          data-layer="${tab.key}" ${tab.disabled ? "disabled" : ""}>
-          ${tab.label}
-        </button>
-      `).join("");
-      $("#layerTabs").querySelectorAll("[data-layer]").forEach((button) => {
-        button.addEventListener("click", () => {
-          if (button.disabled) return;
-          state.layer = button.dataset.layer;
-          renderInspector();
-        });
-      });
-    }
-
     function renderInspector() {
-      renderLayerTabs();
       const step = selectedStep();
       const block = selectedBlock();
 
@@ -3368,10 +3508,23 @@
         $("#inspectorSubtitle").textContent = `${textValue(step, "title")} / 单列 widget，拖拽调整展示顺序。`;
         const blocks = sortedBlocks(step);
         $("#inspectorBody").innerHTML = `
-          <div class="type-grid">
-            ${Object.entries(typeLabels).map(([type, label]) => `
-              <button class="type-btn" type="button" data-add-block="${type}">${label}</button>
-            `).join("")}
+          <div class="add-widget-panel">
+            <div class="add-widget-head">
+              <div>
+                <div class="add-widget-title">组件列表</div>
+                <div class="field-help">点击“添加组件”后选择类型，系统会立即新增并进入组件配置。</div>
+              </div>
+              <button class="btn primary" id="toggleAddWidgetBtn" type="button">
+                ${state.addWidgetMenuOpen ? "收起" : "添加组件"}
+              </button>
+            </div>
+            ${state.addWidgetMenuOpen ? `
+              <div class="widget-type-grid" aria-label="选择组件类型">
+                ${Object.entries(typeLabels).map(([type, label]) => `
+                  <button class="widget-type-btn" type="button" data-add-block="${type}">${label}</button>
+                `).join("")}
+              </div>
+            ` : ""}
           </div>
           <div class="block-list" id="blockList">
             ${blocks.length ? blocks.map((item) => renderBlockRow(item)).join("") : `<div class="empty-state">当前步骤暂无 widget。</div>`}
@@ -3379,6 +3532,10 @@
           <div class="field-help">页面层级只做单列布局；选择某个 widget 后进入组件层级填充素材和文本。</div>
         `;
 
+        $("#toggleAddWidgetBtn").addEventListener("click", () => {
+          state.addWidgetMenuOpen = !state.addWidgetMenuOpen;
+          renderInspector();
+        });
         $("#inspectorBody").querySelectorAll("[data-add-block]").forEach((button) => {
           button.addEventListener("click", () => addBlock(button.dataset.addBlock));
         });
@@ -3607,6 +3764,26 @@
         `;
       }
 
+      if (block.type === "accordion") {
+        const items = block.items || [];
+        return `
+          <div class="form-grid">
+            ${common}
+            <div class="field">
+              <label for="widgetTitleInput">组件标题</label>
+              <input class="input" id="widgetTitleInput" value="${escapeHtml(textValue(block, "title"))}" maxlength="40">
+              <div class="field-help">组件标题用于管理端识别；APP 可按 UI 方案选择是否展示。</div>
+            </div>
+            <div class="field" id="accordionItemsField">
+              <label>折叠项</label>
+              <div class="field-help">适配 APP 设计稿中的可展开说明项；折叠项顺序就是 APP 展示顺序。</div>
+              ${renderAccordionItemsForm(items)}
+              <button class="btn" id="addAccordionItemBtn" type="button">新增折叠项</button>
+            </div>
+          </div>
+        `;
+      }
+
       if (block.type === "segment") {
         return `
           <div class="form-grid">
@@ -3673,6 +3850,96 @@
           `).join("")}
         </div>
       `;
+    }
+
+    function renderAccordionItemsForm(items) {
+      if (!items.length) {
+        return `<div class="empty-state">暂无折叠项，保存前至少配置 1 项。</div>`;
+      }
+      return `
+        <div class="resource-list">
+          ${items.map((item, index) => `
+            <div class="validation-box">
+              <div class="inspector-title-row">
+                <strong>折叠项 ${index + 1}</strong>
+                <span class="tag info">${escapeHtml(accordionMediaSummary(item))}</span>
+              </div>
+              <div class="block-actions" style="margin-bottom: 8px;">
+                <button class="btn text" type="button" data-accordion-item-move="${index}" data-direction="-1" ${index === 0 ? "disabled" : ""}>上移</button>
+                <button class="btn text" type="button" data-accordion-item-move="${index}" data-direction="1" ${index === items.length - 1 ? "disabled" : ""}>下移</button>
+                <button class="btn text" type="button" data-accordion-item-delete="${index}">删除</button>
+              </div>
+              <div class="field">
+                <label for="accordionIcon${index}">图标</label>
+                <select class="select" id="accordionIcon${index}" data-accordion-icon="${index}">
+                  <option value="question" ${item.presetIcon !== "alert" && item.presetIcon !== "check" ? "selected" : ""}>question</option>
+                  <option value="alert" ${item.presetIcon === "alert" ? "selected" : ""}>alert</option>
+                  <option value="check" ${item.presetIcon === "check" ? "selected" : ""}>check</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="accordionTitle${index}">title</label>
+                <input class="input" id="accordionTitle${index}" value="${escapeHtml(textValue(item, "title"))}" data-accordion-title="${index}" maxlength="48">
+              </div>
+              <div class="field">
+                <label for="accordionBody${index}">正文</label>
+                <textarea class="textarea" id="accordionBody${index}" data-accordion-body="${index}">${escapeHtml(textValue(item, "body"))}</textarea>
+              </div>
+              <div class="field">
+                <label for="accordionMediaMode${index}">媒体模式</label>
+                <select class="select" id="accordionMediaMode${index}" data-accordion-media-mode="${index}">
+                  <option value="none" ${item.mediaMode === "none" ? "selected" : ""}>无媒体</option>
+                  <option value="image" ${item.mediaMode === "image" ? "selected" : ""}>图片</option>
+                  <option value="carousel" ${item.mediaMode === "carousel" ? "selected" : ""}>图片轮播</option>
+                </select>
+                <div class="field-help">图片 / 轮播资源顺序影响 APP 展示顺序；原型中上传会追加到当前折叠项。</div>
+              </div>
+              <div class="field ${item.mediaMode === "none" ? "hidden" : ""}">
+                <label for="accordionImages${index}">图片资源</label>
+                <input class="input" id="accordionImages${index}" type="file" accept="image/png,image/jpeg" multiple data-accordion-images="${index}">
+                ${renderAccordionMediaResources(item)}
+              </div>
+              ${item.mediaMode === "carousel" && item.slides?.length ? `
+                <div class="field">
+                  <label>轮播 captions</label>
+                  ${item.slides.map((slide, slideIndex) => `
+                    <input class="input" style="margin-bottom: 6px;" value="${escapeHtml(textValue(slide, "caption"))}" data-accordion-slide-caption="${index}:${slideIndex}" maxlength="80">
+                  `).join("")}
+                </div>
+              ` : ""}
+              <div class="field">
+                <label for="accordionWarning${index}">告警文案</label>
+                <textarea class="textarea" id="accordionWarning${index}" data-accordion-warning="${index}">${escapeHtml(textValue(item, "warning"))}</textarea>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderAccordionMediaResources(item) {
+      const resources = item.mediaMode === "carousel"
+        ? (item.slides || []).map((slide) => slide.image)
+        : (item.images || []);
+      if (!resources.length) return `<div class="resource-list"><div class="resource-pill"><span>暂无图片资源</span></div></div>`;
+      return `
+        <div class="resource-list">
+          ${resources.map((resource, index) => `
+            <div class="resource-pill">
+              <div>
+                <span>${escapeHtml(resourceName(resource, "未上传图片"))}</span>
+                <span class="resource-order">顺序 ${index + 1}${resource?.size ? ` / ${escapeHtml(resource.size)}` : ""}</span>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function accordionMediaSummary(item) {
+      if (item.mediaMode === "carousel") return `${item.slides?.length || 0} 张轮播`;
+      if (item.mediaMode === "image") return `${item.images?.length || 0} 张图片`;
+      return "无媒体";
     }
 
     function renderImageResources(images) {
@@ -3893,6 +4160,132 @@
         });
       });
 
+      $("#addAccordionItemBtn")?.addEventListener("click", () => {
+        block.items = block.items || [];
+        block.items.push(makeDefaultAccordionItem(block.items.length + 1));
+        setDirty();
+        renderAll();
+        showToast("已新增折叠项");
+      });
+
+      document.querySelectorAll("[data-accordion-item-move]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const fromIndex = Number(button.dataset.accordionItemMove);
+          const toIndex = fromIndex + Number(button.dataset.direction);
+          if (!block.items?.[fromIndex] || !block.items?.[toIndex]) return;
+          [block.items[fromIndex], block.items[toIndex]] = [block.items[toIndex], block.items[fromIndex]];
+          state.accordionOpen[block.id] = Math.min(state.accordionOpen[block.id] || 0, block.items.length - 1);
+          setDirty();
+          renderAll();
+          showToast("折叠项顺序已更新，APP 展示顺序同步变化");
+        });
+      });
+
+      document.querySelectorAll("[data-accordion-item-delete]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const index = Number(button.dataset.accordionItemDelete);
+          if (!block.items?.[index]) return;
+          block.items.splice(index, 1);
+          state.accordionOpen[block.id] = Math.min(state.accordionOpen[block.id] || 0, Math.max(0, block.items.length - 1));
+          setDirty();
+          renderAll();
+          showToast("折叠项已删除");
+        });
+      });
+
+      document.querySelectorAll("[data-accordion-icon]").forEach((select) => {
+        select.addEventListener("change", (event) => {
+          const item = block.items?.[Number(select.dataset.accordionIcon)];
+          if (!item) return;
+          item.iconMode = "preset";
+          item.presetIcon = event.target.value;
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+
+      document.querySelectorAll("[data-accordion-title]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const item = block.items?.[Number(input.dataset.accordionTitle)];
+          if (!item) return;
+          setTextValue(item, "title", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+
+      document.querySelectorAll("[data-accordion-body]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const item = block.items?.[Number(input.dataset.accordionBody)];
+          if (!item) return;
+          setTextValue(item, "body", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+
+      document.querySelectorAll("[data-accordion-media-mode]").forEach((select) => {
+        select.addEventListener("change", (event) => {
+          const item = block.items?.[Number(select.dataset.accordionMediaMode)];
+          if (!item) return;
+          item.mediaMode = event.target.value;
+          item.images = item.mediaMode === "image" ? (item.images || []) : [];
+          item.slides = item.mediaMode === "carousel" ? (item.slides || []) : [];
+          setDirty();
+          renderAll();
+        });
+      });
+
+      document.querySelectorAll("[data-accordion-images]").forEach((input) => {
+        input.addEventListener("change", (event) => {
+          const item = block.items?.[Number(input.dataset.accordionImages)];
+          const files = [...event.target.files];
+          if (!item || !files.length) return;
+          const result = validateImageSet(files, 6);
+          if (!result.ok) {
+            showToast(result.message);
+            return;
+          }
+          if (item.mediaMode === "carousel") {
+            item.slides = item.slides || [];
+            item.slides.push(...files.map((file, index) => ({
+              image: fileResource(file),
+              caption: `轮播图 ${item.slides.length + index + 1}`,
+              captionI18n: { [state.activeLocale]: `轮播图 ${item.slides.length + index + 1}` }
+            })));
+            showToast(`已追加 ${files.length} 张轮播图片`);
+          } else {
+            item.mediaMode = "image";
+            item.images = item.images || [];
+            item.images.push(...files.map(fileResource));
+            showToast(`已追加 ${files.length} 张图片`);
+          }
+          setDirty();
+          renderAll();
+        });
+      });
+
+      document.querySelectorAll("[data-accordion-slide-caption]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const [itemIndex, slideIndex] = input.dataset.accordionSlideCaption.split(":").map(Number);
+          const slide = block.items?.[itemIndex]?.slides?.[slideIndex];
+          if (!slide) return;
+          setTextValue(slide, "caption", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+
+      document.querySelectorAll("[data-accordion-warning]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const item = block.items?.[Number(input.dataset.accordionWarning)];
+          if (!item) return;
+          setTextValue(item, "warning", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+
       $("#subtitleInput")?.addEventListener("input", (event) => {
         setTextValue(block, "subtitle", event.target.value);
         setDirty();
@@ -4019,10 +4412,29 @@
       if (type === "text") {
         return { id, type, order, title: "新文本", titleI18n: { [state.activeLocale]: "新文本" }, subtitle: "", subtitleI18n: {}, content: "", contentI18n: {}, collapsible: false, iconMode: "preset", presetIcon: "info" };
       }
+      if (type === "accordion") {
+        return { id, type, order, title: "新折叠说明组", titleI18n: { [state.activeLocale]: "新折叠说明组" }, items: [makeDefaultAccordionItem(1)] };
+      }
       if (type === "segment") {
         return { id, type, order, style: "style1", showTitle: true, title: "新分段", titleI18n: { [state.activeLocale]: "新分段" }, showSubtitle: false, subtitle: "", subtitleI18n: {} };
       }
       return { id, type: "spacer", order, height: 24 };
+    }
+
+    function makeDefaultAccordionItem(index) {
+      return {
+        iconMode: "preset",
+        presetIcon: "question",
+        title: `折叠项 ${index}`,
+        titleI18n: { [state.activeLocale]: `折叠项 ${index}` },
+        body: "",
+        bodyI18n: { [state.activeLocale]: "" },
+        mediaMode: "none",
+        images: [],
+        slides: [],
+        warning: "",
+        warningI18n: {}
+      };
     }
 
     function addBlock(type) {
@@ -4033,6 +4445,7 @@
       state.selectedBlockId = block.id;
       state.layer = "widget";
       state.previewScreen = "stepPage";
+      state.addWidgetMenuOpen = false;
       setDirty();
       renderAll();
     }
@@ -4046,6 +4459,7 @@
       state.selectedBlockId = sortedBlocks(step)[0]?.id || null;
       state.layer = state.selectedBlockId ? "page" : "page";
       state.previewScreen = "stepPage";
+      state.addWidgetMenuOpen = false;
       setDirty();
       renderAll();
     }
@@ -4068,6 +4482,7 @@
       state.selectedBlockId = null;
       state.layer = "steps";
       state.previewScreen = "stepPage";
+      state.addWidgetMenuOpen = false;
       setDirty();
       renderAll();
     }
@@ -4085,6 +4500,7 @@
       state.selectedBlockId = sortedBlocks(step)[0]?.id || null;
       state.layer = "page";
       state.previewScreen = "stepPage";
+      state.addWidgetMenuOpen = false;
       setDirty();
       renderAll();
     }
@@ -4121,6 +4537,25 @@
               if (!group.image) issues.push({ level: "错误", type: "danger", text: `${prefix}第 ${index + 1} 组缺少图片。` });
               addI18nIssues(issues, group, ["body"], `${prefix}第 ${index + 1} 组正文`);
             });
+          } else if (block.type === "accordion") {
+            if (!block.items?.length) issues.push({ level: "错误", type: "danger", text: `${prefix}至少需要 1 个折叠项。` });
+            if ((block.items?.length || 0) > 6) issues.push({ level: "警告", type: "warning", text: `${prefix}超过 6 个折叠项，可能影响 APP 阅读体验。` });
+            (block.items || []).forEach((item, index) => {
+              const itemLabel = `${prefix}第 ${index + 1} 个折叠项`;
+              if (!textValue(item, "title")) issues.push({ level: "错误", type: "danger", text: `${itemLabel}缺少 title。` });
+              const hasBody = Boolean(textValue(item, "body"));
+              const hasImages = item.mediaMode === "image" && (item.images?.length || 0) > 0;
+              const hasSlides = item.mediaMode === "carousel" && (item.slides?.length || 0) > 0;
+              if (!hasBody && !hasImages && !hasSlides) issues.push({ level: "错误", type: "danger", text: `${itemLabel}至少需要正文、图片或轮播内容之一。` });
+              if (item.mediaMode === "image" && !hasImages) issues.push({ level: "错误", type: "danger", text: `${itemLabel}选择图片模式后至少需要 1 张图片。` });
+              if (item.mediaMode === "carousel" && !hasSlides) issues.push({ level: "错误", type: "danger", text: `${itemLabel}选择轮播模式后至少需要 1 张轮播图片。` });
+              addI18nIssues(issues, item, ["title"], `${itemLabel} title`);
+              if (hasConfiguredTextField(item, "body")) addI18nIssues(issues, item, ["body"], `${itemLabel}正文`);
+              if (hasConfiguredTextField(item, "warning")) addI18nIssues(issues, item, ["warning"], `${itemLabel}告警文案`);
+              (item.slides || []).forEach((slide, slideIndex) => {
+                if (hasConfiguredTextField(slide, "caption")) addI18nIssues(issues, slide, ["caption"], `${itemLabel}轮播 ${slideIndex + 1} caption`);
+              });
+            });
           } else if (block.type === "text") {
             // 文本展示字段已由多语言校验覆盖。
           } else if (block.type === "segment") {
@@ -4128,7 +4563,7 @@
           } else if (block.type === "spacer") {
             if (Number(block.height) < 0) issues.push({ level: "错误", type: "danger", text: `${prefix}高度不能小于 0。` });
           } else {
-            issues.push({ level: "警告", type: "warning", text: `${prefix}类型未知；旧版 APP 将提示“版本过低，影响内容展示”，并用缺省组件展示该组件配置 JSON。` });
+            issues.push({ level: "警告", type: "warning", text: `${prefix}类型未知；当前原型暂不支持配置该组件。` });
           }
         });
       });
