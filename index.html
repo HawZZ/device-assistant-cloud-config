@@ -383,6 +383,10 @@
       margin-bottom: 12px;
     }
 
+    .locale-version-panel {
+      margin: -4px 0 16px;
+    }
+
     .reference-locale-scroll {
       overflow-x: auto;
       overflow-y: hidden;
@@ -778,7 +782,7 @@
       top: 0;
       right: 0;
       bottom: 0;
-      width: min(1120px, calc(100vw - 56px));
+      width: min(1240px, calc(100vw - 40px));
       background: #fff;
       box-shadow: -6px 0 18px rgba(0, 0, 0, .16);
       transform: translateX(104%);
@@ -836,7 +840,7 @@
       min-height: 0;
       overflow: hidden;
       display: grid;
-      grid-template-columns: 220px 360px minmax(320px, 1fr);
+      grid-template-columns: 380px 260px minmax(360px, 1fr);
       background: #f6f7fb;
     }
 
@@ -864,6 +868,7 @@
       justify-items: center;
       align-content: start;
       gap: 12px;
+      background: #f6f7fb;
     }
 
     .preview-intro {
@@ -885,6 +890,63 @@
     .step-list {
       display: grid;
       gap: 8px;
+    }
+
+    .page-entry-list,
+    .publish-panel {
+      border: 1px solid var(--el-border-color-light);
+      border-radius: var(--radius);
+      background: #fafafa;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .page-entry-title,
+    .publish-title {
+      font-weight: 600;
+      color: var(--el-text-color-primary);
+    }
+
+    .page-entry-btn {
+      min-height: 34px;
+      border: 1px solid var(--el-border-color);
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--el-text-color-regular);
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      text-align: left;
+    }
+
+    .page-entry-btn.active {
+      color: var(--el-color-primary);
+      border-color: var(--el-color-primary);
+      background: var(--el-color-primary-light-9);
+    }
+
+    .status-grid {
+      display: grid;
+      gap: 6px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--el-text-color-regular);
+      font-size: 12px;
+    }
+
+    .test-email-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 6px;
     }
 
     .step-item {
@@ -1046,13 +1108,6 @@
       -webkit-line-clamp: 2;
     }
 
-    .page-preview-widgets {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      flex-wrap: wrap;
-    }
-
     .mini-widget {
       max-width: 100%;
       min-height: 22px;
@@ -1083,6 +1138,34 @@
       box-shadow: 0 12px 24px rgba(0, 0, 0, .18);
       display: grid;
       grid-template-rows: auto auto minmax(0, 1fr);
+    }
+
+    .phone.rtl {
+      direction: rtl;
+    }
+
+    .phone.rtl .phone-status,
+    .phone.rtl .preview-media,
+    .phone.rtl .indicator {
+      direction: ltr;
+    }
+
+    .phone.rtl .phone-head,
+    .phone.rtl .phone-body {
+      text-align: right;
+    }
+
+    .phone.rtl .phone-nav-row,
+    .phone.rtl .page-overview-head,
+    .phone.rtl .page-preview-card-top,
+    .phone.rtl .accordion-preview-head {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+
+    .phone.rtl .accordion-preview-chevron {
+      margin-left: 0;
+      margin-right: auto;
     }
 
     .phone-status {
@@ -1186,6 +1269,113 @@
     .preview-block.selected {
       border-color: var(--el-color-primary);
       box-shadow: 0 0 0 2px rgba(67, 114, 255, .18);
+    }
+
+    .assistant-hero {
+      border-radius: 10px;
+      background: linear-gradient(135deg, #eef6ff, #fff7ed);
+      min-height: 150px;
+      display: grid;
+      place-items: center;
+      padding: 14px;
+      color: #5b6472;
+      font-weight: 700;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .assistant-page-copy {
+      display: grid;
+      gap: 6px;
+      padding: 2px 2px 0;
+    }
+
+    .assistant-page-title {
+      font-size: 18px;
+      line-height: 24px;
+      font-weight: 800;
+      color: var(--el-text-color-primary);
+      overflow-wrap: anywhere;
+    }
+
+    .assistant-page-subtitle,
+    .abbr-step-subtitle {
+      color: var(--el-text-color-secondary);
+      font-size: 12px;
+      line-height: 18px;
+      overflow-wrap: anywhere;
+    }
+
+    .abbr-step-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .abbr-step-card {
+      border: 1px solid var(--el-border-color-light);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      min-width: 0;
+    }
+
+    .abbr-step-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--el-color-primary-light-9);
+      color: var(--el-color-primary);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .abbr-step-title {
+      font-weight: 700;
+      color: var(--el-text-color-primary);
+      overflow-wrap: anywhere;
+    }
+
+    .phone-primary-action {
+      width: 100%;
+      min-height: 38px;
+      border: 0;
+      border-radius: 20px;
+      background: var(--el-color-primary);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .fusion-preview-card {
+      border: 1px solid var(--el-border-color-light);
+      border-radius: 10px;
+      background: #fff;
+      padding: 8px;
+      display: grid;
+      gap: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, .04);
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .fusion-preview-card.selected {
+      border-color: var(--el-color-primary);
+      box-shadow: 0 0 0 2px rgba(67, 114, 255, .18);
+    }
+
+    .fusion-preview-label {
+      color: var(--el-text-color-secondary);
+      font-size: 12px;
+      line-height: 18px;
+    }
+
+    .fusion-preview-card .preview-block {
+      box-shadow: none;
+      border-color: var(--el-border-color-lighter);
     }
 
     .preview-media {
@@ -1659,6 +1849,10 @@
       display: none;
     }
 
+    body.drawer-open .prototype-annotation-toggle {
+      bottom: 82px;
+    }
+
     .input,
     .select,
     .textarea {
@@ -1831,6 +2025,67 @@
       cursor: not-allowed;
     }
 
+    .template-status-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .template-section-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .template-section-card {
+      border: 1px solid var(--el-border-color-light);
+      border-radius: var(--radius);
+      background: #fafafa;
+      padding: 10px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .template-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .template-media-choice {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .template-media-choice label {
+      min-height: 34px;
+      border: 1px solid var(--el-border-color);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 7px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--el-text-color-regular);
+    }
+
+    .template-preview-section {
+      border-top: 1px solid var(--el-border-color-lighter);
+      padding-top: 10px;
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .template-preview-section:first-child {
+      border-top: 0;
+      padding-top: 0;
+      margin-top: 0;
+    }
+
     .validation-box {
       padding: 12px;
       display: grid;
@@ -1929,6 +2184,8 @@
 
       .drawer-body {
         grid-template-columns: 1fr;
+        grid-auto-rows: max-content;
+        align-content: start;
         overflow: auto;
       }
 
@@ -2097,6 +2354,7 @@
                   <div class="reference-locale-nav" id="localeTabs"></div>
                 </div>
               </div>
+              <div class="publish-panel locale-version-panel" id="publishPanel" aria-label="版本控制"></div>
               <div class="tab-panel-body">
                 <div class="tab-content-action" id="openDrawerBtn">
                   <button class="btn" type="button">编辑</button>
@@ -2165,41 +2423,43 @@
       <div class="drawer-title-row">
         <div>
           <h2 class="drawer-title">编辑新手指导</h2>
-          <div class="drawer-subtitle" id="drawerSubtitle">W1 / 新版设备助手 / 英文（默认） / 保存即生效</div>
+          <div class="drawer-subtitle" id="drawerSubtitle">W1 / 新版设备助手 / 英文（默认） / 草稿与上架</div>
         </div>
       </div>
       <button class="btn icon" id="closeDrawerBtn" type="button" aria-label="关闭">×</button>
     </header>
 
     <div class="drawer-body">
-      <section class="step-column" aria-label="步骤层级">
-        <div class="column-title-row">
-          <div>
-            <h3 class="column-title">步骤</h3>
-            <div class="column-subtitle">拖拽调整顺序，点击步骤进入页面配置。</div>
-          </div>
-        </div>
-        <div class="step-list" id="stepList"></div>
-        <button class="btn primary" id="addStepBtn" type="button" style="width: 100%; margin-top: 12px;">新增步骤</button>
-      </section>
-
       <section class="preview-column" aria-label="APP 预览画布">
         <div class="preview-intro">
           <h3 class="column-title">APP 预览</h3>
-          <div class="column-subtitle">当前语言来自页面语言 Tab；点击步骤或 widget，同步定位到配置层级。</div>
+          <div class="column-subtitle">左侧为所见即所得预览；点击步骤同步定位右侧配置。</div>
         </div>
         <div class="phone" id="phonePreview"></div>
-        <div class="validation-box" id="validationBox"></div>
+      </section>
+
+      <section class="step-column" aria-label="页面与步骤入口">
+        <div class="column-title-row">
+          <div>
+            <h3 class="column-title">页面与步骤</h3>
+            <div class="column-subtitle">选择 Welcome / Step / Finish，再编辑对应模板。</div>
+          </div>
+        </div>
+        <div class="page-entry-list" id="pageEntryList" aria-label="设备助手页面入口"></div>
+        <div class="column-subtitle">Step 模板可创建 1～7 页；顺序即 APP step 页顺序。</div>
+        <div class="step-list" id="stepList"></div>
+        <button class="btn primary" id="addStepBtn" type="button" style="width: 100%; margin-top: 12px;">新增步骤</button>
       </section>
 
       <section class="inspector-column" aria-label="属性面板">
         <div class="inspector-title-row">
           <div>
             <h3 class="inspector-title" id="inspectorTitle">页面配置</h3>
-            <div class="column-subtitle" id="inspectorSubtitle">编辑当前步骤下的单列 widget。</div>
+            <div class="column-subtitle" id="inspectorSubtitle">编辑当前语言的固定模板字段。</div>
           </div>
         </div>
         <div id="inspectorBody"></div>
+        <div class="validation-box" id="validationBox"></div>
       </section>
     </div>
 
@@ -2211,7 +2471,8 @@
       </div>
       <div class="drawer-footer-actions">
         <button class="btn" id="validateBtn" type="button">返回</button>
-        <button class="btn primary" id="saveConfigBtn" type="button">保存</button>
+        <button class="btn" id="saveDraftBtn" type="button">保存草稿</button>
+        <button class="btn primary" id="publishConfigBtn" type="button">上架</button>
       </div>
     </footer>
   </aside>
@@ -2226,6 +2487,8 @@
       imageText: "图文",
       text: "文本",
       accordion: "折叠说明组",
+      fusionStart: "融合开始",
+      fusionEnd: "融合结束",
       segment: "分段",
       spacer: "空白"
     };
@@ -2234,16 +2497,26 @@
       activeEntry: "new",
       drawerOpen: false,
       layer: "page",
+      selectedPage: "steps",
       previewScreen: "stepList",
       addWidgetMenuOpen: false,
       selectedStepId: "step-open-box",
       selectedBlockId: "block-open-images",
       draggedStepId: null,
       draggedBlockId: null,
-      configVersion: "2026.05.29-001",
+      draftVersion: "draft-2026.06.02-001",
+      publishedVersion: "release-2026.05.29-001",
       lastSaved: "2026-05-28 16:20",
-      savedLocales: {},
-      savedLocaleMeta: {},
+      draftLocales: {},
+      publishedLocales: { en: true },
+      draftLocaleMeta: {},
+      publishedLocaleMeta: {
+        en: { configVersion: "release-2026.05.29-001", savedAt: "2026-05-29 15:22" }
+      },
+      whitelist: {
+        enabled: false,
+        email: ""
+      },
       carouselIndex: {},
       accordionOpen: {},
       videoPlaying: {},
@@ -2268,6 +2541,58 @@
         { code: "ru", label: "俄语" },
         { code: "fil", label: "菲律宾语" }
       ],
+      welcomePage: {
+        mainImage: { name: "welcome-air-one.png", size: "1.6M" },
+        title: "欢迎使用 Air One",
+        titleI18n: { "en": "Welcome to Air One", "zh-Hans": "欢迎使用 Air One" },
+        subtitle: "3 分钟完成开箱、安装和首次使用准备",
+        subtitleI18n: { "en": "Set up the essentials in about 3 minutes", "zh-Hans": "3 分钟完成开箱、安装和首次使用准备" },
+        abbrSteps: [
+          {
+            iconMode: "preset",
+            presetIcon: "box",
+            title: "开箱检查",
+            titleI18n: { "en": "Unbox and check", "zh-Hans": "开箱检查" },
+            subtitle: "确认包装和配件完整",
+            subtitleI18n: { "en": "Confirm all parts are included", "zh-Hans": "确认包装和配件完整" },
+            eta: "1 min"
+          },
+          {
+            iconMode: "preset",
+            presetIcon: "tool",
+            title: "安装配件",
+            titleI18n: { "en": "Install parts", "zh-Hans": "安装配件" },
+            subtitle: "按顺序安装主机与耗材",
+            subtitleI18n: { "en": "Assemble the hub and accessories in order", "zh-Hans": "按顺序安装主机与耗材" },
+            eta: "2 min"
+          }
+        ]
+      },
+      finishPage: {
+        mainImage: { name: "finish-ready.png", size: "1.2M" },
+        title: "准备完成",
+        titleI18n: { "en": "You're ready", "zh-Hans": "准备完成" },
+        subtitle: "后续可在设置 - How to Use 中再次查看设备助手",
+        subtitleI18n: { "en": "You can revisit this guide from Settings - How to Use.", "zh-Hans": "后续可在设置 - How to Use 中再次查看设备助手" },
+        abbrSteps: [
+          {
+            iconMode: "preset",
+            presetIcon: "check",
+            title: "确认安装完成",
+            titleI18n: { "en": "Setup confirmed", "zh-Hans": "确认安装完成" },
+            subtitle: "设备助手步骤已完成",
+            subtitleI18n: { "en": "The assistant steps are complete.", "zh-Hans": "设备助手步骤已完成" }
+          },
+          {
+            iconMode: "preset",
+            presetIcon: "power",
+            title: "进入控制面板",
+            titleI18n: { "en": "Open control panel", "zh-Hans": "进入控制面板" },
+            subtitle: "开始使用设备",
+            subtitleI18n: { "en": "Start using the device.", "zh-Hans": "开始使用设备" }
+          }
+        ]
+      },
       steps: [
         {
           id: "step-open-box",
@@ -2430,20 +2755,34 @@
                 subtitleI18n: { "en": "Start with a low level for first use", "zh-Hans": "首次使用建议从低档位开始" }
               },
               {
+                id: "block-first-fusion-start",
+                type: "fusionStart",
+                order: 2,
+                title: "融合卡片开始",
+                titleI18n: { "en": "Merged card start", "zh-Hans": "融合卡片开始" }
+              },
+              {
                 id: "block-first-spacer",
                 type: "spacer",
-                order: 2,
+                order: 3,
                 height: 28
               },
               {
                 id: "block-first-empty-image",
                 type: "image",
-                order: 3,
+                order: 4,
                 title: "缺失图片示例",
                 titleI18n: { "en": "Missing image example", "zh-Hans": "缺失图片示例" },
                 hideTitle: false,
                 titlePosition: "below",
                 images: []
+              },
+              {
+                id: "block-first-fusion-end",
+                type: "fusionEnd",
+                order: 5,
+                title: "融合卡片结束",
+                titleI18n: { "en": "Merged card end", "zh-Hans": "融合卡片结束" }
               }
             ]
           }
@@ -2460,7 +2799,7 @@
         scope: "page",
         target: "#newEntry .reference-locale-tabs",
         title: "多语言入口沿用参考页",
-        body: "新版不在抽屉内新增第二套语言选择；页面语言 Tab 决定当前编辑语言，保存后 APP 按语言参数读取对应配置。",
+        body: "新版不在抽屉内新增第二套语言选择；页面语言 Tab 决定当前编辑语言。APP 正式请求只读取该语言已上架配置，指定语言未上架时按接口规则回退英文。",
         loc: "新版入口 > 语言 Tab"
       },
       {
@@ -2472,12 +2811,36 @@
         loc: "新版入口 > 未配置空态"
       },
       {
+        id: "version-control",
+        drawer: true,
+        target: "#publishPanel",
+        title: "草稿与上架",
+        body: "每个语言至多保留一份草稿和一份已上架配置；保存草稿不对 APP 正式请求可见，点击上架后草稿覆盖该语言已上架配置。",
+        loc: "新版入口 > 语言 Tab 下方"
+      },
+      {
+        id: "welcome-finish-pages",
+        drawer: true,
+        target: "#pageEntryList",
+        title: "新增一级页面",
+        body: "设备助手配置从 steps 扩展为 welcome、step、finish 三组页面；welcome 和 finish 是一级页面，不参与 step 排序。",
+        loc: "配置抽屉 > 页面入口"
+      },
+      {
         id: "drawer-preview-boundary",
         drawer: true,
         target: ".preview-intro",
         title: "预览边界",
         body: "管理端预览用于验证配置结构、层级定位和错误发现；最终 APP 页面视觉、手势和播放器形态以 UI / APP 实现为准。",
         loc: "配置抽屉 > APP 预览"
+      },
+      {
+        id: "rtl-preview",
+        drawer: true,
+        target: "#phonePreview",
+        title: "阿拉伯语 RTL 预览",
+        body: "阿拉伯语预览需要按 RTL 阅读方向镜像导航、文本对齐和横向顺序；真实图片、视频等媒体内容不做镜像处理。",
+        loc: "APP 预览 > RTL"
       },
       {
         id: "step-list-preview-page",
@@ -2570,6 +2933,24 @@
         loc: "折叠说明组 > 折叠项"
       },
       {
+        id: "fusion-card-node",
+        drawer: true,
+        blockType: "fusionStart",
+        target: "#inspectorBody",
+        title: "融合卡片节点",
+        body: "融合开始 / 结束是成对节点，用于把中间 widget 合并成一张预览卡片；节点不可嵌套，拖拽节点时需携带包含组件一起移动。",
+        loc: "页面层级 > 融合节点"
+      },
+      {
+        id: "fusion-card-node-end",
+        drawer: true,
+        blockType: "fusionEnd",
+        target: "#inspectorBody",
+        title: "融合卡片节点",
+        body: "融合开始 / 结束是成对节点，用于把中间 widget 合并成一张预览卡片；节点不可嵌套，拖拽节点时需携带包含组件一起移动。",
+        loc: "页面层级 > 融合节点"
+      },
+      {
         id: "segment-style-enum",
         drawer: true,
         blockType: "segment",
@@ -2624,6 +3005,29 @@
     function selectedBlock() {
       const step = selectedStep();
       return step?.page?.widgets?.find((block) => block.id === state.selectedBlockId) || null;
+    }
+
+    function isFusionMarker(block) {
+      return block?.type === "fusionStart" || block?.type === "fusionEnd";
+    }
+
+    function renderableBlocks(step = selectedStep()) {
+      return sortedBlocks(step).filter((block) => !isFusionMarker(block));
+    }
+
+    function currentLocaleStatus() {
+      const hasDraft = Boolean(state.draftLocales[state.activeLocale]);
+      const hasPublished = Boolean(state.publishedLocales[state.activeLocale]);
+      if (hasPublished && hasDraft) return { key: "publishedWithDraft", label: "已上架 / 有草稿", tag: "warning" };
+      if (hasPublished) return { key: "published", label: "已上架", tag: "success" };
+      if (hasDraft) return { key: "draft", label: "草稿未上架", tag: "warning" };
+      return { key: "empty", label: "未配置", tag: "info" };
+    }
+
+    function currentLocaleMeta() {
+      return state.publishedLocaleMeta[state.activeLocale]
+        || state.draftLocaleMeta[state.activeLocale]
+        || { configVersion: state.draftVersion, savedAt: "未保存" };
     }
 
     function compactOrders(items) {
@@ -2717,6 +3121,11 @@
     }
 
     function localeHasMissing(localeCode) {
+      const welcomeMissing = ["title", "subtitle"].some((field) => !state.welcomePage?.[i18nKey(field)]?.[localeCode]?.trim())
+        || (state.welcomePage.abbrSteps || []).some((item) => ["title", "subtitle"].some((field) => !item?.[i18nKey(field)]?.[localeCode]?.trim()));
+      const finishMissing = ["title", "subtitle", "content"].some((field) => !state.finishPage?.[i18nKey(field)]?.[localeCode]?.trim())
+        || (state.finishPage.abbrSteps || []).some((item) => ["title", "subtitle"].some((field) => !item?.[i18nKey(field)]?.[localeCode]?.trim()));
+      if (welcomeMissing || finishMissing) return true;
       return state.steps.some((step) => {
         const stepMissing = ["title", "subtitle"].some((field) => !step?.[i18nKey(field)]?.[localeCode]?.trim());
         const widgetMissing = sortedBlocks(step).some((widget) => {
@@ -2743,30 +3152,34 @@
       const lastSaved = $("#lastSaved");
       const configStatusTag = $("#configStatusTag");
       if (stepCount) stepCount.textContent = state.steps.length;
-      if (blockCount) blockCount.textContent = state.steps.reduce((sum, step) => sum + step.page.widgets.length, 0);
-      if (configVersion) configVersion.textContent = state.configVersion;
-      if (lastSaved) lastSaved.textContent = state.lastSaved;
+      if (blockCount) blockCount.textContent = state.steps.reduce((sum, step) => sum + renderableBlocks(step).length, 0);
+      if (configVersion) configVersion.textContent = currentLocaleMeta().configVersion;
+      if (lastSaved) lastSaved.textContent = currentLocaleMeta().savedAt;
       if (configStatusTag) {
-        configStatusTag.className = "tag success";
-        configStatusTag.textContent = "保存即生效";
+        const status = currentLocaleStatus();
+        configStatusTag.className = `tag ${status.tag}`;
+        configStatusTag.textContent = status.label;
       }
-      $("#drawerSubtitle").textContent = `W1 / 新版设备助手 / ${localeLabel()} / 保存即生效`;
+      $("#drawerSubtitle").textContent = `W1 / 新版设备助手 / ${localeLabel()} / 草稿与上架`;
     }
 
     function setDirty() {
-      state.lastSaved = "有未保存修改";
+      state.lastSaved = "有未保存草稿修改";
       updateStats();
     }
 
     function exportCurrentLocaleConfig() {
       const payload = {
         schemaVersion: "1.0",
-        configVersion: state.configVersion,
+        configVersion: currentLocaleMeta().configVersion,
         productId: "2013216258804109314",
         productModel: "W1",
         locale: state.activeLocale,
         localeLabel: localeLabel(),
         exportedAt: new Date().toISOString(),
+        status: currentLocaleStatus().key,
+        welcomePage: JSON.parse(JSON.stringify(state.welcomePage)),
+        finishPage: JSON.parse(JSON.stringify(state.finishPage)),
         steps: JSON.parse(JSON.stringify(state.steps))
       };
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
@@ -2792,6 +3205,12 @@
             showToast("导入失败：文件中未找到 steps 配置");
             return;
           }
+          if (payload.welcomePage || payload.config?.welcomePage) {
+            state.welcomePage = JSON.parse(JSON.stringify(payload.welcomePage || payload.config.welcomePage));
+          }
+          if (payload.finishPage || payload.config?.finishPage) {
+            state.finishPage = JSON.parse(JSON.stringify(payload.finishPage || payload.config.finishPage));
+          }
           state.steps = JSON.parse(JSON.stringify(importedSteps)).map((step, index) => ({
             ...step,
             order: Number(step.order || index + 1),
@@ -2810,7 +3229,7 @@
           state.validationRan = true;
           setDirty();
           renderAll();
-          showToast("导入已覆盖当前语言配置，点击保存后立即生效");
+          showToast("导入已覆盖当前语言草稿，点击上架后 APP 才可获取");
         } catch (error) {
           showToast("导入失败：JSON 文件格式无法解析");
         }
@@ -2831,28 +3250,28 @@
       const preview = $("#noviceConfigPreview");
       if (!empty || !preview) return;
 
-      const hasSavedConfig = Boolean(state.savedLocales[state.activeLocale]);
-      empty.classList.toggle("hidden", hasSavedConfig);
-      preview.classList.toggle("hidden", !hasSavedConfig);
-      if (!hasSavedConfig) {
+      const status = currentLocaleStatus();
+      const hasConfig = status.key !== "empty";
+      empty.classList.toggle("hidden", hasConfig);
+      preview.classList.toggle("hidden", !hasConfig);
+      if (!hasConfig) {
         preview.innerHTML = "";
         return;
       }
 
       const steps = sortedSteps();
-      const widgetCount = steps.reduce((sum, step) => sum + sortedBlocks(step).length, 0);
-      const meta = state.savedLocaleMeta[state.activeLocale] || {
-        configVersion: state.configVersion,
-        savedAt: state.lastSaved
-      };
+      const widgetCount = steps.reduce((sum, step) => sum + renderableBlocks(step).length, 0);
+      const meta = currentLocaleMeta();
       preview.innerHTML = `
         <div class="saved-preview-head">
           <div>
             <div class="saved-preview-title">设备助手配置预览</div>
             <div class="saved-preview-meta">${escapeHtml(localeLabel())} / ${steps.length} steps / ${widgetCount} widgets / ${escapeHtml(meta.savedAt || "刚刚保存")}</div>
           </div>
-          <span class="tag success">保存即生效</span>
+          <span class="tag ${status.tag}">${escapeHtml(status.label)}</span>
         </div>
+        ${status.key === "draft" ? `<div class="field-help">当前语言只有草稿，APP 新接口仍读取已上架版本；点击“上架”后才对 APP 可见。</div>` : ""}
+        ${status.key === "publishedWithDraft" ? `<div class="field-help">当前语言存在未上架草稿；APP 新接口仍读取已上架版本，点击“上架”后草稿才覆盖已上架配置。</div>` : ""}
         <div class="saved-preview-steps">
           ${steps.map((step, index) => renderSavedEntryStep(step, index)).join("")}
         </div>
@@ -2870,8 +3289,9 @@
       const widgets = sortedBlocks(step);
       const title = textValue(step, "title") || `Step ${index + 1}`;
       const subtitle = textValue(step, "subtitle") || "未填写 subtitle";
-      const widgetSummary = widgets.length
-        ? widgets.slice(0, 5).map((widget) => `
+      const visibleWidgets = widgets.filter((widget) => !isFusionMarker(widget));
+      const widgetSummary = visibleWidgets.length
+        ? visibleWidgets.slice(0, 5).map((widget) => `
           <span class="mini-widget" title="${escapeHtml(textValue(widget, "title") || typeLabels[widget.type] || widget.type)}">
             ${escapeHtml(typeLabels[widget.type] || widget.type)}
           </span>
@@ -2881,13 +3301,13 @@
         <button class="saved-preview-step" type="button" data-entry-preview-step="${escapeHtml(step.id)}">
           <div class="saved-preview-step-top">
             <span class="saved-preview-step-index">Step ${String(index + 1).padStart(2, "0")}</span>
-            <span class="tag info">${widgets.length} 内容</span>
+            <span class="tag info">${visibleWidgets.length} 内容</span>
           </div>
           <div class="saved-preview-step-title">${escapeHtml(title)}</div>
           <div class="saved-preview-step-desc">${escapeHtml(subtitle)}</div>
           <div class="saved-preview-widgets">
             ${widgetSummary}
-            ${widgets.length > 5 ? `<span class="mini-widget more">+${widgets.length - 5}</span>` : ""}
+            ${visibleWidgets.length > 5 ? `<span class="mini-widget more">+${visibleWidgets.length - 5}</span>` : ""}
           </div>
         </button>
       `;
@@ -2896,12 +3316,15 @@
     function renderDrawer() {
       $("#drawer").classList.toggle("open", state.drawerOpen);
       $("#drawerScrim").classList.toggle("open", state.drawerOpen);
+      document.body.classList.toggle("drawer-open", state.drawerOpen);
       renderPrototypeAnnotations();
     }
 
     function annotationContextLabel() {
       if (!state.drawerOpen) return state.activeEntry === "new" ? "新版入口批注" : "旧版入口批注";
       if (state.layer === "widget") return `${typeLabels[selectedBlock()?.type] || "组件"}组件批注`;
+      if (state.layer === "welcome") return "Welcome 页面批注";
+      if (state.layer === "finish") return "Finish 页面批注";
       if (state.layer === "steps") return "步骤层级批注";
       return "页面与预览批注";
     }
@@ -3003,7 +3426,92 @@
       renderPrototypeAnnotations();
     }
 
+    function selectAssistantPage(page) {
+      state.selectedPage = page;
+      state.addWidgetMenuOpen = false;
+      if (page === "welcome") {
+        state.layer = "welcome";
+        state.previewScreen = "welcome";
+      } else if (page === "finish") {
+        state.layer = "finish";
+        state.previewScreen = "finish";
+      } else {
+        state.layer = "page";
+        state.previewScreen = "stepList";
+      }
+      renderAll();
+    }
+
+    function renderPageEntries() {
+      const list = $("#pageEntryList");
+      if (!list) return;
+      const entries = [
+        { key: "welcome", label: "Welcome", desc: "首次进入控制页前展示" },
+        { key: "steps", label: "Step", desc: `${state.steps.length} 个步骤页面` },
+        { key: "finish", label: "Finish", desc: "完成引导后展示" }
+      ];
+      list.innerHTML = `
+        <div class="page-entry-title">页面入口</div>
+        ${entries.map((entry) => `
+          <button class="page-entry-btn ${state.selectedPage === entry.key ? "active" : ""}" type="button" data-assistant-page="${entry.key}">
+            <span>${entry.label}</span>
+            <span class="step-meta">${entry.desc}</span>
+          </button>
+        `).join("")}
+      `;
+      list.querySelectorAll("[data-assistant-page]").forEach((button) => {
+        button.addEventListener("click", () => selectAssistantPage(button.dataset.assistantPage));
+      });
+    }
+
+    function renderPublishPanel() {
+      const panel = $("#publishPanel");
+      if (!panel) return;
+      const status = currentLocaleStatus();
+      const draftMeta = state.draftLocaleMeta[state.activeLocale];
+      const publishedMeta = state.publishedLocaleMeta[state.activeLocale];
+      const appFetchLabel = publishedMeta ? "已上架配置" : draftMeta ? "不可获取草稿" : "无已上架配置";
+      panel.innerHTML = `
+        <div class="publish-title">版本控制</div>
+        <div class="status-grid">
+          <div class="status-row"><span>当前语言</span><strong>${escapeHtml(localeLabel())}</strong></div>
+          <div class="status-row"><span>草稿</span><span class="tag ${draftMeta ? "warning" : "info"}">${draftMeta ? escapeHtml(draftMeta.savedAt) : "无"}</span></div>
+          <div class="status-row"><span>已上架</span><span class="tag ${publishedMeta ? "success" : "info"}">${publishedMeta ? escapeHtml(publishedMeta.savedAt) : "无"}</span></div>
+          <div class="status-row"><span>APP 获取</span><span class="tag ${publishedMeta ? "success" : "info"}">${appFetchLabel}</span></div>
+        </div>
+        <label class="check-row">
+          <input id="whitelistToggle" type="checkbox" ${state.whitelist.enabled ? "checked" : ""}>
+          草稿白名单测试
+        </label>
+        <div class="test-email-row">
+          <input class="input" id="testEmailInput" value="${escapeHtml(state.whitelist.email)}" placeholder="test@example.com" ${state.whitelist.enabled ? "" : "disabled"}>
+          <button class="btn" id="saveTestEmailBtn" type="button" ${state.whitelist.enabled ? "" : "disabled"}>保存</button>
+        </div>
+        <div class="field-help">当前版本仅支持 1 个邮箱；开启后用于测试草稿，APP 正式请求仍只读取已上架配置。</div>
+      `;
+      $("#whitelistToggle")?.addEventListener("change", (event) => {
+        state.whitelist.enabled = event.target.checked;
+        renderPublishPanel();
+      });
+      $("#testEmailInput")?.addEventListener("input", (event) => {
+        state.whitelist.email = event.target.value.trim();
+      });
+      $("#saveTestEmailBtn")?.addEventListener("click", saveWhitelistEmail);
+    }
+
+    function saveWhitelistEmail() {
+      if (!state.whitelist.enabled) return;
+      const email = state.whitelist.email.trim();
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      if (!ok) {
+        showToast("测试邮箱格式不正确");
+        return;
+      }
+      showToast(`已保存草稿白名单邮箱：${email}`);
+    }
+
     function selectStep(stepId, options = {}) {
+      state.selectedPage = "steps";
       state.selectedStepId = stepId;
       const step = selectedStep();
       const blocks = sortedBlocks(step);
@@ -3015,6 +3523,7 @@
     }
 
     function selectBlock(blockId) {
+      state.selectedPage = "steps";
       state.selectedBlockId = blockId;
       state.layer = "widget";
       state.previewScreen = "stepPage";
@@ -3023,10 +3532,12 @@
     }
 
     function renderSteps() {
+      renderPageEntries();
+      renderPublishPanel();
       const list = $("#stepList");
       list.innerHTML = sortedSteps().map((step) => {
-        const active = step.id === state.selectedStepId ? "active" : "";
-        const count = step.page.widgets.length;
+        const active = state.selectedPage === "steps" && step.id === state.selectedStepId ? "active" : "";
+        const count = renderableBlocks(step).length;
         const stepTitle = textValue(step, "title");
         const stepSubtitle = textValue(step, "subtitle");
         const missingLocales = missingLocaleCodes(step, ["title", "subtitle"]).length;
@@ -3053,6 +3564,7 @@
       });
       list.querySelectorAll("[data-step-layer]").forEach((button) => {
         button.addEventListener("click", () => {
+          state.selectedPage = "steps";
           state.selectedStepId = button.dataset.stepLayer;
           state.layer = "steps";
           state.previewScreen = "stepPage";
@@ -3105,15 +3617,52 @@
       if (!sourceId || sourceId === targetId) return;
       const step = selectedStep();
       const ordered = sortedBlocks(step);
-      const from = ordered.findIndex((block) => block.id === sourceId);
-      const to = ordered.findIndex((block) => block.id === targetId);
-      const [moved] = ordered.splice(from, 1);
-      ordered.splice(to, 0, moved);
+      const sourceRange = blockMoveRange(ordered, sourceId);
+      if (!sourceRange) return;
+      const sourceIsFusionGroup = sourceRange.end > sourceRange.start && ordered[sourceRange.start]?.type === "fusionStart" && ordered[sourceRange.end]?.type === "fusionEnd";
+      const targetFusionRange = sourceIsFusionGroup ? containingFusionRange(ordered, targetId) : null;
+      const targetRange = targetFusionRange || blockMoveRange(ordered, targetId);
+      const targetIndex = targetRange?.start ?? ordered.findIndex((block) => block.id === targetId);
+      if (targetIndex < 0) return;
+      if (targetIndex >= sourceRange.start && targetIndex <= sourceRange.end) return;
+      const moved = ordered.splice(sourceRange.start, sourceRange.end - sourceRange.start + 1);
+      const insertionIndex = targetIndex > sourceRange.start ? targetIndex - moved.length : targetIndex;
+      ordered.splice(insertionIndex, 0, ...moved);
       ordered.forEach((block, index) => {
         block.order = index + 1;
       });
       setDirty();
       renderAll();
+    }
+
+    function blockMoveRange(blocks, blockId) {
+      const index = blocks.findIndex((block) => block.id === blockId);
+      if (index < 0) return null;
+      const block = blocks[index];
+      if (block.type === "fusionStart") {
+        const endIndex = findMatchingFusionEnd(blocks, index);
+        return endIndex > index ? { start: index, end: endIndex } : { start: index, end: index };
+      }
+      if (block.type === "fusionEnd") {
+        for (let start = index - 1; start >= 0; start -= 1) {
+          if (blocks[start].type === "fusionEnd") return { start: index, end: index };
+          if (blocks[start].type === "fusionStart") return { start, end: index };
+        }
+      }
+      return { start: index, end: index };
+    }
+
+    function containingFusionRange(blocks, blockId) {
+      const targetIndex = blocks.findIndex((block) => block.id === blockId);
+      if (targetIndex < 0) return null;
+      for (let start = 0; start < blocks.length; start += 1) {
+        if (blocks[start].type !== "fusionStart") continue;
+        const end = findMatchingFusionEnd(blocks, start);
+        if (end > start && targetIndex >= start && targetIndex <= end) {
+          return { start, end };
+        }
+      }
+      return null;
     }
 
     function renderPageOverview() {
@@ -3141,31 +3690,16 @@
 
     function renderPagePreviewCard(step, index) {
       const active = step.id === state.selectedStepId ? "active" : "";
-      const widgets = sortedBlocks(step);
       const title = textValue(step, "title") || `Step ${index + 1}`;
       const subtitle = textValue(step, "subtitle") || "未填写 subtitle";
-      const widgetSummary = widgets.length
-        ? `
-          <div class="page-preview-widgets">
-            ${widgets.slice(0, 3).map((widget) => `
-              <span class="mini-widget" title="${escapeHtml(textValue(widget, "title") || typeLabels[widget.type] || widget.type)}">
-                ${escapeHtml(typeLabels[widget.type] || widget.type)}
-              </span>
-            `).join("")}
-            ${widgets.length > 3 ? `<span class="mini-widget more">+${widgets.length - 3}</span>` : ""}
-          </div>
-        `
-        : `<div class="page-preview-widgets"><span class="mini-widget more">空 page</span></div>`;
 
       return `
         <button class="page-preview-card ${active}" type="button" data-page-preview-step="${escapeHtml(step.id)}">
           <div class="page-preview-card-top">
             <span class="page-preview-index">Step ${String(index + 1).padStart(2, "0")}</span>
-            <span class="tag info">${widgets.length} 内容</span>
           </div>
           <div class="page-preview-title">${escapeHtml(title)}</div>
           <div class="page-preview-desc">${escapeHtml(subtitle)}</div>
-          ${widgetSummary}
         </button>
       `;
     }
@@ -3176,6 +3710,24 @@
     }
 
     function renderPhonePreview() {
+      const phone = $("#phonePreview");
+      const rtl = state.activeLocale === "ar";
+      phone.className = `phone ${rtl ? "rtl" : ""}`;
+      phone.setAttribute("dir", rtl ? "rtl" : "ltr");
+
+      if (state.previewScreen === "welcome") {
+        phone.innerHTML = renderWelcomePreview();
+        phone.querySelector("[data-preview-get-start]")?.addEventListener("click", () => selectAssistantPage("steps"));
+        return;
+      }
+
+      if (state.previewScreen === "finish") {
+        phone.innerHTML = renderFinishPreview();
+        phone.querySelector("[data-preview-step-list]")?.addEventListener("click", () => selectAssistantPage("steps"));
+        phone.querySelector("[data-preview-done]")?.addEventListener("click", () => showToast("完成后进入设备控制面板"));
+        return;
+      }
+
       const step = selectedStep();
       const blocks = sortedBlocks(step);
       const stepsHtml = sortedSteps().map((item) => `
@@ -3185,11 +3737,11 @@
       `).join("");
 
       const bodyHtml = blocks.length
-        ? blocks.map((block) => renderPreviewBlock(block)).join("")
+        ? renderPreviewBlocks(blocks)
         : `<div class="empty-preview">当前步骤还没有 widget。点击右侧新增组件。</div>`;
 
       if (state.previewScreen === "stepList") {
-        $("#phonePreview").innerHTML = `
+        phone.innerHTML = `
           <div class="phone-status"><span>9:41</span><span>设备助手</span><span>100%</span></div>
           <div class="phone-head">
             <div class="phone-title">设备助手</div>
@@ -3202,7 +3754,7 @@
         return;
       }
 
-      $("#phonePreview").innerHTML = `
+      phone.innerHTML = `
         <div class="phone-status"><span>9:41</span><span>设备助手</span><span>100%</span></div>
         <div class="phone-head">
           <div class="phone-nav-row">
@@ -3213,44 +3765,121 @@
           <div class="preview-text">${escapeHtml(textValue(step, "subtitle") || localeLabel())}</div>
           <div class="phone-steps">${stepsHtml}</div>
         </div>
-        <div class="phone-body">${bodyHtml}</div>
+        <div class="phone-body">
+          ${bodyHtml}
+          ${isLastStep(step) ? `<button class="phone-primary-action" type="button" data-preview-finish>Finish</button>` : ""}
+        </div>
       `;
 
-      $("#phonePreview").querySelector("[data-preview-step-list]")?.addEventListener("click", () => {
+      phone.querySelector("[data-preview-step-list]")?.addEventListener("click", () => {
         state.previewScreen = "stepList";
         state.layer = "page";
+        state.selectedPage = "steps";
         renderAll();
       });
-      $("#phonePreview").querySelectorAll("[data-preview-step]").forEach((button) => {
+      phone.querySelectorAll("[data-preview-step]").forEach((button) => {
         button.addEventListener("click", () => selectStep(button.dataset.previewStep, { previewScreen: "stepPage" }));
       });
-      $("#phonePreview").querySelectorAll("[data-preview-block]").forEach((block) => {
+      phone.querySelectorAll("[data-preview-block]").forEach((block) => {
         block.addEventListener("click", () => selectBlock(block.dataset.previewBlock));
       });
-      $("#phonePreview").querySelectorAll("[data-carousel]").forEach((button) => {
+      phone.querySelectorAll("[data-carousel]").forEach((button) => {
         button.addEventListener("click", (event) => {
           event.stopPropagation();
           state.carouselIndex[button.dataset.carousel] = Number(button.dataset.carouselIndex);
           renderPhonePreview();
         });
       });
-      $("#phonePreview").querySelectorAll("[data-video-preview]").forEach((button) => {
+      phone.querySelectorAll("[data-video-preview]").forEach((button) => {
         button.addEventListener("click", (event) => {
           event.stopPropagation();
           state.videoPlaying[button.dataset.videoPreview] = !state.videoPlaying[button.dataset.videoPreview];
           renderPhonePreview();
         });
       });
-      $("#phonePreview").querySelectorAll("[data-accordion-preview]").forEach((button) => {
+      phone.querySelectorAll("[data-accordion-preview]").forEach((button) => {
         button.addEventListener("click", (event) => {
           event.stopPropagation();
           state.accordionOpen[button.dataset.accordionPreview] = Number(button.dataset.accordionIndex);
           renderPhonePreview();
         });
       });
+      phone.querySelector("[data-preview-finish]")?.addEventListener("click", () => selectAssistantPage("finish"));
       if (state.layer === "widget") {
         keepSelectedPreviewBlockVisible();
       }
+    }
+
+    function renderWelcomePreview() {
+      return `
+        <div class="phone-status"><span>9:41</span><span>Welcome</span><span>100%</span></div>
+        <div class="phone-head">
+          <div class="phone-title">Welcome</div>
+          <div class="preview-text">${escapeHtml(localeLabel())}</div>
+        </div>
+        <div class="phone-body">
+          <div class="assistant-hero">${escapeHtml(resourceName(state.welcomePage.mainImage, "未上传主图"))}</div>
+          <div class="assistant-page-copy">
+            <div class="assistant-page-title">${escapeHtml(textValue(state.welcomePage, "title") || "未填写 title")}</div>
+            <div class="assistant-page-subtitle">${escapeHtml(textValue(state.welcomePage, "subtitle") || "未填写 subtitle")}</div>
+          </div>
+          ${renderAbbrStepsPreview(state.welcomePage.abbrSteps || [], true)}
+          <button class="phone-primary-action" type="button" data-preview-get-start>Get started</button>
+        </div>
+      `;
+    }
+
+    function renderFinishPreview() {
+      return `
+        <div class="phone-status"><span>9:41</span><span>Finish</span><span>100%</span></div>
+        <div class="phone-head">
+          <div class="phone-nav-row">
+            <button class="phone-back" type="button" data-preview-step-list>‹ Step</button>
+            <span class="tag success">Complete</span>
+          </div>
+          <div class="phone-title">Finish</div>
+        </div>
+        <div class="phone-body">
+          <div class="assistant-hero">${escapeHtml(resourceName(state.finishPage.mainImage, "未上传主图"))}</div>
+          <div class="assistant-page-copy">
+            <div class="assistant-page-title">${escapeHtml(textValue(state.finishPage, "title") || "未填写 title")}</div>
+            <div class="assistant-page-subtitle">${escapeHtml(textValue(state.finishPage, "subtitle") || "未填写 subtitle")}</div>
+          </div>
+          ${renderAbbrStepsPreview(state.finishPage.abbrSteps || [], false)}
+          <button class="phone-primary-action" type="button" data-preview-done>Done</button>
+        </div>
+      `;
+    }
+
+    function renderAbbrStepsPreview(items, showEta) {
+      if (!items.length) return `<div class="empty-preview">暂无 abbr-steps。</div>`;
+      return `
+        <div class="abbr-step-list">
+          ${items.map((item, index) => `
+            <div class="abbr-step-card">
+              <span class="abbr-step-icon">${escapeHtml(abbrIconLabel(item))}</span>
+              <div>
+                <div class="abbr-step-title">${escapeHtml(textValue(item, "title") || `Step ${index + 1}`)}</div>
+                <div class="abbr-step-subtitle">${escapeHtml(textValue(item, "subtitle") || "未填写 subtitle")}</div>
+                ${showEta ? `<span class="tag info">${escapeHtml(item.eta || "未配置阅读时长")}</span>` : ""}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function abbrIconLabel(item) {
+      if (item.iconMode === "upload" && item.icon) return "自";
+      if (item.presetIcon === "check") return "✓";
+      if (item.presetIcon === "power") return "⏻";
+      if (item.presetIcon === "tool") return "T";
+      return "B";
+    }
+
+    function isLastStep(step) {
+      const steps = sortedSteps();
+      return steps[steps.length - 1]?.id === step?.id;
     }
 
     function keepSelectedPreviewBlockVisible() {
@@ -3264,8 +3893,73 @@
       body.scrollTo({ top: Math.max(0, targetTop), behavior: "auto" });
     }
 
+    function renderPreviewBlocks(blocks) {
+      return buildPreviewUnits(blocks).map((unit) => {
+        if (unit.type === "fusion") return renderFusionPreview(unit);
+        if (unit.type === "marker") return renderFusionMarkerWarning(unit.block);
+        return renderPreviewBlock(unit.block);
+      }).join("");
+    }
+
+    function buildPreviewUnits(blocks) {
+      const ordered = [...blocks].sort((a, b) => a.order - b.order);
+      const units = [];
+      for (let index = 0; index < ordered.length; index += 1) {
+        const block = ordered[index];
+        if (block.type === "fusionStart") {
+          const endIndex = findMatchingFusionEnd(ordered, index);
+          if (endIndex > index) {
+            units.push({
+              type: "fusion",
+              start: block,
+              end: ordered[endIndex],
+              blocks: ordered.slice(index + 1, endIndex).filter((item) => !isFusionMarker(item))
+            });
+            index = endIndex;
+          } else {
+            units.push({ type: "marker", block });
+          }
+        } else if (block.type === "fusionEnd") {
+          units.push({ type: "marker", block });
+        } else {
+          units.push({ type: "block", block });
+        }
+      }
+      return units;
+    }
+
+    function findMatchingFusionEnd(blocks, startIndex) {
+      for (let index = startIndex + 1; index < blocks.length; index += 1) {
+        if (blocks[index].type === "fusionStart") return -1;
+        if (blocks[index].type === "fusionEnd") return index;
+      }
+      return -1;
+    }
+
+    function renderFusionPreview(unit) {
+      const selected = [unit.start.id, unit.end.id, ...unit.blocks.map((block) => block.id)].includes(state.selectedBlockId) ? "selected" : "";
+      return `
+        <section class="fusion-preview-card ${selected}">
+          <div class="fusion-preview-label">融合卡片：${unit.blocks.length} 个组件合并展示</div>
+          ${unit.blocks.length ? unit.blocks.map((block) => renderPreviewBlock(block)).join("") : `<div class="empty-preview">融合节点内暂无组件。</div>`}
+        </section>
+      `;
+    }
+
+    function renderFusionMarkerWarning(block) {
+      const selected = block.id === state.selectedBlockId ? "selected" : "";
+      return `
+        <article class="preview-block ${selected}" data-preview-block="${escapeHtml(block.id)}">
+          <div class="empty-preview">${escapeHtml(typeLabels[block.type])} 未成对，预览无法生成融合卡片。</div>
+        </article>
+      `;
+    }
+
     function renderPreviewBlock(block) {
       const selected = block.id === state.selectedBlockId ? "selected" : "";
+      if (isFusionMarker(block)) {
+        return renderFusionMarkerWarning(block);
+      }
       if (block.type === "video") {
         const title = renderPreviewTitle(block, "视频组件");
         const titleAbove = !block.hideTitle && block.titlePosition === "above" ? title : "";
@@ -3492,6 +4186,16 @@
       const step = selectedStep();
       const block = selectedBlock();
 
+      if (state.layer === "welcome" || state.layer === "finish") {
+        const page = state.layer === "welcome" ? state.welcomePage : state.finishPage;
+        const pageName = state.layer === "welcome" ? "Welcome 页面" : "Finish 页面";
+        $("#inspectorTitle").textContent = pageName;
+        $("#inspectorSubtitle").textContent = `${localeLabel()} / ${state.layer === "welcome" ? "首次引导入口页" : "完成引导结束页"}`;
+        $("#inspectorBody").innerHTML = renderAssistantPageForm(page, state.layer);
+        bindAssistantPageForm(page, state.layer);
+        return;
+      }
+
       if (state.layer === "steps") {
         $("#inspectorTitle").textContent = "步骤配置";
         $("#inspectorSubtitle").textContent = `步骤对应 APP steps，当前编辑语言配置：${localeLabel()}。`;
@@ -3659,15 +4363,219 @@
       bindWidgetForm(block);
     }
 
+    function renderAssistantPageForm(page, pageType) {
+      const isWelcome = pageType === "welcome";
+      return `
+        <div class="form-grid">
+          <div class="field">
+            <label for="assistantMainImageInput">主图</label>
+            <input class="input" id="assistantMainImageInput" type="file" accept="image/png,image/jpeg">
+            <div class="field-help">主图用于 ${isWelcome ? "首次引导开始页" : "完成页"}；支持 png、jpg、jpeg，推荐 16:9，不大于 5M。</div>
+            ${renderResources(page.mainImage ? [page.mainImage] : [])}
+          </div>
+          <div class="field">
+            <label for="assistantTitleInput">title</label>
+            <input class="input" id="assistantTitleInput" value="${escapeHtml(textValue(page, "title"))}" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="assistantSubtitleInput">subtitle</label>
+            <input class="input" id="assistantSubtitleInput" value="${escapeHtml(textValue(page, "subtitle"))}" maxlength="80">
+          </div>
+          <div class="field" id="${isWelcome ? "welcomeAbbrStepsField" : "finishAbbrStepsField"}">
+            <label>abbr-steps</label>
+            <div class="field-help">${isWelcome ? "Welcome 页展示精简步骤，包含 icon、title、subtitle、eta read time。" : "Finish 页展示结束后的精简确认项，包含 icon、title、subtitle。"}</div>
+            ${renderAbbrStepEditor(page.abbrSteps || [], isWelcome)}
+            <button class="btn" id="addAbbrStepBtn" type="button">新增 abbr-step</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAbbrStepEditor(items, showEta) {
+      if (!items.length) return `<div class="empty-state">暂无 abbr-step。</div>`;
+      return `
+        <div class="resource-list">
+          ${items.map((item, index) => `
+            <div class="validation-box">
+              <div class="inspector-title-row">
+                <strong>abbr-step ${index + 1}</strong>
+                <span class="tag info">${escapeHtml(item.eta || "无 eta")}</span>
+              </div>
+              <div class="block-actions" style="margin-bottom: 8px;">
+                <button class="btn text" type="button" data-abbr-move="${index}" data-direction="-1" ${index === 0 ? "disabled" : ""}>上移</button>
+                <button class="btn text" type="button" data-abbr-move="${index}" data-direction="1" ${index === items.length - 1 ? "disabled" : ""}>下移</button>
+                <button class="btn text" type="button" data-abbr-delete="${index}">删除</button>
+              </div>
+              <div class="field">
+                <label for="abbrIconMode${index}">icon</label>
+                <select class="select" id="abbrIconMode${index}" data-abbr-icon-mode="${index}">
+                  <option value="preset" ${item.iconMode !== "upload" ? "selected" : ""}>选择预设 icon</option>
+                  <option value="upload" ${item.iconMode === "upload" ? "selected" : ""}>上传自定义 icon</option>
+                </select>
+                <div class="field-help">自定义 icon 支持 png / jpg / svg；默认按 1:1 处理，以长边为 1 自动缩放。</div>
+              </div>
+              <div class="field ${item.iconMode === "upload" ? "hidden" : ""}">
+                <label for="abbrIcon${index}">预设 icon</label>
+                <select class="select" id="abbrIcon${index}" data-abbr-icon="${index}">
+                  <option value="box" ${item.presetIcon === "box" ? "selected" : ""}>box</option>
+                  <option value="tool" ${item.presetIcon === "tool" ? "selected" : ""}>tool</option>
+                  <option value="power" ${item.presetIcon === "power" ? "selected" : ""}>power</option>
+                  <option value="check" ${item.presetIcon === "check" ? "selected" : ""}>check</option>
+                </select>
+              </div>
+              <div class="field ${item.iconMode === "upload" ? "" : "hidden"}">
+                <label for="abbrIconUpload${index}">自定义 icon</label>
+                <input class="input" id="abbrIconUpload${index}" type="file" accept=".png,.jpg,.svg" data-abbr-icon-upload="${index}">
+                <div class="field-help">${escapeHtml(resourceName(item.icon, "未上传自定义 icon"))}</div>
+              </div>
+              <div class="field">
+                <label for="abbrTitle${index}">title</label>
+                <input class="input" id="abbrTitle${index}" value="${escapeHtml(textValue(item, "title"))}" data-abbr-title="${index}" maxlength="40">
+              </div>
+              <div class="field">
+                <label for="abbrSubtitle${index}">subtitle</label>
+                <input class="input" id="abbrSubtitle${index}" value="${escapeHtml(textValue(item, "subtitle"))}" data-abbr-subtitle="${index}" maxlength="80">
+              </div>
+              ${showEta ? `
+                <div class="field">
+                  <label for="abbrEta${index}">eta read time</label>
+                  <input class="input" id="abbrEta${index}" value="${escapeHtml(item.eta || "")}" data-abbr-eta="${index}" maxlength="20">
+                </div>
+              ` : ""}
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function bindAssistantPageForm(page, pageType) {
+      $("#assistantMainImageInput")?.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const result = validateFile(file, ["png", "jpg", "jpeg"], 5);
+        if (result.ok) {
+          page.mainImage = fileResource(file);
+          showToast("页面主图已通过本地校验");
+        } else {
+          showToast(result.message);
+        }
+        setDirty();
+        renderAll();
+      });
+      $("#assistantTitleInput")?.addEventListener("input", (event) => {
+        setTextValue(page, "title", event.target.value);
+        setDirty();
+        renderPreviewSurfaces();
+      });
+      $("#assistantSubtitleInput")?.addEventListener("input", (event) => {
+        setTextValue(page, "subtitle", event.target.value);
+        setDirty();
+        renderPreviewSurfaces();
+      });
+      $("#addAbbrStepBtn")?.addEventListener("click", () => {
+        page.abbrSteps = page.abbrSteps || [];
+        page.abbrSteps.push(makeDefaultAbbrStep(page.abbrSteps.length + 1, pageType === "welcome"));
+        setDirty();
+        renderAll();
+      });
+      document.querySelectorAll("[data-abbr-move]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const fromIndex = Number(button.dataset.abbrMove);
+          const toIndex = fromIndex + Number(button.dataset.direction);
+          if (!page.abbrSteps?.[fromIndex] || !page.abbrSteps?.[toIndex]) return;
+          [page.abbrSteps[fromIndex], page.abbrSteps[toIndex]] = [page.abbrSteps[toIndex], page.abbrSteps[fromIndex]];
+          setDirty();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-abbr-delete]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const index = Number(button.dataset.abbrDelete);
+          if (!page.abbrSteps?.[index]) return;
+          page.abbrSteps.splice(index, 1);
+          setDirty();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-abbr-icon-mode]").forEach((select) => {
+        select.addEventListener("change", (event) => {
+          const item = page.abbrSteps?.[Number(select.dataset.abbrIconMode)];
+          if (!item) return;
+          item.iconMode = event.target.value;
+          setDirty();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-abbr-icon]").forEach((select) => {
+        select.addEventListener("change", (event) => {
+          const item = page.abbrSteps?.[Number(select.dataset.abbrIcon)];
+          if (!item) return;
+          item.iconMode = "preset";
+          item.presetIcon = event.target.value;
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-abbr-icon-upload]").forEach((input) => {
+        input.addEventListener("change", (event) => {
+          const item = page.abbrSteps?.[Number(input.dataset.abbrIconUpload)];
+          const file = event.target.files?.[0];
+          if (!item || !file) return;
+          const result = validateAbbrIconFile(file);
+          if (result.ok) {
+            item.iconMode = "upload";
+            item.icon = abbrIconResource(file);
+            showToast("自定义 icon 已通过本地校验");
+          } else {
+            showToast(result.message);
+          }
+          setDirty();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-abbr-title]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const item = page.abbrSteps?.[Number(input.dataset.abbrTitle)];
+          if (!item) return;
+          setTextValue(item, "title", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-abbr-subtitle]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const item = page.abbrSteps?.[Number(input.dataset.abbrSubtitle)];
+          if (!item) return;
+          setTextValue(item, "subtitle", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-abbr-eta]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const item = page.abbrSteps?.[Number(input.dataset.abbrEta)];
+          if (!item) return;
+          item.eta = event.target.value;
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+    }
+
     function renderBlockRow(block) {
       const active = block.id === state.selectedBlockId ? "active" : "";
       const missingLocales = missingLocaleCodes(block, widgetTextFields(block)).length;
+      const fusionMeta = block.type === "fusionStart"
+        ? "拖拽该节点会携带直到融合结束之间的组件一起移动"
+        : block.type === "fusionEnd"
+          ? "与最近的融合开始节点成对结束"
+          : "";
       return `
         <div class="block-row ${active}" draggable="true" data-block-id="${escapeHtml(block.id)}">
           <div class="block-row-head">
             <div style="min-width: 0;">
               <div class="block-name"><span class="drag-handle" title="拖拽排序">::</span> ${escapeHtml(textValue(block, "title") || typeLabels[block.type] || block.type)}</div>
-              <div class="block-meta">第 ${block.order} 个 / ${escapeHtml(typeLabels[block.type] || "未知类型")}${missingLocales ? ` / ${missingLocales} 个语言配置缺失` : ""}</div>
+              <div class="block-meta">第 ${block.order} 个 / ${escapeHtml(typeLabels[block.type] || "未知类型")}${missingLocales ? ` / ${missingLocales} 个语言配置缺失` : ""}${fusionMeta ? ` / ${escapeHtml(fusionMeta)}` : ""}</div>
             </div>
             <span class="tag info">${escapeHtml(typeLabels[block.type] || block.type)}</span>
           </div>
@@ -3689,6 +4597,26 @@
           <div class="field-help">切换类型会保留 widget ID，但字段会按新组件类型重置为默认值。当前语言配置：${localeLabel()}。</div>
         </div>
       `;
+
+      if (block.type === "fusionStart" || block.type === "fusionEnd") {
+        return `
+          <div class="form-grid">
+            ${common}
+            <div class="field">
+              <label for="widgetTitleInput">节点名称</label>
+              <input class="input" id="widgetTitleInput" value="${escapeHtml(textValue(block, "title") || typeLabels[block.type])}" maxlength="40">
+              <div class="field-help">融合节点不是 APP 可见内容组件；start / end 成对后，中间的 widget 在预览中合并为同一张卡片。</div>
+            </div>
+            <div class="validation-box">
+              <div class="inspector-title-row">
+                <strong>融合规则</strong>
+                <span class="tag info">节点组件</span>
+              </div>
+              <div class="field-help">融合节点必须成对出现，不可嵌套。拖拽融合开始或结束节点时，原型会携带节点包含的组件一起移动。</div>
+            </div>
+          </div>
+        `;
+      }
 
       if (block.type === "video") {
         return `
@@ -4465,6 +5393,22 @@
       };
     }
 
+    function validateAbbrIconFile(file) {
+      const ext = file.name.split(".").pop().toLowerCase();
+      if (!["png", "jpg", "svg"].includes(ext)) {
+        return { ok: false, message: `自定义 icon 仅支持 png / jpg / svg，当前为 .${ext}` };
+      }
+      return { ok: true };
+    }
+
+    function abbrIconResource(file) {
+      return {
+        ...fileResource(file),
+        ratio: "1:1",
+        scaleRule: "long-edge-1"
+      };
+    }
+
     function resetBlockType(block, type) {
       const id = block.id;
       const order = block.order;
@@ -4489,6 +5433,12 @@
       if (type === "accordion") {
         return { id, type, order, title: "新折叠说明组", titleI18n: { [state.activeLocale]: "新折叠说明组" }, items: [makeDefaultAccordionItem(1)] };
       }
+      if (type === "fusionStart") {
+        return { id, type, order, title: "融合卡片开始", titleI18n: { [state.activeLocale]: "融合卡片开始" } };
+      }
+      if (type === "fusionEnd") {
+        return { id, type, order, title: "融合卡片结束", titleI18n: { [state.activeLocale]: "融合卡片结束" } };
+      }
       if (type === "segment") {
         return { id, type, order, style: "style1", showTitle: true, title: "新分段", titleI18n: { [state.activeLocale]: "新分段" }, showSubtitle: false, subtitle: "", subtitleI18n: {} };
       }
@@ -4511,11 +5461,24 @@
       };
     }
 
+    function makeDefaultAbbrStep(index, withEta) {
+      return {
+        iconMode: "preset",
+        presetIcon: index % 2 ? "box" : "tool",
+        title: `精简步骤 ${index}`,
+        titleI18n: { [state.activeLocale]: `精简步骤 ${index}` },
+        subtitle: "",
+        subtitleI18n: { [state.activeLocale]: "" },
+        ...(withEta ? { eta: "1 min" } : {})
+      };
+    }
+
     function addBlock(type) {
       const step = selectedStep();
       const order = step.page.widgets.length + 1;
       const block = makeDefaultBlock(type, order);
       step.page.widgets.push(block);
+      state.selectedPage = "steps";
       state.selectedBlockId = block.id;
       state.layer = "widget";
       state.previewScreen = "stepPage";
@@ -4532,6 +5495,7 @@
       compactOrders(step.page.widgets);
       state.selectedBlockId = sortedBlocks(step)[0]?.id || null;
       state.layer = state.selectedBlockId ? "page" : "page";
+      state.selectedPage = "steps";
       state.previewScreen = "stepPage";
       state.addWidgetMenuOpen = false;
       setDirty();
@@ -4552,6 +5516,7 @@
         page: { widgets: [] }
       };
       state.steps.push(step);
+      state.selectedPage = "steps";
       state.selectedStepId = step.id;
       state.selectedBlockId = null;
       state.layer = "steps";
@@ -4570,6 +5535,7 @@
       state.steps.splice(index, 1);
       compactOrders(state.steps);
       const step = sortedSteps()[Math.max(0, index - 1)];
+      state.selectedPage = "steps";
       state.selectedStepId = step.id;
       state.selectedBlockId = sortedBlocks(step)[0]?.id || null;
       state.layer = "page";
@@ -4581,22 +5547,27 @@
 
     function validateConfig() {
       const issues = [];
+      validateAssistantPage(state.welcomePage, "Welcome 页面", true, issues);
+      validateAssistantPage(state.finishPage, "Finish 页面", false, issues);
       if (!state.steps.length) {
         issues.push({ level: "错误", type: "danger", text: "至少需要配置一个步骤。" });
       }
 
       sortedSteps().forEach((step) => {
         const blocks = sortedBlocks(step);
-        if (!blocks.length) {
+        if (!renderableBlocks(step).length) {
           issues.push({ level: "错误", type: "danger", text: `步骤「${textValue(step, "title")}」为空，保存前需要至少一个 widget。` });
         }
-        if (blocks.length > 10) {
-          issues.push({ level: "警告", type: "warning", text: `步骤「${textValue(step, "title")}」包含 ${blocks.length} 个 widget，可能影响 APP 阅读和加载体验。` });
+        if (renderableBlocks(step).length > 10) {
+          issues.push({ level: "警告", type: "warning", text: `步骤「${textValue(step, "title")}」包含 ${renderableBlocks(step).length} 个 widget，可能影响 APP 阅读和加载体验。` });
         }
+        validateFusionNodes(blocks, textValue(step, "title"), issues);
 
         blocks.forEach((block) => {
           const prefix = `步骤「${textValue(step, "title")}」的${typeLabels[block.type] || block.type}组件`;
-          if (block.type === "video") {
+          if (isFusionMarker(block)) {
+            // 融合节点由 validateFusionNodes 统一校验。
+          } else if (block.type === "video") {
             if (!block.video && !block.cover) issues.push({ level: "错误", type: "danger", text: `${prefix}缺少视频文件或封面图，保存前至少上传其中之一。` });
             if (block.video && !block.cover) issues.push({ level: "警告", type: "warning", text: `${prefix}建议上传 16:9 封面图，便于 APP 播放器加载前展示。` });
           } else if (block.type === "image") {
@@ -4636,6 +5607,48 @@
       return issues;
     }
 
+    function validateAssistantPage(page, label, requireEta, issues) {
+      if (!textValue(page, "title")) issues.push({ level: "错误", type: "danger", text: `${label}缺少 title。` });
+      if (!page.mainImage) issues.push({ level: "警告", type: "warning", text: `${label}建议上传主图，最终缺省底图由 UI 定义。` });
+      if (!page.abbrSteps?.length) {
+        issues.push({ level: "错误", type: "danger", text: `${label}至少需要 1 个 abbr-step。` });
+      }
+      (page.abbrSteps || []).forEach((item, index) => {
+        const prefix = `${label}第 ${index + 1} 个 abbr-step`;
+        if (item.iconMode === "upload" && !item.icon) issues.push({ level: "错误", type: "danger", text: `${prefix}选择自定义 icon 后需要上传 png / jpg / svg 文件。` });
+        if (item.iconMode !== "upload" && !item.presetIcon) issues.push({ level: "错误", type: "danger", text: `${prefix}需要选择预设 icon。` });
+        if (!textValue(item, "title")) issues.push({ level: "错误", type: "danger", text: `${prefix}缺少 title。` });
+        if (!textValue(item, "subtitle")) issues.push({ level: "警告", type: "warning", text: `${prefix}建议补充 subtitle。` });
+        if (requireEta && !item.eta) issues.push({ level: "警告", type: "warning", text: `${prefix}建议补充 eta read time。` });
+      });
+    }
+
+    function validateFusionNodes(blocks, stepTitle, issues) {
+      let depth = 0;
+      let startCount = 0;
+      let endCount = 0;
+      blocks.forEach((block) => {
+        if (block.type === "fusionStart") {
+          startCount += 1;
+          if (depth > 0) {
+            issues.push({ level: "错误", type: "danger", text: `步骤「${stepTitle}」存在嵌套融合节点，融合卡片不可嵌套。` });
+          }
+          depth += 1;
+        }
+        if (block.type === "fusionEnd") {
+          endCount += 1;
+          if (depth === 0) {
+            issues.push({ level: "错误", type: "danger", text: `步骤「${stepTitle}」存在未匹配的融合结束节点。` });
+          } else {
+            depth -= 1;
+          }
+        }
+      });
+      if (depth > 0 || startCount !== endCount) {
+        issues.push({ level: "错误", type: "danger", text: `步骤「${stepTitle}」的融合开始 / 结束节点必须成对出现。` });
+      }
+    }
+
     function renderValidationBox(issues = validateConfig()) {
       if (!state.validationRan) {
         $("#validationBox").innerHTML = `
@@ -4643,7 +5656,7 @@
             <strong>配置校验</strong>
             <span class="tag info">未运行</span>
           </div>
-          <div class="field-help">点击“保存”时会校验结构和素材风险。</div>
+          <div class="field-help">点击“上架”时会校验结构和素材风险；保存草稿允许继续编辑。</div>
         `;
         return;
       }
@@ -4665,7 +5678,7 @@
             <span class="tag ${issue.type}">${issue.level}</span>
             <span>${escapeHtml(issue.text)}</span>
           </div>
-        `).join("") : `<div class="field-help">当前配置可保存。保存后新增接口将返回当前语言配置。</div>`}
+        `).join("") : `<div class="field-help">当前配置可上架。上架后新增接口将返回当前语言已上架配置。</div>`}
         ${issues.length > 5 ? `<div class="field-help">还有 ${issues.length - 5} 条问题未展示。</div>` : ""}
       `;
     }
@@ -4684,23 +5697,1199 @@
       return issues;
     }
 
-    function saveConfig() {
-      const issues = runValidation(false);
-      const errors = issues.filter((issue) => issue.type === "danger");
-      if (errors.length) {
-        showToast(`存在 ${errors.length} 个错误，无法保存生效`);
-        return;
-      }
-      state.configVersion = "2026.05.29-002";
-      state.lastSaved = "刚刚";
-      state.savedLocales[state.activeLocale] = true;
-      state.savedLocaleMeta[state.activeLocale] = {
-        configVersion: state.configVersion,
-        savedAt: state.lastSaved
+    function saveDraft() {
+      state.validationRan = true;
+      renderValidationBox(validateConfig());
+      const stamp = new Date().toLocaleString("zh-CN", { hour12: false });
+      state.draftVersion = `draft-${Date.now()}`;
+      state.lastSaved = "刚刚保存草稿";
+      state.draftLocales[state.activeLocale] = true;
+      state.draftLocaleMeta[state.activeLocale] = {
+        configVersion: state.draftVersion,
+        savedAt: stamp
       };
       state.drawerOpen = false;
       renderAll();
-      showToast(`${localeLabel()} 配置已保存并立即生效；APP 可按语言参数获取`);
+      showToast(`${localeLabel()} 草稿已保存；APP 正式请求仍读取已上架配置`);
+    }
+
+    function publishConfig() {
+      const issues = runValidation(false);
+      const errors = issues.filter((issue) => issue.type === "danger");
+      if (errors.length) {
+        showToast(`存在 ${errors.length} 个错误，无法上架`);
+        return;
+      }
+      const stamp = new Date().toLocaleString("zh-CN", { hour12: false });
+      const versionSeed = Date.now();
+      state.draftLocales[state.activeLocale] = true;
+      state.publishedLocales[state.activeLocale] = true;
+      state.draftVersion = `draft-${versionSeed}`;
+      state.publishedVersion = `release-${versionSeed}`;
+      state.draftLocaleMeta[state.activeLocale] = {
+        configVersion: state.draftVersion,
+        savedAt: stamp
+      };
+      state.publishedLocaleMeta[state.activeLocale] = {
+        configVersion: state.publishedVersion,
+        savedAt: stamp
+      };
+      state.drawerOpen = false;
+      renderAll();
+      showToast(`${localeLabel()} 草稿已上架；APP 可按语言参数获取已上架配置`);
+    }
+
+    function applySimplifiedTemplateModel() {
+      Object.assign(state, {
+        forceNoviceGuide: false,
+        useWelcome: false,
+        useFinish: true,
+        layer: "page",
+        selectedPage: "steps",
+        previewScreen: "stepList",
+        selectedBlockId: null,
+        addWidgetMenuOpen: false,
+        draggedBlockId: null,
+        draftLocales: {},
+        publishedLocales: {},
+        draftLocaleMeta: {},
+        publishedLocaleMeta: {},
+        welcomePage: {
+          mainImage: null,
+          title: "",
+          titleI18n: { en: "" },
+          subtitle: "",
+          subtitleI18n: { en: "" },
+          substepMarkerType: "number",
+          substeps: [makeBlankSubstep(1)]
+        },
+        finishPage: {
+          mainImage: { name: "finish-template-default.png", size: "1.2M" },
+          title: "准备完成",
+          titleI18n: { en: "You're ready", "zh-Hans": "准备完成" },
+          subtitle: "后续可在设置 - How to Use 中再次查看设备助手",
+          subtitleI18n: { en: "You can revisit this guide from Settings - How to Use.", "zh-Hans": "后续可在设置 - How to Use 中再次查看设备助手" },
+          substepMarkerType: "number",
+          substeps: [
+            {
+              title: "确认安装完成",
+              titleI18n: { en: "Setup confirmed", "zh-Hans": "确认安装完成" },
+              subtitle: "设备助手步骤已完成",
+              subtitleI18n: { en: "The assistant steps are complete.", "zh-Hans": "设备助手步骤已完成" }
+            },
+            {
+              title: "进入控制面板",
+              titleI18n: { en: "Open control panel", "zh-Hans": "进入控制面板" },
+              subtitle: "开始使用设备",
+              subtitleI18n: { en: "Start using the device.", "zh-Hans": "开始使用设备" }
+            }
+          ]
+        },
+        steps: [makeBlankStepTemplate(1, "step-template-1")]
+      });
+      state.selectedStepId = state.steps[0].id;
+      prototypeAnnotations.splice(0, prototypeAnnotations.length, ...simplifiedPrototypeAnnotations());
+    }
+
+    function simplifiedPrototypeAnnotations() {
+      return [
+        {
+          id: "page-language-tabs",
+          scope: "page",
+          target: "#newEntry .reference-locale-tabs",
+          title: "多语言入口沿用参考页",
+          body: "新版不在抽屉内新增第二套语言选择；页面语言 Tab 决定当前编辑语言，每个语言维护一套模板配置和素材。",
+          loc: "新版入口 > 语言 Tab"
+        },
+        {
+          id: "force-guide",
+          drawer: true,
+          target: "#forceNoviceGuideToggle",
+          title: "强制新手指引",
+          body: "强制新手指引是配置项复选框；开启后 APP 首次进入设备控制页时必须进入设备助手，关闭后仍可从设置 - How to Use 进入 step 页面。",
+          loc: "新版入口 > 版本控制"
+        },
+        {
+          id: "template-switches",
+          drawer: true,
+          target: "#pageEntryList",
+          title: "模板开关",
+          body: "配置能力收敛为 Welcome 模板、Step 模板和 Finish 模板；Welcome 和 Finish 可按产品选择是否启用。",
+          loc: "配置抽屉 > 页面入口"
+        },
+        {
+          id: "fixed-step-template",
+          drawer: true,
+          layer: "page",
+          target: "#inspectorBody",
+          title: "Step 固定模板",
+          body: "Step 页不再使用自由 widget 编排；组件固定为标题区、媒体区和正文图片区，不需要排序，也不需要切换组件配置页。",
+          loc: "Step 模板 > 固定字段"
+        },
+        {
+          id: "substep-marker",
+          drawer: true,
+          target: "#inspectorBody",
+          title: "substep 标识",
+          body: "substep 左侧标识展示方式是模板页级配置，所有 substep 共用序号或 icon；选择 icon 时，每个 substep 必须从已配置 icon 中选择一个 iconKey。",
+          loc: "Welcome / Finish 模板 > substep"
+        },
+        {
+          id: "template-preview-boundary",
+          drawer: true,
+          target: ".preview-intro",
+          title: "预览边界",
+          body: "管理端预览用于验证配置结构、模板启用状态和字段缺失；最终 APP 页面视觉和播放器形态以 UI / APP 实现为准。",
+          loc: "配置抽屉 > APP 预览"
+        }
+      ];
+    }
+
+    const configuredSubstepIcons = [
+      { key: "box", label: "开箱", mark: "B" },
+      { key: "tool", label: "安装", mark: "T" },
+      { key: "power", label: "上电", mark: "P" },
+      { key: "check", label: "完成", mark: "C" }
+    ];
+
+    function makeBlankSubstep(index) {
+      return {
+        iconKey: "",
+        title: "",
+        titleI18n: { [state.activeLocale || "en"]: "" },
+        subtitle: "",
+        subtitleI18n: { [state.activeLocale || "en"]: "" }
+      };
+    }
+
+    function makeBlankTextImageSection(index) {
+      return {
+        title: "",
+        titleI18n: { [state.activeLocale]: "" },
+        content: "",
+        contentI18n: { [state.activeLocale]: "" },
+        images: []
+      };
+    }
+
+    function makeBlankStepTemplate(index, fixedId) {
+      return {
+        id: fixedId || `step-template-${Date.now()}`,
+        order: index,
+        title: "",
+        titleI18n: { [state.activeLocale || "en"]: "" },
+        subtitle: "",
+        subtitleI18n: { [state.activeLocale || "en"]: "" },
+        mediaHidden: false,
+        mediaType: "",
+        video: null,
+        image: null,
+        sections: []
+      };
+    }
+
+    function normalizedSubsteps(page) {
+      normalizedSubstepMarkerType(page);
+      if (Array.isArray(page.substeps)) {
+        page.substeps = page.substeps.map(normalizeSubstep);
+        return page.substeps;
+      }
+      if (Array.isArray(page.abbrSteps)) {
+        page.substeps = page.abbrSteps.map((item) => normalizeSubstep({
+          markerType: item.presetIcon || item.iconKey ? "icon" : "number",
+          iconKey: item.iconKey || item.presetIcon || "",
+          title: item.title || "",
+          titleI18n: item.titleI18n || {},
+          subtitle: item.subtitle || "",
+          subtitleI18n: item.subtitleI18n || {}
+        }));
+        return page.substeps;
+      }
+      page.substeps = [];
+      return page.substeps;
+    }
+
+    function normalizedSubstepMarkerType(page) {
+      if (page.substepMarkerType === "icon" || page.substepMarkerType === "number") return page.substepMarkerType;
+      const sourceItems = Array.isArray(page.substeps) ? page.substeps : Array.isArray(page.abbrSteps) ? page.abbrSteps : [];
+      page.substepMarkerType = sourceItems.some((item) => item.markerType === "icon" || item.iconKey || item.presetIcon) ? "icon" : "number";
+      return page.substepMarkerType;
+    }
+
+    function normalizeSubstep(item = {}) {
+      const iconKey = item.iconKey || item.presetIcon || "";
+      return {
+        ...item,
+        iconKey
+      };
+    }
+
+    function configuredSubstepIcon(iconKey) {
+      return configuredSubstepIcons.find((icon) => icon.key === iconKey);
+    }
+
+    function configuredSubstepIconOptions(selectedKey) {
+      return configuredSubstepIcons.map((icon) => `
+        <option value="${escapeHtml(icon.key)}" ${selectedKey === icon.key ? "selected" : ""}>${escapeHtml(icon.label)} (${escapeHtml(icon.key)})</option>
+      `).join("");
+    }
+
+    function substepMarkerLabel(item, index, markerType) {
+      if (markerType !== "icon") return String(index + 1);
+      return configuredSubstepIcon(item.iconKey)?.mark || "?";
+    }
+
+    function sortedBlocks() {
+      return [];
+    }
+
+    function selectedBlock() {
+      return null;
+    }
+
+    function isFusionMarker() {
+      return false;
+    }
+
+    function renderableBlocks(step = selectedStep()) {
+      return step?.sections || [];
+    }
+
+    function updateStats() {
+      const stepCount = $("#stepCount");
+      const blockCount = $("#blockCount");
+      const configVersion = $("#configVersion");
+      const lastSaved = $("#lastSaved");
+      const configStatusTag = $("#configStatusTag");
+      if (stepCount) stepCount.textContent = state.steps.length;
+      if (blockCount) blockCount.textContent = state.steps.reduce((sum, step) => sum + (step.sections?.length || 0), 0);
+      if (configVersion) configVersion.textContent = currentLocaleMeta().configVersion;
+      if (lastSaved) lastSaved.textContent = currentLocaleMeta().savedAt;
+      if (configStatusTag) {
+        const status = currentLocaleStatus();
+        configStatusTag.className = `tag ${status.tag}`;
+        configStatusTag.textContent = status.label;
+      }
+      $("#drawerSubtitle").textContent = `W1 / 新版设备助手 / ${localeLabel()} / 固定模板配置`;
+    }
+
+    function localeHasMissing(localeCode) {
+      const checkFields = (item, fields) => fields.some((field) => !item?.[i18nKey(field)]?.[localeCode]?.trim());
+      if (state.useWelcome) {
+        const welcomeMissing = checkFields(state.welcomePage, ["title", "subtitle"])
+          || normalizedSubsteps(state.welcomePage).some((item) => checkFields(item, ["title", "subtitle"]));
+        if (welcomeMissing) return true;
+      }
+      if (state.useFinish) {
+        const finishMissing = checkFields(state.finishPage, ["title", "subtitle"])
+          || normalizedSubsteps(state.finishPage).some((item) => checkFields(item, ["title", "subtitle"]));
+        if (finishMissing) return true;
+      }
+      return state.steps.some((step) => {
+        const stepMissing = checkFields(step, ["title", "subtitle"]);
+        const sectionMissing = (step.sections || []).some((section) => checkFields(section, ["title", "content"]));
+        return stepMissing || sectionMissing;
+      });
+    }
+
+    function exportCurrentLocaleConfig() {
+      const payload = {
+        schemaVersion: "2.0-template",
+        configVersion: currentLocaleMeta().configVersion,
+        productId: "2013216258804109314",
+        productModel: "W1",
+        locale: state.activeLocale,
+        localeLabel: localeLabel(),
+        exportedAt: new Date().toISOString(),
+        status: currentLocaleStatus().key,
+        forceNoviceGuide: state.forceNoviceGuide,
+        useWelcome: state.useWelcome,
+        useFinish: state.useFinish,
+        welcomeTemplate: JSON.parse(JSON.stringify(state.welcomePage)),
+        finishTemplate: JSON.parse(JSON.stringify(state.finishPage)),
+        stepTemplates: JSON.parse(JSON.stringify(state.steps))
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `device-assistant-template-W1-${state.activeLocale}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      showToast(`已导出 ${localeLabel()} 的设备助手模板配置`);
+    }
+
+    function importCurrentLocaleConfig(file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const payload = JSON.parse(reader.result);
+          const importedSteps = payload.stepTemplates || payload.steps;
+          if (!Array.isArray(importedSteps) || importedSteps.length < 1 || importedSteps.length > 7) {
+            showToast("导入失败：stepTemplates 需要为 1～7 页");
+            return;
+          }
+          state.forceNoviceGuide = Boolean(payload.forceNoviceGuide);
+          state.useWelcome = Boolean(payload.useWelcome);
+          state.useFinish = payload.useFinish !== false;
+          if (payload.welcomeTemplate || payload.welcomePage) state.welcomePage = JSON.parse(JSON.stringify(payload.welcomeTemplate || payload.welcomePage));
+          if (payload.finishTemplate || payload.finishPage) state.finishPage = JSON.parse(JSON.stringify(payload.finishTemplate || payload.finishPage));
+          state.steps = JSON.parse(JSON.stringify(importedSteps)).map((step, index) => normalizeStepTemplate(step, index + 1));
+          state.selectedPage = "steps";
+          state.selectedStepId = sortedSteps()[0].id;
+          state.selectedBlockId = null;
+          state.layer = "page";
+          state.previewScreen = "stepList";
+          setDirty();
+          renderAll();
+          showToast("导入已覆盖当前语言草稿，上架后 APP 才可获取");
+        } catch (error) {
+          showToast("导入失败：JSON 文件格式无法解析");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function normalizeStepTemplate(step, order) {
+      return {
+        ...makeBlankStepTemplate(order, step.id || `step-template-${order}`),
+        ...step,
+        order,
+        mediaHidden: Boolean(step.mediaHidden),
+        mediaType: step.mediaType === "video" || step.mediaType === "image" ? step.mediaType : "",
+        sections: Array.isArray(step.sections) ? step.sections.slice(0, 3) : []
+      };
+    }
+
+    function renderSavedEntryPreview() {
+      const empty = $("#noviceEmptyState");
+      const preview = $("#noviceConfigPreview");
+      if (!empty || !preview) return;
+
+      const status = currentLocaleStatus();
+      const hasConfig = status.key !== "empty";
+      empty.classList.toggle("hidden", hasConfig);
+      preview.classList.toggle("hidden", !hasConfig);
+      if (!hasConfig) {
+        preview.innerHTML = "";
+        return;
+      }
+
+      const meta = currentLocaleMeta();
+      preview.innerHTML = `
+        <div class="saved-preview-head">
+          <div>
+            <div class="saved-preview-title">设备助手模板配置预览</div>
+            <div class="saved-preview-meta">${escapeHtml(localeLabel())} / ${state.steps.length} step 模板 / ${state.useWelcome ? "含 Welcome" : "无 Welcome"} / ${state.useFinish ? "含 Finish" : "无 Finish"} / ${escapeHtml(meta.savedAt || "刚刚保存")}</div>
+          </div>
+          <span class="tag ${status.tag}">${escapeHtml(status.label)}</span>
+        </div>
+        <div class="status-grid" style="margin-bottom: 10px;">
+          <div class="status-row"><span>强制新手指引</span><span class="tag ${state.forceNoviceGuide ? "warning" : "info"}">${state.forceNoviceGuide ? "开启" : "关闭"}</span></div>
+          <div class="status-row"><span>Step 模板页数</span><strong>${state.steps.length} / 7</strong></div>
+        </div>
+        ${status.key === "draft" ? `<div class="field-help">当前语言只有草稿，APP 新接口仍读取已上架版本；点击“上架”后才对 APP 可见。</div>` : ""}
+        <div class="saved-preview-steps">
+          ${sortedSteps().map((step, index) => renderSavedEntryStep(step, index)).join("")}
+        </div>
+      `;
+
+      preview.querySelectorAll("[data-entry-preview-step]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.drawerOpen = true;
+          selectStep(button.dataset.entryPreviewStep, { previewScreen: "stepPage" });
+        });
+      });
+    }
+
+    function renderSavedEntryStep(step, index) {
+      const title = textValue(step, "title") || `Step ${index + 1}`;
+      const subtitle = textValue(step, "subtitle") || "未填写 subtitle";
+      return `
+        <button class="saved-preview-step" type="button" data-entry-preview-step="${escapeHtml(step.id)}">
+          <div class="saved-preview-step-top">
+            <span class="saved-preview-step-index">Step ${String(index + 1).padStart(2, "0")}</span>
+            <span class="tag info">固定模板</span>
+          </div>
+          <div class="saved-preview-step-title">${escapeHtml(title)}</div>
+          <div class="saved-preview-step-desc">${escapeHtml(subtitle)}</div>
+        </button>
+      `;
+    }
+
+    function annotationContextLabel() {
+      if (!state.drawerOpen) return state.activeEntry === "new" ? "新版入口批注" : "旧版入口批注";
+      if (state.layer === "welcome") return "Welcome 模板批注";
+      if (state.layer === "finish") return "Finish 模板批注";
+      if (state.layer === "page") return "Step 模板批注";
+      return "模板配置批注";
+    }
+
+    function annotationMatchesCurrentContext(note) {
+      if (note.drawer && !state.drawerOpen) return false;
+      if (note.scope === "page" && state.drawerOpen) return false;
+      if (note.scope === "page" && state.activeEntry !== "new") return false;
+      if (note.previewScreen && note.previewScreen !== state.previewScreen) return false;
+      if (note.layer && note.layer !== state.layer) return false;
+      return true;
+    }
+
+    function selectAssistantPage(page) {
+      state.selectedPage = page;
+      if (page === "welcome") {
+        state.layer = "welcome";
+        state.previewScreen = "welcome";
+      } else if (page === "finish") {
+        state.layer = "finish";
+        state.previewScreen = "finish";
+      } else {
+        state.layer = "page";
+        state.previewScreen = "stepList";
+      }
+      renderAll();
+    }
+
+    function renderPageEntries() {
+      const list = $("#pageEntryList");
+      if (!list) return;
+      const entries = [
+        { key: "welcome", label: "Welcome", desc: state.useWelcome ? "已启用" : "未启用，可选" },
+        { key: "steps", label: "Step", desc: `${state.steps.length} / 7 页固定模板` },
+        { key: "finish", label: "Finish", desc: state.useFinish ? "已启用" : "未启用，可选" }
+      ];
+      list.innerHTML = `
+        <div class="page-entry-title">模板入口</div>
+        ${entries.map((entry) => `
+          <button class="page-entry-btn ${state.selectedPage === entry.key ? "active" : ""}" type="button" data-assistant-page="${entry.key}">
+            <span>${entry.label}</span>
+            <span class="step-meta">${entry.desc}</span>
+          </button>
+        `).join("")}
+        <label class="check-row">
+          <input id="useWelcomeToggle" type="checkbox" ${state.useWelcome ? "checked" : ""}>
+          使用 Welcome 模板
+        </label>
+        <label class="check-row">
+          <input id="useFinishToggle" type="checkbox" ${state.useFinish ? "checked" : ""}>
+          使用 Finish 模板
+        </label>
+      `;
+      list.querySelectorAll("[data-assistant-page]").forEach((button) => {
+        button.addEventListener("click", () => selectAssistantPage(button.dataset.assistantPage));
+      });
+      $("#useWelcomeToggle")?.addEventListener("change", (event) => {
+        state.useWelcome = event.target.checked;
+        if (!state.useWelcome && state.selectedPage === "welcome") selectAssistantPage("steps");
+        else renderAll();
+        setDirty();
+      });
+      $("#useFinishToggle")?.addEventListener("change", (event) => {
+        state.useFinish = event.target.checked;
+        if (!state.useFinish && state.selectedPage === "finish") selectAssistantPage("steps");
+        else renderAll();
+        setDirty();
+      });
+    }
+
+    function renderPublishPanel() {
+      const panel = $("#publishPanel");
+      if (!panel) return;
+      const draftMeta = state.draftLocaleMeta[state.activeLocale];
+      const publishedMeta = state.publishedLocaleMeta[state.activeLocale];
+      const appFetchLabel = publishedMeta ? "已上架配置" : draftMeta ? "不可获取草稿" : "无已上架配置";
+      panel.innerHTML = `
+        <div class="publish-title">版本控制</div>
+        <div class="status-grid">
+          <div class="status-row"><span>当前语言</span><strong>${escapeHtml(localeLabel())}</strong></div>
+          <div class="status-row"><span>草稿</span><span class="tag ${draftMeta ? "warning" : "info"}">${draftMeta ? escapeHtml(draftMeta.savedAt) : "无"}</span></div>
+          <div class="status-row"><span>已上架</span><span class="tag ${publishedMeta ? "success" : "info"}">${publishedMeta ? escapeHtml(publishedMeta.savedAt) : "无"}</span></div>
+          <div class="status-row"><span>APP 获取</span><span class="tag ${publishedMeta ? "success" : "info"}">${appFetchLabel}</span></div>
+        </div>
+        <label class="check-row" style="margin-top: 8px;">
+          <input id="forceNoviceGuideToggle" type="checkbox" ${state.forceNoviceGuide ? "checked" : ""}>
+          强制新手指引
+        </label>
+        <div class="field-help">开启后，用户添加设备并首次进入控制页时必须进入设备助手；关闭后仍可在设置 - How to Use 中查看 Step 页面。</div>
+        <label class="check-row">
+          <input id="whitelistToggle" type="checkbox" ${state.whitelist.enabled ? "checked" : ""}>
+          草稿白名单测试
+        </label>
+        <div class="test-email-row">
+          <input class="input" id="testEmailInput" value="${escapeHtml(state.whitelist.email)}" placeholder="test@example.com" ${state.whitelist.enabled ? "" : "disabled"}>
+          <button class="btn" id="saveTestEmailBtn" type="button" ${state.whitelist.enabled ? "" : "disabled"}>保存</button>
+        </div>
+      `;
+      $("#forceNoviceGuideToggle")?.addEventListener("change", (event) => {
+        state.forceNoviceGuide = event.target.checked;
+        setDirty();
+        renderEntry();
+      });
+      $("#whitelistToggle")?.addEventListener("change", (event) => {
+        state.whitelist.enabled = event.target.checked;
+        renderPublishPanel();
+      });
+      $("#testEmailInput")?.addEventListener("input", (event) => {
+        state.whitelist.email = event.target.value.trim();
+      });
+      $("#saveTestEmailBtn")?.addEventListener("click", saveWhitelistEmail);
+    }
+
+    function selectStep(stepId, options = {}) {
+      state.selectedPage = "steps";
+      state.selectedStepId = stepId;
+      state.selectedBlockId = null;
+      state.layer = "page";
+      state.previewScreen = options.previewScreen || "stepPage";
+      renderAll();
+    }
+
+    function renderSteps() {
+      renderPageEntries();
+      renderPublishPanel();
+      const list = $("#stepList");
+      list.innerHTML = sortedSteps().map((step) => {
+        const active = state.selectedPage === "steps" && step.id === state.selectedStepId ? "active" : "";
+        const stepTitle = textValue(step, "title") || `Step ${step.order}`;
+        const stepSubtitle = textValue(step, "subtitle");
+        const sectionCount = step.sections?.length || 0;
+        return `
+          <div class="step-item ${active}" data-step-id="${escapeHtml(step.id)}">
+            <div class="step-top">
+              <div style="min-width: 0;">
+                <div class="step-title">${escapeHtml(stepTitle)}</div>
+                <div class="step-meta">${escapeHtml(stepSubtitle || "未填写 subtitle")}</div>
+                <div class="step-meta">第 ${step.order} 页 / 固定模板 / 正文图片区 ${sectionCount} / 3</div>
+              </div>
+              <button class="btn icon" type="button" data-step-select="${escapeHtml(step.id)}" title="进入 Step 模板">›</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      list.querySelectorAll("[data-step-select], .step-item").forEach((item) => {
+        item.addEventListener("click", (event) => {
+          const target = event.currentTarget.dataset.stepSelect || event.currentTarget.dataset.stepId;
+          if (target) selectStep(target);
+        });
+      });
+    }
+
+    function renderPageOverview() {
+      const overview = $("#pageOverview");
+      if (!overview) return;
+      const steps = sortedSteps();
+      overview.innerHTML = `
+        <div class="page-overview-head">
+          <div>
+            <div class="page-overview-title">全部步骤</div>
+            <div class="page-overview-subtitle">最多 7 页 step 模板，按顺序选择要查看的手册页</div>
+          </div>
+          <span class="tag info">${steps.length} steps</span>
+        </div>
+        <div class="page-preview-list">
+          ${steps.map((step, index) => renderPagePreviewCard(step, index)).join("")}
+        </div>
+      `;
+      overview.querySelectorAll("[data-page-preview-step]").forEach((button) => {
+        button.addEventListener("click", () => selectStep(button.dataset.pagePreviewStep, { previewScreen: "stepPage" }));
+      });
+    }
+
+    function renderPhonePreview() {
+      const phone = $("#phonePreview");
+      const rtl = state.activeLocale === "ar";
+      phone.classList.toggle("rtl", rtl);
+
+      if (state.previewScreen === "welcome") {
+        phone.innerHTML = state.useWelcome ? renderWelcomePreview() : renderDisabledTemplatePreview("Welcome");
+      } else if (state.previewScreen === "finish") {
+        phone.innerHTML = state.useFinish ? renderFinishPreview() : renderDisabledTemplatePreview("Finish");
+      } else if (state.previewScreen === "stepList") {
+        phone.innerHTML = `
+          <div class="phone-status"><span>9:41</span><span>设备助手</span><span>100%</span></div>
+          <div class="phone-body">
+            <div class="phone-nav-row">
+              <button class="phone-back" type="button" ${state.useWelcome ? "data-preview-welcome" : ""}>‹</button>
+              <div class="phone-title">How to Use</div>
+              <span></span>
+            </div>
+            <div class="page-overview phone-step-list-preview" id="pageOverview"></div>
+          </div>
+        `;
+      } else {
+        const step = selectedStep();
+        phone.innerHTML = `
+          <div class="phone-status"><span>9:41</span><span>设备助手</span><span>100%</span></div>
+          <div class="phone-body">
+            <div class="phone-nav-row">
+              <button class="phone-back" type="button" data-preview-step-list>‹</button>
+              <div class="phone-title">Step ${step?.order || 1}</div>
+              <span></span>
+            </div>
+            ${renderStepTemplatePreview(step)}
+            ${isLastStep(step) && state.useFinish ? `<button class="phone-primary-action" type="button" data-preview-finish>Finish</button>` : ""}
+          </div>
+        `;
+      }
+
+      renderPageOverview();
+      phone.querySelector("[data-preview-step-list]")?.addEventListener("click", () => {
+        state.previewScreen = "stepList";
+        state.layer = "page";
+        state.selectedPage = "steps";
+        renderAll();
+      });
+      phone.querySelector("[data-preview-welcome]")?.addEventListener("click", () => selectAssistantPage("welcome"));
+      phone.querySelector("[data-preview-finish]")?.addEventListener("click", () => selectAssistantPage("finish"));
+    }
+
+    function renderDisabledTemplatePreview(label) {
+      return `
+        <div class="phone-status"><span>9:41</span><span>${escapeHtml(label)}</span><span>100%</span></div>
+        <div class="phone-body">
+          <div class="empty-preview">${escapeHtml(label)} 模板未启用。</div>
+        </div>
+      `;
+    }
+
+    function renderWelcomePreview() {
+      return `
+        <div class="phone-status"><span>9:41</span><span>Welcome</span><span>100%</span></div>
+        <div class="phone-body">
+          <div class="assistant-hero">${escapeHtml(resourceName(state.welcomePage.mainImage, "未上传主图"))}</div>
+          <section class="assistant-page-copy">
+            <div class="assistant-page-title">${escapeHtml(textValue(state.welcomePage, "title") || "未填写 title")}</div>
+            <div class="assistant-page-subtitle">${escapeHtml(textValue(state.welcomePage, "subtitle") || "未填写 subtitle")}</div>
+          </section>
+          ${renderTemplateSubstepsPreview(normalizedSubsteps(state.welcomePage), normalizedSubstepMarkerType(state.welcomePage))}
+          <button class="phone-primary-action" type="button" data-preview-step-list>Get started</button>
+        </div>
+      `;
+    }
+
+    function renderFinishPreview() {
+      return `
+        <div class="phone-status"><span>9:41</span><span>Finish</span><span>100%</span></div>
+        <div class="phone-body">
+          <div class="phone-nav-row">
+            <button class="phone-back" type="button" data-preview-step-list>‹</button>
+            <div class="phone-title">Finish</div>
+            <span></span>
+          </div>
+          <div class="assistant-hero">${escapeHtml(resourceName(state.finishPage.mainImage, "未上传主图"))}</div>
+          <section class="assistant-page-copy">
+            <div class="assistant-page-title">${escapeHtml(textValue(state.finishPage, "title") || "未填写 title")}</div>
+            <div class="assistant-page-subtitle">${escapeHtml(textValue(state.finishPage, "subtitle") || "未填写 subtitle")}</div>
+          </section>
+          ${renderTemplateSubstepsPreview(normalizedSubsteps(state.finishPage), normalizedSubstepMarkerType(state.finishPage))}
+        </div>
+      `;
+    }
+
+    function renderTemplateSubstepsPreview(items, markerType) {
+      if (!items.length) return `<div class="empty-preview">暂无 substep。</div>`;
+      return `
+        <div class="abbr-list">
+          ${items.map((item, index) => `
+            <div class="abbr-item">
+              <span class="abbr-icon">${escapeHtml(substepMarkerLabel(item, index, markerType))}</span>
+              <span>
+                <strong>${escapeHtml(textValue(item, "title") || `Substep ${index + 1}`)}</strong>
+                <small>${escapeHtml(textValue(item, "subtitle") || "未填写 subtitle")}</small>
+              </span>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderStepTemplatePreview(step) {
+      if (!step) return `<div class="empty-preview">暂无 step 模板。</div>`;
+      return `
+        <section class="assistant-page-copy">
+          <div class="assistant-page-title">${escapeHtml(textValue(step, "title") || `Step ${step.order}`)}</div>
+          <div class="assistant-page-subtitle">${escapeHtml(textValue(step, "subtitle") || "未填写 subtitle")}</div>
+        </section>
+        ${step.mediaHidden ? "" : step.mediaType ? `
+          <section class="preview-block">
+            <div class="preview-content">
+              <div class="preview-block-title">${step.mediaType === "image" ? "图片" : "视频"}</div>
+              <div class="preview-media">${escapeHtml(step.mediaType === "image" ? resourceName(step.image, "未上传图片") : resourceName(step.video, "未上传视频"))}</div>
+            </div>
+          </section>
+        ` : `
+          <section class="preview-block">
+            <div class="preview-content">
+              <div class="preview-block-title">第二部分</div>
+              <div class="preview-media">未选择视频 / 图片</div>
+            </div>
+          </section>
+        `}
+        ${(step.sections || []).map((section, index) => `
+          <section class="preview-block">
+            <div class="preview-content">
+              <div class="preview-block-title">${escapeHtml(textValue(section, "title") || `正文 ${index + 1}`)}</div>
+              <div class="preview-text">${escapeHtml(textValue(section, "content") || "未填写内容")}</div>
+              ${section.images?.length ? `<div class="preview-text">图片：${section.images.map((image) => escapeHtml(resourceName(image))).join(" / ")}</div>` : ""}
+            </div>
+          </section>
+        `).join("") || `<div class="empty-preview">第三部分正文图片区可添加 0～3 个。</div>`}
+      `;
+    }
+
+    function renderInspector() {
+      const step = selectedStep();
+
+      if (state.layer === "welcome" || state.layer === "finish") {
+        const page = state.layer === "welcome" ? state.welcomePage : state.finishPage;
+        const pageName = state.layer === "welcome" ? "Welcome 模板" : "Finish 模板";
+        const enabled = state.layer === "welcome" ? state.useWelcome : state.useFinish;
+        $("#inspectorTitle").textContent = pageName;
+        $("#inspectorSubtitle").textContent = `${localeLabel()} / ${enabled ? "已启用" : "未启用"} / 固定模板`;
+        $("#inspectorBody").innerHTML = renderAssistantPageForm(page, state.layer);
+        bindAssistantPageForm(page, state.layer);
+        return;
+      }
+
+      $("#inspectorTitle").textContent = "Step 模板";
+      $("#inspectorSubtitle").textContent = `${localeLabel()} / 第 ${step?.order || 1} 页 / 固定字段，不需要组件排序。`;
+      $("#inspectorBody").innerHTML = renderStepTemplateForm(step);
+      bindStepTemplateForm(step);
+    }
+
+    function renderAssistantPageForm(page, pageType) {
+      const isWelcome = pageType === "welcome";
+      const enabled = isWelcome ? state.useWelcome : state.useFinish;
+      const limit = isWelcome ? 4 : 3;
+      const items = normalizedSubsteps(page);
+      const markerType = normalizedSubstepMarkerType(page);
+      return `
+        <div class="form-grid">
+          <label class="check-row">
+            <input id="templateEnableInput" type="checkbox" ${enabled ? "checked" : ""}>
+            使用 ${isWelcome ? "Welcome" : "Finish"} 模板
+          </label>
+          <div class="field">
+            <label for="assistantMainImageInput">img</label>
+            <input class="input" id="assistantMainImageInput" type="file" accept="image/png,image/jpeg">
+            <div class="field-help">支持 png、jpg、jpeg，推荐 16:9，不大于 5M。</div>
+            ${renderResources(page.mainImage ? [page.mainImage] : [])}
+          </div>
+          <div class="field">
+            <label for="assistantTitleInput">title</label>
+            <input class="input" id="assistantTitleInput" value="${escapeHtml(textValue(page, "title"))}" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="assistantSubtitleInput">subtitle</label>
+            <input class="input" id="assistantSubtitleInput" value="${escapeHtml(textValue(page, "subtitle"))}" maxlength="80">
+          </div>
+          <div class="field" id="${isWelcome ? "welcomeSubstepsField" : "finishSubstepsField"}">
+            <label>substep（${items.length} / ${limit}）</label>
+            <div class="field-help">${isWelcome ? "Welcome 模板支持 1～4 个 substep，不含预设值。" : "Finish 模板支持 1～3 个 substep，默认带预设值，可编辑。"}</div>
+            <div class="field">
+              <label for="substepMarkerTypeInput">标识展示</label>
+              <select class="select" id="substepMarkerTypeInput">
+                <option value="number" ${markerType !== "icon" ? "selected" : ""}>序号</option>
+                <option value="icon" ${markerType === "icon" ? "selected" : ""}>icon</option>
+              </select>
+              <div class="field-help">该配置对当前模板的所有 substep 生效；选择 icon 后，每个 substep 需要选择已配置 icon。</div>
+            </div>
+            ${renderTemplateSubstepEditor(items, markerType)}
+            <button class="btn" id="addSubstepBtn" type="button" ${items.length >= limit ? "disabled" : ""}>新增 substep</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderTemplateSubstepEditor(items, markerType) {
+      if (!items.length) return `<div class="empty-state">暂无 substep，保存前至少配置 1 个。</div>`;
+      return `
+        <div class="resource-list">
+          ${items.map((item, index) => `
+            <div class="template-section-card">
+              <div class="template-section-head">
+                <strong>substep ${index + 1}</strong>
+                <button class="btn text" type="button" data-substep-delete="${index}">删除</button>
+              </div>
+              ${markerType === "icon" ? `
+                <div class="field">
+                  <label for="substepIcon${index}">已配置 icon</label>
+                  <select class="select" id="substepIcon${index}" data-substep-icon="${index}">
+                    <option value="" ${item.iconKey ? "" : "selected"}>请选择已配置 icon</option>
+                    ${configuredSubstepIconOptions(item.iconKey)}
+                  </select>
+                </div>
+              ` : ""}
+              <div class="field">
+                <label for="substepTitle${index}">title</label>
+                <input class="input" id="substepTitle${index}" value="${escapeHtml(textValue(item, "title"))}" data-substep-title="${index}" maxlength="40">
+              </div>
+              <div class="field">
+                <label for="substepSubtitle${index}">subtitle</label>
+                <input class="input" id="substepSubtitle${index}" value="${escapeHtml(textValue(item, "subtitle"))}" data-substep-subtitle="${index}" maxlength="80">
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function bindAssistantPageForm(page, pageType) {
+      const isWelcome = pageType === "welcome";
+      const limit = isWelcome ? 4 : 3;
+      $("#templateEnableInput")?.addEventListener("change", (event) => {
+        if (isWelcome) state.useWelcome = event.target.checked;
+        else state.useFinish = event.target.checked;
+        setDirty();
+        renderAll();
+      });
+      $("#assistantMainImageInput")?.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const result = validateFile(file, ["png", "jpg", "jpeg"], 5);
+        if (result.ok) {
+          page.mainImage = fileResource(file);
+          showToast("模板主图已通过本地校验");
+        } else {
+          showToast(result.message);
+        }
+        setDirty();
+        renderAll();
+      });
+      $("#assistantTitleInput")?.addEventListener("input", (event) => {
+        setTextValue(page, "title", event.target.value);
+        setDirty();
+        renderPreviewSurfaces();
+      });
+      $("#assistantSubtitleInput")?.addEventListener("input", (event) => {
+        setTextValue(page, "subtitle", event.target.value);
+        setDirty();
+        renderPreviewSurfaces();
+      });
+      $("#substepMarkerTypeInput")?.addEventListener("change", (event) => {
+        page.substepMarkerType = event.target.value === "icon" ? "icon" : "number";
+        setDirty();
+        renderAll();
+      });
+      $("#addSubstepBtn")?.addEventListener("click", () => {
+        const items = normalizedSubsteps(page);
+        if (items.length >= limit) return showToast(`最多只能配置 ${limit} 个 substep`);
+        items.push(makeBlankSubstep(items.length + 1));
+        setDirty();
+        renderAll();
+      });
+      document.querySelectorAll("[data-substep-delete]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const items = normalizedSubsteps(page);
+          items.splice(Number(button.dataset.substepDelete), 1);
+          setDirty();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-substep-icon]").forEach((select) => {
+        select.addEventListener("change", (event) => {
+          const item = normalizedSubsteps(page)[Number(select.dataset.substepIcon)];
+          if (!item) return;
+          item.iconKey = event.target.value;
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-substep-title]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const item = normalizedSubsteps(page)[Number(input.dataset.substepTitle)];
+          if (!item) return;
+          setTextValue(item, "title", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-substep-subtitle]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const item = normalizedSubsteps(page)[Number(input.dataset.substepSubtitle)];
+          if (!item) return;
+          setTextValue(item, "subtitle", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+    }
+
+    function renderStepTemplateForm(step) {
+      if (!step) return `<div class="empty-state">暂无 step 模板。</div>`;
+      return `
+        <div class="form-grid">
+          <div class="field">
+            <label for="stepTitleInput">第一部分 title</label>
+            <input class="input" id="stepTitleInput" value="${escapeHtml(textValue(step, "title"))}" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="stepSubtitleInput">第一部分 subtitle</label>
+            <input class="input" id="stepSubtitleInput" value="${escapeHtml(textValue(step, "subtitle"))}" maxlength="80">
+          </div>
+          <div class="template-section-card">
+            <div class="template-section-head">
+              <strong>第二部分：视频 / 图片</strong>
+              <label class="check-row">
+                <input id="mediaHiddenInput" type="checkbox" ${step.mediaHidden ? "checked" : ""}>
+                隐藏第二部分
+              </label>
+            </div>
+            <div class="template-media-choice">
+              <label><input type="radio" name="stepMediaType" value="video" ${step.mediaType === "video" ? "checked" : ""}> 视频</label>
+              <label><input type="radio" name="stepMediaType" value="image" ${step.mediaType === "image" ? "checked" : ""}> 图片</label>
+            </div>
+            ${!step.mediaType ? `
+              <div class="field-help">未隐藏第二部分时，需要先选择视频或图片，再上传对应素材。</div>
+            ` : step.mediaType === "image" ? `
+              <div class="field">
+                <label for="stepMediaImageInput">上传图片</label>
+                <input class="input" id="stepMediaImageInput" type="file" accept="image/png,image/jpeg">
+                ${renderResources(step.image ? [step.image] : [])}
+              </div>
+            ` : `
+              <div class="field">
+                <label for="stepMediaVideoInput">上传视频</label>
+                <input class="input" id="stepMediaVideoInput" type="file" accept="video/mp4">
+                ${renderResources(step.video ? [step.video] : [])}
+              </div>
+            `}
+          </div>
+          <div class="field">
+            <label>第三部分：正文标题、内容、图片（${step.sections?.length || 0} / 3）</label>
+            <div class="field-help">第三部分可以添加 0～3 个；每个部分可上传多张图片。固定顺序展示，不需要组件排序。</div>
+            <div class="template-section-list">
+              ${(step.sections || []).map((section, index) => renderStepTextImageSection(section, index)).join("") || `<div class="empty-state">暂无第三部分内容。</div>`}
+            </div>
+            <button class="btn" id="addStepSectionBtn" type="button" ${(step.sections?.length || 0) >= 3 ? "disabled" : ""}>添加正文图片区</button>
+          </div>
+          <div class="inline-actions">
+            <button class="btn danger" id="deleteStepBtn" type="button">删除当前 Step 页</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderStepTextImageSection(section, index) {
+      return `
+        <div class="template-section-card">
+          <div class="template-section-head">
+            <strong>正文图片区 ${index + 1}</strong>
+            <button class="btn text" type="button" data-section-delete="${index}">删除</button>
+          </div>
+          <div class="field">
+            <label for="sectionTitle${index}">正文标题</label>
+            <input class="input" id="sectionTitle${index}" value="${escapeHtml(textValue(section, "title"))}" data-section-title="${index}" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="sectionContent${index}">内容</label>
+            <textarea class="textarea" id="sectionContent${index}" data-section-content="${index}">${escapeHtml(textValue(section, "content"))}</textarea>
+          </div>
+          <div class="field">
+            <label for="sectionImages${index}">图片</label>
+            <input class="input" id="sectionImages${index}" type="file" accept="image/png,image/jpeg" multiple data-section-images="${index}">
+            ${renderSectionImages(section.images || [], index)}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderSectionImages(images, sectionIndex) {
+      if (!images.length) return `<div class="resource-list"><div class="resource-pill"><span>暂无图片。</span></div></div>`;
+      return `
+        <div class="resource-list">
+          ${images.map((image, imageIndex) => `
+            <div class="resource-pill">
+              <span>${escapeHtml(resourceName(image))}${image.size ? ` / ${escapeHtml(image.size)}` : ""}</span>
+              <button class="resource-action-btn" type="button" data-section-image-delete="${sectionIndex}:${imageIndex}">删</button>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function bindStepTemplateForm(step) {
+      $("#stepTitleInput")?.addEventListener("input", (event) => {
+        setTextValue(step, "title", event.target.value);
+        setDirty();
+        renderSteps();
+        renderPreviewSurfaces();
+      });
+      $("#stepSubtitleInput")?.addEventListener("input", (event) => {
+        setTextValue(step, "subtitle", event.target.value);
+        setDirty();
+        renderSteps();
+        renderPreviewSurfaces();
+      });
+      $("#mediaHiddenInput")?.addEventListener("change", (event) => {
+        step.mediaHidden = event.target.checked;
+        setDirty();
+        renderPreviewSurfaces();
+      });
+      document.querySelectorAll("[name='stepMediaType']").forEach((radio) => {
+        radio.addEventListener("change", (event) => {
+          step.mediaType = event.target.value;
+          setDirty();
+          renderAll();
+        });
+      });
+      $("#stepMediaVideoInput")?.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const result = validateFile(file, ["mp4"], 200);
+        if (result.ok) step.video = fileResource(file);
+        showToast(result.ok ? "视频已通过本地校验" : result.message);
+        setDirty();
+        renderAll();
+      });
+      $("#stepMediaImageInput")?.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const result = validateFile(file, ["png", "jpg", "jpeg"], 5);
+        if (result.ok) step.image = fileResource(file);
+        showToast(result.ok ? "图片已通过本地校验" : result.message);
+        setDirty();
+        renderAll();
+      });
+      $("#addStepSectionBtn")?.addEventListener("click", () => {
+        step.sections = step.sections || [];
+        if (step.sections.length >= 3) return showToast("第三部分最多添加 3 个");
+        step.sections.push(makeBlankTextImageSection(step.sections.length + 1));
+        setDirty();
+        renderAll();
+      });
+      document.querySelectorAll("[data-section-delete]").forEach((button) => {
+        button.addEventListener("click", () => {
+          step.sections.splice(Number(button.dataset.sectionDelete), 1);
+          setDirty();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-section-title]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const section = step.sections?.[Number(input.dataset.sectionTitle)];
+          if (!section) return;
+          setTextValue(section, "title", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-section-content]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const section = step.sections?.[Number(input.dataset.sectionContent)];
+          if (!section) return;
+          setTextValue(section, "content", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-section-images]").forEach((input) => {
+        input.addEventListener("change", (event) => {
+          const section = step.sections?.[Number(input.dataset.sectionImages)];
+          const files = Array.from(event.target.files || []);
+          if (!section || !files.length) return;
+          const result = validateImageSet(files, files.length);
+          if (result.ok) {
+            section.images = [...(section.images || []), ...files.map(fileResource)];
+            showToast("图片已追加到正文图片区");
+          } else {
+            showToast(result.message);
+          }
+          setDirty();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-section-image-delete]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const [sectionIndex, imageIndex] = button.dataset.sectionImageDelete.split(":").map(Number);
+          const section = step.sections?.[sectionIndex];
+          if (!section) return;
+          section.images.splice(imageIndex, 1);
+          setDirty();
+          renderAll();
+        });
+      });
+      $("#deleteStepBtn")?.addEventListener("click", deleteSelectedStep);
+    }
+
+    function addStep() {
+      if (state.steps.length >= 7) {
+        showToast("Step 模板最多只能创建 7 页");
+        return;
+      }
+      const next = state.steps.length + 1;
+      const step = makeBlankStepTemplate(next);
+      state.steps.push(step);
+      state.selectedPage = "steps";
+      state.selectedStepId = step.id;
+      state.selectedBlockId = null;
+      state.layer = "page";
+      state.previewScreen = "stepPage";
+      setDirty();
+      renderAll();
+    }
+
+    function deleteSelectedStep() {
+      if (state.steps.length <= 1) {
+        showToast("至少保留 1 页 Step 模板");
+        return;
+      }
+      const index = state.steps.findIndex((step) => step.id === state.selectedStepId);
+      state.steps.splice(index, 1);
+      compactOrders(state.steps);
+      const step = sortedSteps()[Math.max(0, index - 1)];
+      state.selectedStepId = step.id;
+      state.selectedPage = "steps";
+      state.layer = "page";
+      state.previewScreen = "stepPage";
+      setDirty();
+      renderAll();
+    }
+
+    function validateConfig() {
+      const issues = [];
+      if (state.useWelcome) validateTemplatePage(state.welcomePage, "Welcome 模板", 1, 4, issues);
+      if (state.useFinish) validateTemplatePage(state.finishPage, "Finish 模板", 1, 3, issues);
+
+      if (state.steps.length < 1) issues.push({ level: "错误", type: "danger", text: "至少需要 1 页 Step 模板。" });
+      if (state.steps.length > 7) issues.push({ level: "错误", type: "danger", text: "Step 模板最多支持 7 页。" });
+
+      sortedSteps().forEach((step) => {
+        const label = `Step ${step.order}`;
+        if (!textValue(step, "title")) issues.push({ level: "错误", type: "danger", text: `${label} 缺少 title。` });
+        if (!textValue(step, "subtitle")) issues.push({ level: "警告", type: "warning", text: `${label} 建议补充 subtitle。` });
+        if (!step.mediaHidden) {
+          if (!step.mediaType) issues.push({ level: "错误", type: "danger", text: `${label} 第二部分需要选择视频或图片。` });
+          if (step.mediaType === "image" && !step.image) issues.push({ level: "错误", type: "danger", text: `${label} 第二部分选择图片后需要上传图片。` });
+          if (step.mediaType === "video" && !step.video) issues.push({ level: "错误", type: "danger", text: `${label} 第二部分选择视频后需要上传 mp4。` });
+        }
+        if ((step.sections?.length || 0) > 3) issues.push({ level: "错误", type: "danger", text: `${label} 第三部分最多添加 3 个。` });
+        (step.sections || []).forEach((section, index) => {
+          if (!textValue(section, "title")) issues.push({ level: "错误", type: "danger", text: `${label} 第三部分 ${index + 1} 缺少正文标题。` });
+          if (!textValue(section, "content")) issues.push({ level: "错误", type: "danger", text: `${label} 第三部分 ${index + 1} 缺少内容。` });
+        });
+      });
+      return issues;
+    }
+
+    function validateTemplatePage(page, label, minSubsteps, maxSubsteps, issues) {
+      const items = normalizedSubsteps(page);
+      const markerType = normalizedSubstepMarkerType(page);
+      if (!textValue(page, "title")) issues.push({ level: "错误", type: "danger", text: `${label} 缺少 title。` });
+      if (!textValue(page, "subtitle")) issues.push({ level: "警告", type: "warning", text: `${label} 建议补充 subtitle。` });
+      if (items.length < minSubsteps || items.length > maxSubsteps) {
+        issues.push({ level: "错误", type: "danger", text: `${label} substep 需要配置 ${minSubsteps}～${maxSubsteps} 个。` });
+      }
+      items.forEach((item, index) => {
+        if (markerType === "icon" && !configuredSubstepIcon(item.iconKey)) {
+          issues.push({ level: "错误", type: "danger", text: `${label} substep ${index + 1} 选择 icon 时需要选择已配置 icon。` });
+        }
+        if (!textValue(item, "title")) issues.push({ level: "错误", type: "danger", text: `${label} substep ${index + 1} 缺少 title。` });
+        if (!textValue(item, "subtitle")) issues.push({ level: "警告", type: "warning", text: `${label} substep ${index + 1} 建议补充 subtitle。` });
+      });
     }
 
     function renderAll() {
@@ -4732,21 +6921,22 @@
 
     on("#openDrawerBtn", "click", () => {
       state.drawerOpen = true;
-      renderDrawer();
+      renderAll();
     });
 
     on("#closeDrawerBtn", "click", () => {
       state.drawerOpen = false;
-      renderDrawer();
+      renderAll();
     });
 
     on("#drawerScrim", "click", () => {
       state.drawerOpen = false;
-      renderDrawer();
+      renderAll();
     });
 
     on("#addStepBtn", "click", addStep);
-    on("#saveConfigBtn", "click", saveConfig);
+    on("#saveDraftBtn", "click", saveDraft);
+    on("#publishConfigBtn", "click", publishConfig);
     on("#exportConfigBtn", "click", exportCurrentLocaleConfig);
     on("#importConfigBtn", "click", () => {
       const input = $("#importConfigInput");
@@ -4759,15 +6949,16 @@
     });
     on("#validateBtn", "click", () => {
       state.drawerOpen = false;
-      renderDrawer();
+      renderAll();
     });
     on("#quickValidateBtn", "click", () => {
       state.drawerOpen = true;
-      renderDrawer();
+      renderAll();
       runValidation(true);
     });
     on("#closePrototypeAnnotations", "click", () => setPrototypeAnnotationsOpen(false));
     on("#openPrototypeAnnotations", "click", () => setPrototypeAnnotationsOpen(true));
+    applySimplifiedTemplateModel();
     setPrototypeAnnotationsOpen(true);
     renderAll();
   </script>
