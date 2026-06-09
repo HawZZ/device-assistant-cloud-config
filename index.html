@@ -1603,6 +1603,76 @@
       );
       color: var(--el-text-color-secondary);
     }
+    .preview-image-gallery {
+      display: grid;
+      gap: 6px;
+      margin-top: 8px;
+      min-width: 0;
+    }
+
+    .preview-image-frame {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #dbeafe, #f8fafc 58%, #e0f2fe);
+      border: 1px solid #e5e7eb;
+      display: grid;
+      place-items: center;
+      color: #475569;
+      text-align: center;
+      min-width: 0;
+    }
+
+    .preview-image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preview-image-placeholder::before {
+      content: "";
+      position: absolute;
+      inset: 18px 18px auto auto;
+      width: 52px;
+      height: 36px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .55);
+      box-shadow: -54px 54px 0 rgba(67, 114, 255, .12);
+      transform: rotate(-8deg);
+    }
+
+    .preview-image-name {
+      position: relative;
+      z-index: 1;
+      max-width: 86%;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .72);
+      font-size: 12px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .preview-image-counter {
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      z-index: 2;
+      min-height: 20px;
+      padding: 0 7px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, .72);
+      color: #fff;
+      font-size: 11px;
+      line-height: 20px;
+    }
+
+    .preview-image-gallery .indicator {
+      padding: 0 0 2px;
+    }
 
     .preview-cover {
       background: linear-gradient(135deg, #eef6ff, #fff7ed);
@@ -5347,10 +5417,16 @@
     }
 
     function fileResource(file) {
-      return {
+      const resource = {
         name: file.name,
-        size: file.size >= MAX_MB ? `${(file.size / MAX_MB).toFixed(1)}M` : `${Math.ceil(file.size / 1024)}KB`
+        size: file.size >= MAX_MB ? `${(file.size / MAX_MB).toFixed(1)}M` : `${Math.ceil(file.size / 1024)}KB`,
+        type: file.type || ""
       };
+      const ext = file.name.split(".").pop().toLowerCase();
+      if (file.type?.startsWith?.("image/") || ["png", "jpg", "jpeg"].includes(ext)) {
+        resource.previewUrl = URL.createObjectURL(file);
+      }
+      return resource;
     }
 
     function validateAbbrIconFile(file) {
@@ -7462,6 +7538,13 @@
       });
       phone.querySelector("[data-preview-welcome]")?.addEventListener("click", () => selectAssistantPage("welcome"));
       phone.querySelector("[data-preview-finish]")?.addEventListener("click", () => selectAssistantPage("finish"));
+      phone.querySelectorAll("[data-carousel]").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          state.carouselIndex[button.dataset.carousel] = Number(button.dataset.carouselIndex);
+          renderPhonePreview();
+        });
+      });
     }
 
     function renderWelcomePreview() {
@@ -7538,6 +7621,68 @@
       `;
     }
 
+    function resourcePreviewUrl(resource) {
+      const url = resource?.previewUrl || resource?.url || resource?.uri || "";
+      return /^(blob:|data:image\/|https?:)/.test(url) ? url : "";
+    }
+
+    function renderImageFrame(resource, fallback = "未上传图片", counter = "") {
+      const label = resourceName(resource, fallback);
+      const url = resourcePreviewUrl(resource);
+      const counterHtml = counter ? `<span class="preview-image-counter">${escapeHtml(counter)}</span>` : "";
+      if (url) {
+        return `
+          <div class="preview-image-frame">
+            <img src="${escapeHtml(url)}" alt="${escapeHtml(label)}">
+            ${counterHtml}
+          </div>
+        `;
+      }
+      return `
+        <div class="preview-image-frame preview-image-placeholder">
+          <span class="preview-image-name">${escapeHtml(label)}</span>
+          ${counterHtml}
+        </div>
+      `;
+    }
+
+    function renderImageGalleryPreview(images, carouselId, emptyLabel = "未上传图片") {
+      const list = Array.isArray(images) ? images.filter(Boolean) : [];
+      if (!list.length) return `<div class="preview-media preview-media-empty">${escapeHtml(emptyLabel)}</div>`;
+      const count = list.length;
+      const index = Math.min(state.carouselIndex[carouselId] || 0, count - 1);
+      const current = list[index];
+      return `
+        <div class="preview-image-gallery ${count > 1 ? "is-carousel" : "is-single"}">
+          ${renderImageFrame(current, emptyLabel, count > 1 ? `${index + 1} / ${count}` : "")}
+          ${renderDots(carouselId, count, index)}
+        </div>
+      `;
+    }
+
+    function renderStepMediaPreview(step) {
+      if (step.mediaHidden) return "";
+      if (!step.mediaType) {
+        return `
+          <section class="preview-block">
+            <div class="preview-content">
+              <div class="preview-block-title">第二部分</div>
+              <div class="preview-media">未选择视频 / 图片</div>
+            </div>
+          </section>
+        `;
+      }
+      const isImage = step.mediaType === "image";
+      return `
+        <section class="preview-block">
+          <div class="preview-content">
+            <div class="preview-block-title">${isImage ? "图片" : "视频"}</div>
+            ${isImage ? renderImageGalleryPreview(step.image ? [step.image] : [], `step-${step.id}-media`, "未上传图片") : `<div class="preview-media">${escapeHtml(resourceName(step.video, "未上传视频"))}</div>`}
+          </div>
+        </section>
+      `;
+    }
+
     function renderStepTemplatePreview(step) {
       if (!step) return `<div class="empty-preview">暂无 step 模板。</div>`;
       const headerIcon = configuredSubstepIcon(step.headerIconKey)?.mark || "S";
@@ -7551,21 +7696,7 @@
             </span>
           </div>
         </section>
-        ${step.mediaHidden ? "" : step.mediaType ? `
-          <section class="preview-block">
-            <div class="preview-content">
-              <div class="preview-block-title">${step.mediaType === "image" ? "图片" : "视频"}</div>
-              <div class="preview-media">${escapeHtml(step.mediaType === "image" ? resourceName(step.image, "未上传图片") : resourceName(step.video, "未上传视频"))}</div>
-            </div>
-          </section>
-        ` : `
-          <section class="preview-block">
-            <div class="preview-content">
-              <div class="preview-block-title">第二部分</div>
-              <div class="preview-media">未选择视频 / 图片</div>
-            </div>
-          </section>
-        `}
+        ${renderStepMediaPreview(step)}
         ${textValue(step, "bodyIntro") ? `<div class="assistant-page-subtitle">${escapeHtml(textValue(step, "bodyIntro"))}</div>` : ""}
         ${(step.sections || []).map((section, index) => `
           <section class="preview-block">
@@ -7577,7 +7708,7 @@
                   <small>${escapeHtml(textValue(section, "content") || "未填写内容")}</small>
                 </span>
               </div>
-              ${section.images?.length ? `<div class="preview-text">图片：${section.images.map((image) => escapeHtml(resourceName(image))).join(" / ")}</div>` : ""}
+              ${section.images?.length ? renderImageGalleryPreview(section.images, `step-${step.id}-section-${index}`, "未上传图片") : ""}
             </div>
           </section>
         `).join("") || `<div class="empty-preview">第三部分正文图片区可添加 0～3 个。</div>`}
@@ -8094,8 +8225,26 @@
     }
 
 
+    function capturePhonePreviewScroll() {
+      const body = $("#phonePreview .phone-body");
+      if (!body) return null;
+      return {
+        screen: state.previewScreen,
+        top: body.scrollTop
+      };
+    }
+
+    function restorePhonePreviewScroll(snapshot) {
+      const body = $("#phonePreview .phone-body");
+      if (!body || !snapshot || snapshot.screen !== state.previewScreen) return;
+      const maxTop = Math.max(0, body.scrollHeight - body.clientHeight);
+      body.scrollTop = Math.min(snapshot.top, maxTop);
+    }
+
     function renderPreviewSurfaces() {
+      const scrollSnapshot = capturePhonePreviewScroll();
       renderPhonePreview();
+      restorePhonePreviewScroll(scrollSnapshot);
     }
 
     function renderPageOverview() {
