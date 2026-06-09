@@ -777,6 +777,119 @@
       pointer-events: auto;
     }
 
+    .modal-scrim {
+      position: fixed;
+      inset: 0;
+      z-index: 82;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(0, 0, 0, .28);
+    }
+
+    .modal-scrim.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(680px, calc(100vw - 40px));
+      max-height: calc(100vh - 80px);
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: #fff;
+      box-shadow: 0 14px 36px rgba(0, 0, 0, .2);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+    }
+
+    .modal-header,
+    .modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--el-border-color-light);
+    }
+
+    .modal-footer {
+      border-top: 1px solid var(--el-border-color-light);
+      border-bottom: 0;
+      justify-content: flex-end;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--el-text-color-primary);
+    }
+
+    .modal-body {
+      padding: 14px 16px 16px;
+      overflow: auto;
+    }
+
+    .import-language-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .import-language-row {
+      min-height: 54px;
+      border: 1px solid var(--el-border-color);
+      border-radius: var(--radius);
+      background: #fff;
+      padding: 9px 10px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      text-align: left;
+      color: var(--el-text-color-regular);
+    }
+
+    .import-language-row:not(:disabled) {
+      cursor: pointer;
+    }
+
+    .import-language-row:not(:disabled):hover,
+    .import-language-row.active {
+      border-color: var(--el-color-primary);
+      background: var(--el-color-primary-light-9);
+    }
+
+    .import-language-row:disabled {
+      cursor: not-allowed;
+      opacity: .62;
+      background: #f7f8fa;
+    }
+
+    .import-language-name {
+      font-weight: 600;
+      color: var(--el-text-color-primary);
+    }
+
+    .import-language-desc {
+      margin-top: 4px;
+      color: var(--el-text-color-secondary);
+      font-size: 12px;
+    }
+
+    .import-language-tags {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+      opacity: .6;
+    }
+
     .drawer {
       position: fixed;
       top: 0;
@@ -1338,6 +1451,57 @@
       font-weight: 700;
       color: var(--el-text-color-primary);
       overflow-wrap: anywhere;
+    }
+
+    .abbr-list {
+      display: grid;
+      gap: 10px;
+      margin: 12px 0;
+      min-width: 0;
+    }
+
+    .abbr-item {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
+      border: 1px solid var(--el-border-color-lighter);
+      border-radius: 8px;
+      padding: 9px;
+      background: #fff;
+      min-width: 0;
+    }
+
+    .abbr-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--el-color-primary-light-9);
+      color: var(--el-color-primary);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .abbr-item strong,
+    .abbr-item small {
+      display: block;
+      overflow-wrap: anywhere;
+    }
+
+    .abbr-item small {
+      color: var(--el-text-color-secondary);
+      margin-top: 2px;
+    }
+
+    .app-param-note {
+      border: 1px dashed var(--el-border-color);
+      border-radius: 8px;
+      padding: 8px;
+      color: var(--el-text-color-secondary);
+      font-size: 12px;
+      background: #fafafa;
     }
 
     .phone-primary-action {
@@ -2356,8 +2520,10 @@
               </div>
               <div class="publish-panel locale-version-panel" id="publishPanel" aria-label="版本控制"></div>
               <div class="tab-panel-body">
-                <div class="tab-content-action" id="openDrawerBtn">
-                  <button class="btn" type="button">编辑</button>
+                <div class="tab-content-action" id="entryActionBar">
+                  <button class="btn" id="openDrawerBtn" type="button">编辑草稿</button>
+                  <button class="btn" id="importLanguageBtn" type="button">导入</button>
+                  <button class="btn primary" id="publishConfigBtn" type="button">发布</button>
                 </div>
                 <div class="novice-empty" id="noviceEmptyState" aria-label="未配置">
                   <svg class="novice-empty-image" viewBox="0 0 160 130" role="img" aria-label="未配置底图">
@@ -2423,7 +2589,7 @@
       <div class="drawer-title-row">
         <div>
           <h2 class="drawer-title">编辑新手指导</h2>
-          <div class="drawer-subtitle" id="drawerSubtitle">W1 / 新版设备助手 / 英文（默认） / 草稿与上架</div>
+          <div class="drawer-subtitle" id="drawerSubtitle">W1 / 新版设备助手 / 英文（默认） / 草稿与发布</div>
         </div>
       </div>
       <button class="btn icon" id="closeDrawerBtn" type="button" aria-label="关闭">×</button>
@@ -2442,7 +2608,7 @@
         <div class="column-title-row">
           <div>
             <h3 class="column-title">页面与步骤</h3>
-            <div class="column-subtitle">选择 Welcome / Step / Finish，再编辑对应模板。</div>
+            <div class="column-subtitle">选择 Welcome / Step / Finish / 说明书 PDF，再编辑对应模板。</div>
           </div>
         </div>
         <div class="page-entry-list" id="pageEntryList" aria-label="设备助手页面入口"></div>
@@ -2465,17 +2631,34 @@
 
     <footer class="drawer-footer">
       <div class="drawer-footer-actions">
-        <button class="btn" id="importConfigBtn" type="button">导入</button>
-        <button class="btn" id="exportConfigBtn" type="button">导出</button>
-        <input id="importConfigInput" type="file" accept="application/json,.json" hidden>
+        <span class="field-help">保存草稿仅暂存于平台，APP 不可获取。</span>
       </div>
       <div class="drawer-footer-actions">
         <button class="btn" id="validateBtn" type="button">返回</button>
         <button class="btn" id="saveDraftBtn" type="button">保存草稿</button>
-        <button class="btn primary" id="publishConfigBtn" type="button">上架</button>
       </div>
     </footer>
   </aside>
+
+  <div class="modal-scrim" id="importLanguageModal" aria-hidden="true">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="importLanguageTitle">
+      <header class="modal-header">
+        <div>
+          <h3 class="modal-title" id="importLanguageTitle">导入语言配置</h3>
+          <div class="column-subtitle" id="importLanguageSubtitle">选择来源语言后，覆盖当前语言配置并保存为草稿。</div>
+        </div>
+        <button class="btn icon" id="closeImportLanguageModal" type="button" aria-label="关闭导入弹窗">×</button>
+      </header>
+      <div class="modal-body">
+        <div class="field-help">优先导入来源语言的已发布配置；若来源语言未发布但存在草稿，则导入草稿配置。</div>
+        <div class="import-language-list" id="importLanguageList" aria-label="可导入语言列表"></div>
+      </div>
+      <footer class="modal-footer">
+        <button class="btn" id="cancelImportLanguageBtn" type="button">取消</button>
+        <button class="btn primary" id="confirmImportLanguageBtn" type="button">导入并保存草稿</button>
+      </footer>
+    </section>
+  </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -3467,246 +3650,23 @@
     function renderPublishPanel() {
       const panel = $("#publishPanel");
       if (!panel) return;
-      const status = currentLocaleStatus();
-      const draftMeta = state.draftLocaleMeta[state.activeLocale];
       const publishedMeta = state.publishedLocaleMeta[state.activeLocale];
-      const appFetchLabel = publishedMeta ? "已上架配置" : draftMeta ? "不可获取草稿" : "无已上架配置";
+      const status = currentLocaleStatus();
       panel.innerHTML = `
-        <div class="publish-title">版本控制</div>
         <div class="status-grid">
-          <div class="status-row"><span>当前语言</span><strong>${escapeHtml(localeLabel())}</strong></div>
-          <div class="status-row"><span>草稿</span><span class="tag ${draftMeta ? "warning" : "info"}">${draftMeta ? escapeHtml(draftMeta.savedAt) : "无"}</span></div>
-          <div class="status-row"><span>已上架</span><span class="tag ${publishedMeta ? "success" : "info"}">${publishedMeta ? escapeHtml(publishedMeta.savedAt) : "无"}</span></div>
-          <div class="status-row"><span>APP 获取</span><span class="tag ${publishedMeta ? "success" : "info"}">${appFetchLabel}</span></div>
+          <div class="status-row"><span>发布时间</span><span class="tag ${publishedMeta ? "success" : "info"}">${publishedMeta ? escapeHtml(publishedMeta.savedAt) : "未发布"}</span></div>
+          <div class="status-row"><span>发布状态</span><span class="tag ${status.tag}">${escapeHtml(status.label)}</span></div>
         </div>
-        <label class="check-row">
-          <input id="whitelistToggle" type="checkbox" ${state.whitelist.enabled ? "checked" : ""}>
-          草稿白名单测试
+        <label class="check-row" style="margin-top: 8px;">
+          <input id="forceNoviceGuideToggle" type="checkbox" ${state.forceNoviceGuide ? "checked" : ""}>
+          强制新手指引
         </label>
-        <div class="test-email-row">
-          <input class="input" id="testEmailInput" value="${escapeHtml(state.whitelist.email)}" placeholder="test@example.com" ${state.whitelist.enabled ? "" : "disabled"}>
-          <button class="btn" id="saveTestEmailBtn" type="button" ${state.whitelist.enabled ? "" : "disabled"}>保存</button>
-        </div>
-        <div class="field-help">当前版本仅支持 1 个邮箱；开启后用于测试草稿，APP 正式请求仍只读取已上架配置。</div>
       `;
-      $("#whitelistToggle")?.addEventListener("change", (event) => {
-        state.whitelist.enabled = event.target.checked;
-        renderPublishPanel();
+      $("#forceNoviceGuideToggle")?.addEventListener("change", (event) => {
+        state.forceNoviceGuide = event.target.checked;
+        setDirty();
+        renderEntry();
       });
-      $("#testEmailInput")?.addEventListener("input", (event) => {
-        state.whitelist.email = event.target.value.trim();
-      });
-      $("#saveTestEmailBtn")?.addEventListener("click", saveWhitelistEmail);
-    }
-
-    function saveWhitelistEmail() {
-      if (!state.whitelist.enabled) return;
-      const email = state.whitelist.email.trim();
-      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      if (!ok) {
-        showToast("测试邮箱格式不正确");
-        return;
-      }
-      showToast(`已保存草稿白名单邮箱：${email}`);
-    }
-
-    function selectStep(stepId, options = {}) {
-      state.selectedPage = "steps";
-      state.selectedStepId = stepId;
-      const step = selectedStep();
-      const blocks = sortedBlocks(step);
-      state.selectedBlockId = blocks[0]?.id || null;
-      state.layer = "page";
-      state.previewScreen = options.previewScreen || "stepPage";
-      state.addWidgetMenuOpen = false;
-      renderAll();
-    }
-
-    function selectBlock(blockId) {
-      state.selectedPage = "steps";
-      state.selectedBlockId = blockId;
-      state.layer = "widget";
-      state.previewScreen = "stepPage";
-      state.addWidgetMenuOpen = false;
-      renderAll();
-    }
-
-    function renderSteps() {
-      renderPageEntries();
-      renderPublishPanel();
-      const list = $("#stepList");
-      list.innerHTML = sortedSteps().map((step) => {
-        const active = state.selectedPage === "steps" && step.id === state.selectedStepId ? "active" : "";
-        const count = renderableBlocks(step).length;
-        const stepTitle = textValue(step, "title");
-        const stepSubtitle = textValue(step, "subtitle");
-        const missingLocales = missingLocaleCodes(step, ["title", "subtitle"]).length;
-        return `
-          <div class="step-item ${active}" draggable="true" data-step-id="${escapeHtml(step.id)}">
-            <div class="step-top">
-              <div style="min-width: 0;">
-                <div class="step-title"><span class="drag-handle" title="拖拽排序">::</span> ${escapeHtml(stepTitle)}</div>
-                <div class="step-meta">${escapeHtml(stepSubtitle || "未填写 subtitle")}</div>
-                <div class="step-meta">第 ${step.order} 步 / ${count} 个 widget${missingLocales ? ` / ${missingLocales} 个语言配置缺失` : ""}</div>
-              </div>
-              <button class="btn icon" type="button" data-step-select="${escapeHtml(step.id)}" title="进入页面配置">›</button>
-            </div>
-            <div class="step-actions">
-              <button class="btn text" type="button" data-step-layer="${escapeHtml(step.id)}">编辑步骤</button>
-              <button class="btn text" type="button" data-step-select="${escapeHtml(step.id)}">页面</button>
-            </div>
-          </div>
-        `;
-      }).join("");
-
-      list.querySelectorAll("[data-step-select]").forEach((button) => {
-        button.addEventListener("click", () => selectStep(button.dataset.stepSelect));
-      });
-      list.querySelectorAll("[data-step-layer]").forEach((button) => {
-        button.addEventListener("click", () => {
-          state.selectedPage = "steps";
-          state.selectedStepId = button.dataset.stepLayer;
-          state.layer = "steps";
-          state.previewScreen = "stepPage";
-          state.addWidgetMenuOpen = false;
-          renderAll();
-        });
-      });
-      list.querySelectorAll(".step-item").forEach((item) => {
-        item.addEventListener("click", (event) => {
-          if (event.target.closest("button")) return;
-          selectStep(item.dataset.stepId);
-        });
-        item.addEventListener("dragstart", () => {
-          state.draggedStepId = item.dataset.stepId;
-          item.style.opacity = ".55";
-        });
-        item.addEventListener("dragend", () => {
-          state.draggedStepId = null;
-          item.style.opacity = "";
-          item.classList.remove("drag-over");
-        });
-        item.addEventListener("dragover", (event) => {
-          event.preventDefault();
-          item.classList.add("drag-over");
-        });
-        item.addEventListener("dragleave", () => item.classList.remove("drag-over"));
-        item.addEventListener("drop", (event) => {
-          event.preventDefault();
-          item.classList.remove("drag-over");
-          reorderSteps(state.draggedStepId, item.dataset.stepId);
-        });
-      });
-    }
-
-    function reorderSteps(sourceId, targetId) {
-      if (!sourceId || sourceId === targetId) return;
-      const ordered = sortedSteps();
-      const from = ordered.findIndex((step) => step.id === sourceId);
-      const to = ordered.findIndex((step) => step.id === targetId);
-      const [moved] = ordered.splice(from, 1);
-      ordered.splice(to, 0, moved);
-      ordered.forEach((step, index) => {
-        step.order = index + 1;
-      });
-      setDirty();
-      renderAll();
-    }
-
-    function reorderBlocks(sourceId, targetId) {
-      if (!sourceId || sourceId === targetId) return;
-      const step = selectedStep();
-      const ordered = sortedBlocks(step);
-      const sourceRange = blockMoveRange(ordered, sourceId);
-      if (!sourceRange) return;
-      const sourceIsFusionGroup = sourceRange.end > sourceRange.start && ordered[sourceRange.start]?.type === "fusionStart" && ordered[sourceRange.end]?.type === "fusionEnd";
-      const targetFusionRange = sourceIsFusionGroup ? containingFusionRange(ordered, targetId) : null;
-      const targetRange = targetFusionRange || blockMoveRange(ordered, targetId);
-      const targetIndex = targetRange?.start ?? ordered.findIndex((block) => block.id === targetId);
-      if (targetIndex < 0) return;
-      if (targetIndex >= sourceRange.start && targetIndex <= sourceRange.end) return;
-      const moved = ordered.splice(sourceRange.start, sourceRange.end - sourceRange.start + 1);
-      const insertionIndex = targetIndex > sourceRange.start ? targetIndex - moved.length : targetIndex;
-      ordered.splice(insertionIndex, 0, ...moved);
-      ordered.forEach((block, index) => {
-        block.order = index + 1;
-      });
-      setDirty();
-      renderAll();
-    }
-
-    function blockMoveRange(blocks, blockId) {
-      const index = blocks.findIndex((block) => block.id === blockId);
-      if (index < 0) return null;
-      const block = blocks[index];
-      if (block.type === "fusionStart") {
-        const endIndex = findMatchingFusionEnd(blocks, index);
-        return endIndex > index ? { start: index, end: endIndex } : { start: index, end: index };
-      }
-      if (block.type === "fusionEnd") {
-        for (let start = index - 1; start >= 0; start -= 1) {
-          if (blocks[start].type === "fusionEnd") return { start: index, end: index };
-          if (blocks[start].type === "fusionStart") return { start, end: index };
-        }
-      }
-      return { start: index, end: index };
-    }
-
-    function containingFusionRange(blocks, blockId) {
-      const targetIndex = blocks.findIndex((block) => block.id === blockId);
-      if (targetIndex < 0) return null;
-      for (let start = 0; start < blocks.length; start += 1) {
-        if (blocks[start].type !== "fusionStart") continue;
-        const end = findMatchingFusionEnd(blocks, start);
-        if (end > start && targetIndex >= start && targetIndex <= end) {
-          return { start, end };
-        }
-      }
-      return null;
-    }
-
-    function renderPageOverview() {
-      const overview = $("#pageOverview");
-      if (!overview) return;
-
-      const steps = sortedSteps();
-      overview.innerHTML = `
-        <div class="page-overview-head">
-          <div>
-            <div class="page-overview-title">全部步骤</div>
-            <div class="page-overview-subtitle">按顺序选择要查看的手册页面</div>
-          </div>
-          <span class="tag info">${steps.length} steps</span>
-        </div>
-        <div class="page-preview-list">
-          ${steps.map((step, index) => renderPagePreviewCard(step, index)).join("")}
-        </div>
-      `;
-
-      overview.querySelectorAll("[data-page-preview-step]").forEach((button) => {
-        button.addEventListener("click", () => selectStep(button.dataset.pagePreviewStep, { previewScreen: "stepPage" }));
-      });
-    }
-
-    function renderPagePreviewCard(step, index) {
-      const active = step.id === state.selectedStepId ? "active" : "";
-      const title = textValue(step, "title") || `Step ${index + 1}`;
-      const subtitle = textValue(step, "subtitle") || "未填写 subtitle";
-
-      return `
-        <button class="page-preview-card ${active}" type="button" data-page-preview-step="${escapeHtml(step.id)}">
-          <div class="page-preview-card-top">
-            <span class="page-preview-index">Step ${String(index + 1).padStart(2, "0")}</span>
-          </div>
-          <div class="page-preview-title">${escapeHtml(title)}</div>
-          <div class="page-preview-desc">${escapeHtml(subtitle)}</div>
-        </button>
-      `;
-    }
-
-    function renderPreviewSurfaces() {
-      renderPhonePreview();
-      renderPageOverview();
     }
 
     function renderPhonePreview() {
@@ -5810,12 +5770,28 @@
           loc: "新版入口 > 版本控制"
         },
         {
+          id: "validation-rules",
+          scope: "page",
+          target: "#entryValidationBox",
+          title: "配置校验",
+          body: "保存草稿或发布时自动校验；未隐藏说明书入口且未上传 PDF 时产生错误项。保存草稿展示错误但不阻断，发布校验不通过会阻断发布。",
+          loc: "新版入口 > 配置校验"
+        },
+        {
           id: "template-switches",
           drawer: true,
           target: "#pageEntryList",
           title: "模板开关",
           body: "配置能力收敛为 Welcome 模板、Step 模板和 Finish 模板；Welcome 和 Finish 可按产品选择是否启用。",
           loc: "配置抽屉 > 页面入口"
+        },
+        {
+          id: "drawer-validation-rules",
+          drawer: true,
+          target: "#validationBox",
+          title: "抽屉内配置校验",
+          body: "抽屉内展示当前语言草稿的完整校验。说明书入口未隐藏且未上传 PDF 时为错误项；保存草稿不阻断，发布时会阻断。",
+          loc: "配置抽屉 > 配置校验"
         },
         {
           id: "fixed-step-template",
@@ -6660,7 +6636,7 @@
           </div>
           <div class="field">
             <label>第三部分：正文标题、内容、图片（${step.sections?.length || 0} / 3）</label>
-            <div class="field-help">第三部分可以添加 0～3 个；每个部分可上传多张图片。固定顺序展示，不需要组件排序。</div>
+            <div class="field-help">第三部分可以添加 0～3 个；每个部分最多上传 10 张图片。固定顺序展示，不需要组件排序。</div>
             <div class="template-section-list">
               ${(step.sections || []).map((section, index) => renderStepTextImageSection(section, index)).join("") || `<div class="empty-state">暂无第三部分内容。</div>`}
             </div>
@@ -6690,7 +6666,7 @@
           </div>
           <div class="field">
             <label for="sectionImages${index}">图片</label>
-            <input class="input" id="sectionImages${index}" type="file" accept="image/png,image/jpeg" multiple data-section-images="${index}">
+            <input class="input" id="sectionImages${index}" type="file" accept="image/png,image/jpeg" multiple data-section-images="${index}" ${(section.images || []).length >= 10 ? "disabled" : ""}>
             ${renderSectionImages(section.images || [], index)}
           </div>
         </div>
@@ -6698,7 +6674,7 @@
     }
 
     function renderSectionImages(images, sectionIndex) {
-      if (!images.length) return `<div class="resource-list"><div class="resource-pill"><span>暂无图片。</span></div></div>`;
+      if (!images.length) return `<div class="resource-list"><div class="resource-pill"><span>暂无图片，最多 10 张。</span></div></div>`;
       return `
         <div class="resource-list">
           ${images.map((image, imageIndex) => `
@@ -6791,6 +6767,13 @@
           const section = step.sections?.[Number(input.dataset.sectionImages)];
           const files = Array.from(event.target.files || []);
           if (!section || !files.length) return;
+          const currentCount = section.images?.length || 0;
+          if (currentCount + files.length > 10) {
+            showToast("每个正文图片区最多上传 10 张图片");
+            setDirty();
+            renderAll();
+            return;
+          }
           const result = validateImageSet(files, files.length);
           if (result.ok) {
             section.images = [...(section.images || []), ...files.map(fileResource)];
@@ -6892,15 +6875,1265 @@
       });
     }
 
+
+    function currentLocaleStatus() {
+      const hasDraft = Boolean(state.draftLocales[state.activeLocale]);
+      const hasPublished = Boolean(state.publishedLocales[state.activeLocale]);
+      if (hasPublished && hasDraft) return { key: "publishedWithDraft", label: "已发布 / 有草稿", tag: "warning" };
+      if (hasPublished) return { key: "published", label: "已发布", tag: "success" };
+      if (hasDraft) return { key: "draft", label: "草稿未发布", tag: "warning" };
+      return { key: "empty", label: "未配置", tag: "info" };
+    }
+
+    function applySimplifiedTemplateModel() {
+      Object.assign(state, {
+        forceNoviceGuide: false,
+        useWelcomeFinish: true,
+        useWelcome: true,
+        useFinish: true,
+        manualPdfHidden: false,
+        manualPdf: null,
+        productListed: true,
+        layer: "page",
+        selectedPage: "steps",
+        previewScreen: "stepList",
+        selectedBlockId: null,
+        addWidgetMenuOpen: false,
+        draggedBlockId: null,
+        importModalOpen: false,
+        importSourceLocale: "",
+        draftLocales: { it: true },
+        publishedLocales: { en: true, de: true },
+        draftLocaleMeta: {
+          it: { configVersion: "draft-2026.06.09-it", savedAt: "2026-06-09 15:10" }
+        },
+        publishedLocaleMeta: {
+          en: { configVersion: "release-2026.06.09-en", savedAt: "2026-06-09 15:20" },
+          de: { configVersion: "release-2026.06.08-de", savedAt: "2026-06-08 18:30" }
+        },
+        welcomePage: {
+          substepMarkerType: "number",
+          substeps: [makeBlankSubstep(1), makeBlankSubstep(2)]
+        },
+        finishPage: {
+          substepMarkerType: "number",
+          substeps: [
+            {
+              iconKey: "check",
+              title: "确认安装完成",
+              titleI18n: { en: "Setup confirmed", "zh-Hans": "确认安装完成" },
+              subtitle: "设备助手步骤已完成",
+              subtitleI18n: { en: "The assistant steps are complete.", "zh-Hans": "设备助手步骤已完成" }
+            },
+            {
+              iconKey: "power",
+              title: "进入控制面板",
+              titleI18n: { en: "Open control panel", "zh-Hans": "进入控制面板" },
+              subtitle: "开始使用设备",
+              subtitleI18n: { en: "Start using the device.", "zh-Hans": "开始使用设备" }
+            }
+          ]
+        },
+        steps: [makeBlankStepTemplate(1, "step-template-1")]
+      });
+      state.selectedStepId = state.steps[0].id;
+      prototypeAnnotations.splice(0, prototypeAnnotations.length, ...simplifiedPrototypeAnnotations());
+    }
+
+    function simplifiedPrototypeAnnotations() {
+      return [
+        {
+          id: "page-language-tabs",
+          scope: "page",
+          target: "#newEntry .reference-locale-tabs",
+          title: "多语言入口沿用参考页",
+          body: "页面语言 Tab 决定当前编辑语言；抽屉内不提供语言切换。每个语言维护一套草稿和已发布配置。",
+          loc: "新版入口 > 语言 Tab"
+        },
+        {
+          id: "publish-state",
+          scope: "page",
+          target: "#entryActionBar",
+          title: "草稿与发布",
+          body: "草稿仅用于平台暂存，APP 无法获取；发布后由产品上架状态和产品白名单授权控制 APP 可见范围。",
+          loc: "新版入口 > 版本控制"
+        },
+        {
+          id: "language-import",
+          scope: "page",
+          target: "#importLanguageBtn",
+          title: "语言导入",
+          body: "导入按钮从指定语言导入全部内容，覆盖当前语言配置并保存为草稿，不再提供文件导入导出。",
+          loc: "新版入口 > 操作按钮"
+        },
+        {
+          id: "validation-rules",
+          scope: "page",
+          target: "#entryValidationBox",
+          title: "配置校验",
+          body: "保存草稿或发布时自动校验；未隐藏说明书入口且未上传 PDF 时产生错误项。保存草稿展示错误但不阻断，发布校验不通过会阻断发布。",
+          loc: "新版入口 > 配置校验"
+        },
+        {
+          id: "force-guide",
+          drawer: true,
+          target: "#forceNoviceGuideToggle",
+          title: "强制新手指引",
+          body: "强制新手指引是配置项复选框；开启后 APP 首次进入设备控制页时必须进入设备助手。",
+          loc: "新版入口 > 版本控制"
+        },
+        {
+          id: "template-switches",
+          drawer: true,
+          target: "#pageEntryList",
+          title: "模板开关",
+          body: "配置能力收敛为 Welcome / Finish 成对模板、Step 模板和说明书 PDF；Welcome 与 Finish 共用显隐配置。",
+          loc: "配置抽屉 > 页面入口"
+        },
+        {
+          id: "drawer-validation-rules",
+          drawer: true,
+          target: "#validationBox",
+          title: "抽屉内配置校验",
+          body: "抽屉内展示当前语言草稿的完整校验。说明书入口未隐藏且未上传 PDF 时为错误项；保存草稿不阻断，发布时会阻断。",
+          loc: "配置抽屉 > 配置校验"
+        },
+        {
+          id: "fixed-step-template",
+          drawer: true,
+          layer: "page",
+          target: "#inspectorBody",
+          title: "Step 固定模板",
+          body: "Step 页不再使用自由 widget 编排；组件固定为标题区、媒体区和正文图片区，不需要排序，也不需要切换组件配置页。",
+          loc: "Step 模板 > 固定字段"
+        },
+        {
+          id: "template-preview-boundary",
+          drawer: true,
+          target: ".preview-intro",
+          title: "预览边界",
+          body: "管理端预览用于验证配置结构、模板启用状态和字段缺失；最终 APP 页面视觉以 UI / APP 实现为准。",
+          loc: "配置抽屉 > APP 预览"
+        }
+      ];
+    }
+
+    function configuredSubstepIconOptions(selectedKey) {
+      const customOption = selectedKey?.startsWith?.("custom:")
+        ? `<option value="${escapeHtml(selectedKey)}" selected>自定义 icon (${escapeHtml(selectedKey.replace("custom:", ""))})</option>`
+        : "";
+      return `${customOption}${configuredSubstepIcons.map((icon) => `
+        <option value="${escapeHtml(icon.key)}" ${selectedKey === icon.key ? "selected" : ""}>${escapeHtml(icon.label)} (${escapeHtml(icon.key)})</option>
+      `).join("")}`;
+    }
+
+    function substepMarkerLabel(item, index, markerType) {
+      if (markerType !== "icon") return String(index + 1);
+      if (item.customIcon || item.iconKey?.startsWith?.("custom:")) return "I";
+      return configuredSubstepIcon(item.iconKey)?.mark || "?";
+    }
+
+    function makeBlankTextImageSection(index) {
+      return {
+        iconHidden: false,
+        iconKey: "check",
+        title: "",
+        titleI18n: { [state.activeLocale || "en"]: "" },
+        content: "",
+        contentI18n: { [state.activeLocale || "en"]: "" },
+        images: []
+      };
+    }
+
+    function makeBlankStepTemplate(index, fixedId) {
+      return {
+        id: fixedId || `step-template-${Date.now()}`,
+        order: index,
+        headerIconKey: "box",
+        title: "",
+        titleI18n: { [state.activeLocale || "en"]: "" },
+        subtitle: "",
+        subtitleI18n: { [state.activeLocale || "en"]: "" },
+        mediaHidden: false,
+        mediaType: "",
+        video: null,
+        image: null,
+        bodyIntro: "",
+        bodyIntroI18n: { [state.activeLocale || "en"]: "" },
+        sections: []
+      };
+    }
+
+    function updateStats() {
+      const stepCount = $("#stepCount");
+      const blockCount = $("#blockCount");
+      const configVersion = $("#configVersion");
+      const lastSaved = $("#lastSaved");
+      const configStatusTag = $("#configStatusTag");
+      if (stepCount) stepCount.textContent = state.steps.length;
+      if (blockCount) blockCount.textContent = state.steps.reduce((sum, step) => sum + (step.sections?.length || 0), 0);
+      if (configVersion) configVersion.textContent = currentLocaleMeta().configVersion;
+      if (lastSaved) lastSaved.textContent = currentLocaleMeta().savedAt;
+      if (configStatusTag) {
+        const status = currentLocaleStatus();
+        configStatusTag.className = `tag ${status.tag}`;
+        configStatusTag.textContent = status.label;
+      }
+      const subtitle = $("#drawerSubtitle");
+      if (subtitle) subtitle.textContent = `W1 / 新版设备助手 / ${localeLabel()} / 草稿与发布`;
+    }
+
+    function localeHasMissing(localeCode) {
+      const checkFields = (item, fields) => fields.some((field) => !item?.[i18nKey(field)]?.[localeCode]?.trim());
+      if (state.useWelcomeFinish) {
+        const welcomeMissing = normalizedSubsteps(state.welcomePage).some((item) => checkFields(item, ["title", "subtitle"]));
+        const finishMissing = normalizedSubsteps(state.finishPage).some((item) => checkFields(item, ["title", "subtitle"]));
+        if (welcomeMissing || finishMissing) return true;
+      }
+      return state.steps.some((step) => {
+        const stepMissing = checkFields(step, ["title", "subtitle"]);
+        const sectionMissing = (step.sections || []).some((section) => checkFields(section, ["title", "content"]));
+        return stepMissing || sectionMissing;
+      });
+    }
+
+    function normalizeStepTemplate(step, order) {
+      return {
+        ...makeBlankStepTemplate(order, step.id || `step-template-${order}`),
+        ...step,
+        order,
+        headerIconKey: step.headerIconKey || "box",
+        mediaHidden: Boolean(step.mediaHidden),
+        mediaType: step.mediaType === "video" || step.mediaType === "image" ? step.mediaType : "",
+        bodyIntroI18n: step.bodyIntroI18n || {},
+        sections: Array.isArray(step.sections)
+          ? step.sections.slice(0, 3).map((section) => ({
+            ...makeBlankTextImageSection(1),
+            ...section,
+            iconHidden: Boolean(section.iconHidden),
+            iconKey: section.iconKey || "check",
+            images: Array.isArray(section.images) ? section.images : []
+          }))
+          : []
+      };
+    }
+
+    function copyLocalizedValues(item, sourceLocale, targetLocale) {
+      if (!item || typeof item !== "object") return;
+      Object.keys(item).forEach((key) => {
+        const value = item[key];
+        if (key.endsWith("I18n") && value && typeof value === "object" && !Array.isArray(value)) {
+          const sourceValue = value[sourceLocale] ?? value[state.defaultLocale] ?? "";
+          value[targetLocale] = sourceValue;
+        } else if (Array.isArray(value)) {
+          value.forEach((child) => copyLocalizedValues(child, sourceLocale, targetLocale));
+        } else if (value && typeof value === "object") {
+          copyLocalizedValues(value, sourceLocale, targetLocale);
+        }
+      });
+    }
+
+    function localeImportStatus(localeCode) {
+      const draftMeta = state.draftLocaleMeta[localeCode];
+      const publishedMeta = state.publishedLocaleMeta[localeCode];
+      const hasDraft = Boolean(state.draftLocales[localeCode] || draftMeta);
+      const hasPublished = Boolean(state.publishedLocales[localeCode] || publishedMeta);
+      const sourceType = hasPublished ? "published" : hasDraft ? "draft" : "";
+      return {
+        hasDraft,
+        hasPublished,
+        sourceType,
+        canImport: Boolean(sourceType),
+        sourceLabel: hasPublished ? "优先导入已发布配置" : hasDraft ? "导入草稿配置" : "无可导入配置"
+      };
+    }
+
+    function openImportLanguageModal() {
+      const firstAvailable = state.locales.find((locale) => locale.code !== state.activeLocale && localeImportStatus(locale.code).canImport);
+      state.importSourceLocale = firstAvailable?.code || "";
+      state.importModalOpen = true;
+      renderAll();
+    }
+
+    function closeImportLanguageModal() {
+      state.importModalOpen = false;
+      state.importSourceLocale = "";
+      renderAll();
+    }
+
+    function importFromLocale() {
+      openImportLanguageModal();
+    }
+
+    function confirmImportFromLocale() {
+      const source = state.locales.find((locale) => locale.code === state.importSourceLocale);
+      const sourceStatus = source ? localeImportStatus(source.code) : null;
+      if (!source || !sourceStatus?.canImport) {
+        showToast("请选择有草稿或已发布配置的来源语言");
+        return;
+      }
+      copyLocalizedValues(state.welcomePage, source.code, state.activeLocale);
+      copyLocalizedValues(state.finishPage, source.code, state.activeLocale);
+      state.steps.forEach((step) => copyLocalizedValues(step, source.code, state.activeLocale));
+      const stamp = new Date().toLocaleString("zh-CN", { hour12: false });
+      state.draftVersion = `draft-${Date.now()}`;
+      state.draftLocales[state.activeLocale] = true;
+      state.draftLocaleMeta[state.activeLocale] = {
+        configVersion: state.draftVersion,
+        savedAt: stamp,
+        importSourceLocale: source.code,
+        importSourceStatus: sourceStatus.sourceType
+      };
+      state.lastSaved = "刚刚导入并保存草稿";
+      state.importModalOpen = false;
+      state.importSourceLocale = "";
+      renderAll();
+      const sourceTypeLabel = sourceStatus.sourceType === "published" ? "已发布配置" : "草稿配置";
+      showToast(`已导入「${source.label}」${sourceTypeLabel}，并覆盖当前配置存为草稿`);
+    }
+
+    function renderImportLanguageModal() {
+      const modal = $("#importLanguageModal");
+      const list = $("#importLanguageList");
+      const confirm = $("#confirmImportLanguageBtn");
+      const subtitle = $("#importLanguageSubtitle");
+      if (!modal || !list || !confirm) return;
+      modal.classList.toggle("open", Boolean(state.importModalOpen));
+      modal.setAttribute("aria-hidden", state.importModalOpen ? "false" : "true");
+      if (subtitle) subtitle.textContent = `当前目标语言：${localeLabel()}。导入目标语言的所有内容，并覆盖当前配置存为草稿。`;
+      const candidates = state.locales.filter((locale) => locale.code !== state.activeLocale);
+      list.innerHTML = candidates.map((locale) => {
+        const status = localeImportStatus(locale.code);
+        const active = locale.code === state.importSourceLocale ? "active" : "";
+        return `
+          <button class="import-language-row ${active}" type="button" data-import-locale="${escapeHtml(locale.code)}" ${status.canImport ? "" : "disabled"}>
+            <span>
+              <span class="import-language-name">${escapeHtml(locale.label)}</span>
+              <span class="import-language-desc">${escapeHtml(status.sourceLabel)}</span>
+            </span>
+            <span class="import-language-tags">
+              <span class="tag ${status.hasDraft ? "warning" : "info"}">草稿：${status.hasDraft ? "有" : "无"}</span>
+              <span class="tag ${status.hasPublished ? "success" : "info"}">已发布：${status.hasPublished ? "是" : "否"}</span>
+            </span>
+          </button>
+        `;
+      }).join("");
+      list.querySelectorAll("[data-import-locale]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.importSourceLocale = button.dataset.importLocale;
+          renderImportLanguageModal();
+        });
+      });
+      confirm.disabled = !state.importSourceLocale || !localeImportStatus(state.importSourceLocale).canImport;
+    }
+
+    function saveDraft() {
+      state.validationRan = true;
+      renderValidationBox(validateConfig());
+      const stamp = new Date().toLocaleString("zh-CN", { hour12: false });
+      state.draftVersion = `draft-${Date.now()}`;
+      state.lastSaved = "刚刚保存草稿";
+      state.draftLocales[state.activeLocale] = true;
+      state.draftLocaleMeta[state.activeLocale] = { configVersion: state.draftVersion, savedAt: stamp };
+      state.drawerOpen = false;
+      renderAll();
+      showToast(`${localeLabel()} 草稿已保存；草稿仅存于平台，APP 无法获取`);
+    }
+
+    function publishConfig() {
+      const issues = runValidation(false);
+      const errors = issues.filter((issue) => issue.type === "danger");
+      if (errors.length) {
+        showToast(`存在 ${errors.length} 个错误，无法发布`);
+        return;
+      }
+      const stamp = new Date().toLocaleString("zh-CN", { hour12: false });
+      const versionSeed = Date.now();
+      state.publishedLocales[state.activeLocale] = true;
+      delete state.draftLocales[state.activeLocale];
+      delete state.draftLocaleMeta[state.activeLocale];
+      state.publishedVersion = `release-${versionSeed}`;
+      state.publishedLocaleMeta[state.activeLocale] = { configVersion: state.publishedVersion, savedAt: stamp };
+      state.lastSaved = "刚刚发布";
+      state.drawerOpen = false;
+      renderAll();
+      const visibility = state.productListed ? "产品已上架，所有用户可见" : "产品未上架，仅产品白名单授权用户可见";
+      showToast(`${localeLabel()} 配置已发布；${visibility}`);
+    }
+
+    function renderSavedEntryPreview() {
+      const empty = $("#noviceEmptyState");
+      const preview = $("#noviceConfigPreview");
+      if (!empty || !preview) return;
+      const status = currentLocaleStatus();
+      const hasConfig = status.key !== "empty";
+      empty.classList.toggle("hidden", hasConfig);
+      preview.classList.toggle("hidden", !hasConfig);
+      if (!hasConfig) {
+        preview.innerHTML = "";
+        return;
+      }
+      const meta = currentLocaleMeta();
+      const hasDraft = Boolean(state.draftLocales[state.activeLocale]);
+      if (hasDraft && !state.validationRan) state.validationRan = true;
+      const draftTag = hasDraft ? "warning" : "success";
+      const draftLabel = hasDraft ? "有草稿" : "无草稿";
+      const issues = state.validationRan ? validateConfig() : [];
+      const errors = issues.filter((issue) => issue.type === "danger").length;
+      const warnings = issues.filter((issue) => issue.type === "warning").length;
+      const validationTag = !state.validationRan
+        ? `<span class="tag info">未运行</span>`
+        : errors
+          ? `<span class="tag danger">${errors} 个错误</span>`
+          : warnings
+            ? `<span class="tag warning">${warnings} 个警告</span>`
+            : `<span class="tag success">通过</span>`;
+      const validationBody = !state.validationRan
+        ? `<div class="field-help">保存草稿或发布时会自动校验；发布校验不通过会阻断发布。</div>`
+        : issues.length
+          ? [...issues].sort((a, b) => (a.type === "danger" ? -1 : 1) - (b.type === "danger" ? -1 : 1)).slice(0, 5).map((issue) => `
+            <div class="validation-item">
+              <span class="tag ${issue.type}">${issue.level}</span>
+              <span>${escapeHtml(issue.text)}</span>
+            </div>
+          `).join("")
+          : `<div class="field-help">当前配置可发布。</div>`;
+      preview.innerHTML = `
+        <div class="saved-preview-head">
+          <div>
+            <div class="saved-preview-title">设备助手模板配置预览</div>
+            <div class="saved-preview-meta">${escapeHtml(localeLabel())} / ${state.steps.length} step 模板 / ${state.useWelcomeFinish ? "含 Welcome + Finish" : "不含 Welcome + Finish"} / ${state.manualPdfHidden ? "说明书隐藏" : state.manualPdf ? "含说明书" : "未上传说明书"} / ${escapeHtml(meta.savedAt || "刚刚保存")}</div>
+          </div>
+          <span class="tag ${draftTag}">${draftLabel}</span>
+        </div>
+        <div class="validation-box" id="entryValidationBox">
+          <div class="inspector-title-row">
+            <strong>配置校验</strong>
+            ${validationTag}
+          </div>
+          ${validationBody}
+          ${state.validationRan && issues.length > 5 ? `<div class="field-help">还有 ${issues.length - 5} 条问题未展示。</div>` : ""}
+        </div>
+      `;
+    }
+
+    function renderSavedEntryStep(step, index) {
+      const title = textValue(step, "title") || `Step ${index + 1}`;
+      const subtitle = textValue(step, "subtitle") || "未填写 subtitle";
+      return `
+        <button class="saved-preview-step" type="button" data-entry-preview-step="${escapeHtml(step.id)}">
+          <div class="saved-preview-step-top">
+            <span class="saved-preview-step-index">Step ${String(index + 1).padStart(2, "0")}</span>
+            <span class="tag info">固定模板</span>
+          </div>
+          <div class="saved-preview-step-title">${escapeHtml(title)}</div>
+          <div class="saved-preview-step-desc">${escapeHtml(subtitle)}</div>
+        </button>
+      `;
+    }
+
+    function annotationContextLabel() {
+      if (!state.drawerOpen) return state.activeEntry === "new" ? "新版入口批注" : "旧版入口批注";
+      if (state.layer === "welcome") return "Welcome 模板批注";
+      if (state.layer === "finish") return "Finish 模板批注";
+      if (state.layer === "manual") return "说明书 PDF 批注";
+      if (state.layer === "page") return "Step 模板批注";
+      return "模板配置批注";
+    }
+
+    function selectAssistantPage(page) {
+      state.selectedPage = page;
+      if (page === "welcome") {
+        state.layer = "welcome";
+        state.previewScreen = "welcome";
+      } else if (page === "finish") {
+        state.layer = "finish";
+        state.previewScreen = "finish";
+      } else if (page === "manual") {
+        state.layer = "manual";
+        state.previewScreen = "manual";
+      } else {
+        state.layer = "page";
+        state.previewScreen = "stepList";
+      }
+      renderAll();
+    }
+
+    function renderPageEntries() {
+      const list = $("#pageEntryList");
+      if (!list) return;
+      const entries = [
+        { key: "welcome", label: "Welcome", desc: state.useWelcomeFinish ? "与 Finish 成对启用" : "与 Finish 成对隐藏" },
+        { key: "steps", label: "Step", desc: `${state.steps.length} / 7 页固定模板` },
+        { key: "finish", label: "Finish", desc: state.useWelcomeFinish ? "与 Welcome 成对启用" : "与 Welcome 成对隐藏" },
+        { key: "manual", label: "说明书 PDF", desc: state.manualPdfHidden ? "已隐藏" : state.manualPdf ? resourceName(state.manualPdf) : "未上传，可隐藏" }
+      ];
+      list.innerHTML = `
+        <div class="page-entry-title">模板入口</div>
+        ${entries.map((entry) => `
+          <button class="page-entry-btn ${state.selectedPage === entry.key ? "active" : ""}" type="button" data-assistant-page="${entry.key}">
+            <span>${entry.label}</span>
+            <span class="step-meta">${entry.desc}</span>
+          </button>
+        `).join("")}
+        <label class="check-row">
+          <input id="useWelcomeFinishToggle" type="checkbox" ${state.useWelcomeFinish ? "checked" : ""}>
+          使用 Welcome + Finish 成对模板
+        </label>
+      `;
+      list.querySelectorAll("[data-assistant-page]").forEach((button) => {
+        button.addEventListener("click", () => selectAssistantPage(button.dataset.assistantPage));
+      });
+      $("#useWelcomeFinishToggle")?.addEventListener("change", (event) => {
+        state.useWelcomeFinish = event.target.checked;
+        state.useWelcome = state.useWelcomeFinish;
+        state.useFinish = state.useWelcomeFinish;
+        if (!state.useWelcomeFinish && (state.selectedPage === "welcome" || state.selectedPage === "finish")) selectAssistantPage("steps");
+        else renderAll();
+        setDirty();
+      });
+    }
+
+    function renderPublishPanel() {
+      const panel = $("#publishPanel");
+      if (!panel) return;
+      const publishedMeta = state.publishedLocaleMeta[state.activeLocale];
+      const status = currentLocaleStatus();
+      panel.innerHTML = `
+        <div class="status-grid">
+          <div class="status-row"><span>发布时间</span><span class="tag ${publishedMeta ? "success" : "info"}">${publishedMeta ? escapeHtml(publishedMeta.savedAt) : "未发布"}</span></div>
+          <div class="status-row"><span>发布状态</span><span class="tag ${status.tag}">${escapeHtml(status.label)}</span></div>
+        </div>
+        <label class="check-row" style="margin-top: 8px;">
+          <input id="forceNoviceGuideToggle" type="checkbox" ${state.forceNoviceGuide ? "checked" : ""}>
+          强制新手指引
+        </label>
+      `;
+      $("#forceNoviceGuideToggle")?.addEventListener("change", (event) => {
+        state.forceNoviceGuide = event.target.checked;
+        setDirty();
+        renderEntry();
+      });
+    }
+
+    function renderPhonePreview() {
+      const phone = $("#phonePreview");
+      const rtl = state.activeLocale === "ar";
+      phone.classList.toggle("rtl", rtl);
+      if (state.previewScreen === "welcome") {
+        phone.innerHTML = state.useWelcomeFinish ? renderWelcomePreview() : renderDisabledTemplatePreview("Welcome");
+      } else if (state.previewScreen === "finish") {
+        phone.innerHTML = state.useWelcomeFinish ? renderFinishPreview() : renderDisabledTemplatePreview("Finish");
+      } else if (state.previewScreen === "manual") {
+        phone.innerHTML = renderManualPreview();
+      } else if (state.previewScreen === "stepList") {
+        phone.innerHTML = `
+          <div class="phone-status"><span>9:41</span><span>设备助手</span><span>100%</span></div>
+          <div class="phone-body">
+            <div class="phone-nav-row">
+              <button class="phone-back" type="button" ${state.useWelcomeFinish ? "data-preview-welcome" : ""}>‹</button>
+              <div class="phone-title">How to Use</div>
+              <span></span>
+            </div>
+            <div class="page-overview phone-step-list-preview" id="pageOverview"></div>
+          </div>
+        `;
+      } else {
+        const step = selectedStep();
+        phone.innerHTML = `
+          <div class="phone-status"><span>9:41</span><span>设备助手</span><span>100%</span></div>
+          <div class="phone-body">
+            <div class="phone-nav-row">
+              <button class="phone-back" type="button" data-preview-step-list>‹</button>
+              <div class="phone-title">Step ${step?.order || 1}</div>
+              <span></span>
+            </div>
+            ${renderStepTemplatePreview(step)}
+            ${isLastStep(step) && state.useWelcomeFinish ? `<button class="phone-primary-action" type="button" data-preview-finish>Finish</button>` : ""}
+          </div>
+        `;
+      }
+      renderPageOverview();
+      phone.querySelector("[data-preview-step-list]")?.addEventListener("click", () => {
+        state.previewScreen = "stepList";
+        state.layer = "page";
+        state.selectedPage = "steps";
+        renderAll();
+      });
+      phone.querySelector("[data-preview-welcome]")?.addEventListener("click", () => selectAssistantPage("welcome"));
+      phone.querySelector("[data-preview-finish]")?.addEventListener("click", () => selectAssistantPage("finish"));
+    }
+
+    function renderWelcomePreview() {
+      return `
+        <div class="phone-status"><span>9:41</span><span>Welcome</span><span>100%</span></div>
+        <div class="phone-body">
+          <div class="assistant-hero">APP 参数主图</div>
+          <section class="assistant-page-copy">
+            <div class="assistant-page-title">APP 参数 title</div>
+            <div class="assistant-page-subtitle">APP 参数 subtitle</div>
+          </section>
+          <div class="app-param-note">主图、title、subtitle 由 APP 写入和引用参数，不在云端配置。</div>
+          ${renderTemplateSubstepsPreview(normalizedSubsteps(state.welcomePage), normalizedSubstepMarkerType(state.welcomePage))}
+          <button class="phone-primary-action" type="button" data-preview-step-list>Get started</button>
+        </div>
+      `;
+    }
+
+    function renderFinishPreview() {
+      return `
+        <div class="phone-status"><span>9:41</span><span>Finish</span><span>100%</span></div>
+        <div class="phone-body">
+          <div class="phone-nav-row">
+            <button class="phone-back" type="button" data-preview-step-list>‹</button>
+            <div class="phone-title">Finish</div>
+            <span></span>
+          </div>
+          <div class="assistant-hero">APP 参数主图</div>
+          <section class="assistant-page-copy">
+            <div class="assistant-page-title">APP 参数 title</div>
+            <div class="assistant-page-subtitle">APP 参数 subtitle</div>
+          </section>
+          <div class="app-param-note">主图、title、subtitle 由 APP 写入和引用参数，不在云端配置。</div>
+          ${renderTemplateSubstepsPreview(normalizedSubsteps(state.finishPage), normalizedSubstepMarkerType(state.finishPage))}
+        </div>
+      `;
+    }
+
+    function renderManualPreview() {
+      return `
+        <div class="phone-status"><span>9:41</span><span>Manual</span><span>100%</span></div>
+        <div class="phone-body">
+          <div class="phone-nav-row">
+            <button class="phone-back" type="button" data-preview-step-list>‹</button>
+            <div class="phone-title">Manual</div>
+            <span></span>
+          </div>
+          ${state.manualPdfHidden ? `<div class="empty-preview">说明书入口已隐藏。</div>` : `
+            <section class="preview-block">
+              <div class="preview-content">
+                <div class="preview-block-title">说明书 PDF</div>
+                <div class="preview-media">${escapeHtml(resourceName(state.manualPdf, "未上传 PDF"))}</div>
+              </div>
+            </section>
+          `}
+        </div>
+      `;
+    }
+
+    function renderTemplateSubstepsPreview(items, markerType) {
+      if (!items.length) return `<div class="empty-preview">暂无 substep。</div>`;
+      return `
+        <div class="abbr-list">
+          ${items.map((item, index) => `
+            <div class="abbr-item">
+              <span class="abbr-icon">${escapeHtml(substepMarkerLabel(item, index, markerType))}</span>
+              <span>
+                <strong>${escapeHtml(textValue(item, "title") || `Substep ${index + 1}`)}</strong>
+                <small>${escapeHtml(textValue(item, "subtitle") || "未填写 subtitle")}</small>
+              </span>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function renderStepTemplatePreview(step) {
+      if (!step) return `<div class="empty-preview">暂无 step 模板。</div>`;
+      const headerIcon = configuredSubstepIcon(step.headerIconKey)?.mark || "S";
+      return `
+        <section class="assistant-page-copy">
+          <div class="abbr-item">
+            <span class="abbr-icon">${escapeHtml(headerIcon)}</span>
+            <span>
+              <strong>${escapeHtml(textValue(step, "title") || `Step ${step.order}`)}</strong>
+              <small>${escapeHtml(textValue(step, "subtitle") || "未填写 subtitle")}</small>
+            </span>
+          </div>
+        </section>
+        ${step.mediaHidden ? "" : step.mediaType ? `
+          <section class="preview-block">
+            <div class="preview-content">
+              <div class="preview-block-title">${step.mediaType === "image" ? "图片" : "视频"}</div>
+              <div class="preview-media">${escapeHtml(step.mediaType === "image" ? resourceName(step.image, "未上传图片") : resourceName(step.video, "未上传视频"))}</div>
+            </div>
+          </section>
+        ` : `
+          <section class="preview-block">
+            <div class="preview-content">
+              <div class="preview-block-title">第二部分</div>
+              <div class="preview-media">未选择视频 / 图片</div>
+            </div>
+          </section>
+        `}
+        ${textValue(step, "bodyIntro") ? `<div class="assistant-page-subtitle">${escapeHtml(textValue(step, "bodyIntro"))}</div>` : ""}
+        ${(step.sections || []).map((section, index) => `
+          <section class="preview-block">
+            <div class="preview-content">
+              <div class="abbr-item" style="border:0;padding:0;grid-template-columns:${section.iconHidden ? "0 minmax(0, 1fr)" : "30px minmax(0, 1fr)"};">
+                ${section.iconHidden ? "" : `<span class="abbr-icon">${escapeHtml(configuredSubstepIcon(section.iconKey)?.mark || "I")}</span>`}
+                <span>
+                  <strong>${escapeHtml(textValue(section, "title") || `正文 ${index + 1}`)}</strong>
+                  <small>${escapeHtml(textValue(section, "content") || "未填写内容")}</small>
+                </span>
+              </div>
+              ${section.images?.length ? `<div class="preview-text">图片：${section.images.map((image) => escapeHtml(resourceName(image))).join(" / ")}</div>` : ""}
+            </div>
+          </section>
+        `).join("") || `<div class="empty-preview">第三部分正文图片区可添加 0～3 个。</div>`}
+      `;
+    }
+
+    function renderInspector() {
+      const step = selectedStep();
+      if (state.layer === "welcome" || state.layer === "finish") {
+        const page = state.layer === "welcome" ? state.welcomePage : state.finishPage;
+        const pageName = state.layer === "welcome" ? "Welcome 模板" : "Finish 模板";
+        $("#inspectorTitle").textContent = pageName;
+        $("#inspectorSubtitle").textContent = `${localeLabel()} / ${state.useWelcomeFinish ? "成对启用" : "成对隐藏"} / 固定模板`;
+        $("#inspectorBody").innerHTML = renderAssistantPageForm(page, state.layer);
+        bindAssistantPageForm(page, state.layer);
+        return;
+      }
+      if (state.layer === "manual") {
+        $("#inspectorTitle").textContent = "说明书 PDF";
+        $("#inspectorSubtitle").textContent = `${localeLabel()} / PDF 说明书入口，可隐藏。`;
+        $("#inspectorBody").innerHTML = renderManualForm();
+        bindManualForm();
+        return;
+      }
+      $("#inspectorTitle").textContent = "Step 模板";
+      $("#inspectorSubtitle").textContent = `${localeLabel()} / 第 ${step?.order || 1} 页 / 固定字段，不需要组件排序。`;
+      $("#inspectorBody").innerHTML = renderStepTemplateForm(step);
+      bindStepTemplateForm(step);
+    }
+
+    function renderAssistantPageForm(page, pageType) {
+      const isWelcome = pageType === "welcome";
+      const limit = 4;
+      const items = normalizedSubsteps(page);
+      const markerType = normalizedSubstepMarkerType(page);
+      return `
+        <div class="form-grid">
+          <div class="field">
+            <label>${isWelcome ? "Welcome" : "Finish"} 成对模板</label>
+            <div class="field-help">Welcome 与 Finish 共用显隐配置，成对出现。主图、title、subtitle 由 APP 写入和引用参数，不在云端配置。</div>
+          </div>
+          <div class="field" id="${isWelcome ? "welcomeSubstepsField" : "finishSubstepsField"}">
+            <label>substep（${items.length} / ${limit}）</label>
+            <div class="field-help">${isWelcome ? "Welcome 模板支持 2～4 个 substep，不含预设值。" : "Finish 模板支持 2～4 个 substep，默认带 UI 稿预设值，可编辑。"}</div>
+            <div class="field">
+              <label for="substepMarkerTypeInput">标识展示</label>
+              <select class="select" id="substepMarkerTypeInput">
+                <option value="number" ${markerType !== "icon" ? "selected" : ""}>序号</option>
+                <option value="icon" ${markerType === "icon" ? "selected" : ""}>icon</option>
+              </select>
+              <div class="field-help">该配置对当前模板的所有 substep 生效；只有每个 substep 的 icon 配置跟随 substep 单独维护。</div>
+            </div>
+            ${renderTemplateSubstepEditor(items, markerType)}
+            <button class="btn" id="addSubstepBtn" type="button" ${items.length >= limit ? "disabled" : ""}>新增 substep</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderTemplateSubstepEditor(items, markerType) {
+      if (!items.length) return `<div class="empty-state">暂无 substep，发布前至少配置 2 个。</div>`;
+      return `
+        <div class="resource-list">
+          ${items.map((item, index) => `
+            <div class="template-section-card">
+              <div class="template-section-head">
+                <strong>substep ${index + 1}</strong>
+                <button class="btn text" type="button" data-substep-delete="${index}">删除</button>
+              </div>
+              ${markerType === "icon" ? `
+                <div class="field">
+                  <label for="substepIcon${index}">icon</label>
+                  <select class="select" id="substepIcon${index}" data-substep-icon="${index}">
+                    <option value="" ${item.iconKey ? "" : "selected"}>请选择预设 icon</option>
+                    ${configuredSubstepIconOptions(item.iconKey)}
+                  </select>
+                  <div class="field-help">可选择预设 icon，也可上传自定义 icon。自定义 icon 支持 png / jpg / svg，默认 1:1，以长边为 1 自动缩放。</div>
+                  <input class="input" id="substepIconUpload${index}" type="file" accept=".png,.jpg,.jpeg,.svg,image/png,image/jpeg,image/svg+xml" data-substep-icon-upload="${index}">
+                  ${item.customIcon ? renderResources([item.customIcon]) : ""}
+                </div>
+              ` : ""}
+              <div class="field">
+                <label for="substepTitle${index}">title</label>
+                <input class="input" id="substepTitle${index}" value="${escapeHtml(textValue(item, "title"))}" data-substep-title="${index}" maxlength="40">
+              </div>
+              <div class="field">
+                <label for="substepSubtitle${index}">subtitle</label>
+                <input class="input" id="substepSubtitle${index}" value="${escapeHtml(textValue(item, "subtitle"))}" data-substep-subtitle="${index}" maxlength="80">
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function bindAssistantPageForm(page, pageType) {
+      const limit = 4;
+      $("#substepMarkerTypeInput")?.addEventListener("change", (event) => {
+        page.substepMarkerType = event.target.value === "icon" ? "icon" : "number";
+        setDirty();
+        renderAll();
+      });
+      $("#addSubstepBtn")?.addEventListener("click", () => {
+        const items = normalizedSubsteps(page);
+        if (items.length >= limit) return showToast(`最多只能配置 ${limit} 个 substep`);
+        items.push(makeBlankSubstep(items.length + 1));
+        setDirty();
+        renderAll();
+      });
+      document.querySelectorAll("[data-substep-delete]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const items = normalizedSubsteps(page);
+          items.splice(Number(button.dataset.substepDelete), 1);
+          setDirty();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-substep-icon]").forEach((select) => {
+        select.addEventListener("change", (event) => {
+          const item = normalizedSubsteps(page)[Number(select.dataset.substepIcon)];
+          if (!item) return;
+          item.iconKey = event.target.value;
+          if (!item.iconKey.startsWith("custom:")) item.customIcon = null;
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-substep-icon-upload]").forEach((input) => {
+        input.addEventListener("change", (event) => {
+          const item = normalizedSubsteps(page)[Number(input.dataset.substepIconUpload)];
+          const file = event.target.files?.[0];
+          if (!item || !file) return;
+          const result = validateFile(file, ["png", "jpg", "jpeg", "svg"], 0.1);
+          if (result.ok) {
+            item.customIcon = fileResource(file);
+            item.iconKey = `custom:${file.name}`;
+            showToast("自定义 icon 已通过本地校验");
+          } else {
+            showToast(result.message);
+          }
+          setDirty();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-substep-title]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const item = normalizedSubsteps(page)[Number(input.dataset.substepTitle)];
+          if (!item) return;
+          setTextValue(item, "title", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-substep-subtitle]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const item = normalizedSubsteps(page)[Number(input.dataset.substepSubtitle)];
+          if (!item) return;
+          setTextValue(item, "subtitle", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+    }
+
+    function renderManualForm() {
+      return `
+        <div class="form-grid">
+          <label class="check-row">
+            <input id="manualPdfHiddenInput" type="checkbox" ${state.manualPdfHidden ? "checked" : ""}>
+            隐藏说明书入口
+          </label>
+          <div class="field">
+            <label for="manualPdfInput">说明书 PDF</label>
+            <input class="input" id="manualPdfInput" type="file" accept="application/pdf,.pdf" ${state.manualPdfHidden ? "disabled" : ""}>
+            <div class="field-help">入口位于模板列表，按当前语言维护；仅支持 PDF，不大于 10MB；APP 端通过 WebView 嵌入打开。</div>
+            ${renderResources(state.manualPdf ? [state.manualPdf] : [])}
+          </div>
+        </div>
+      `;
+    }
+
+    function bindManualForm() {
+      $("#manualPdfHiddenInput")?.addEventListener("change", (event) => {
+        state.manualPdfHidden = event.target.checked;
+        setDirty();
+        renderAll();
+      });
+      $("#manualPdfInput")?.addEventListener("change", (event) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+        const result = validateFile(file, ["pdf"], 10);
+        if (result.ok) {
+          state.manualPdf = fileResource(file);
+          showToast("PDF 已通过本地校验");
+        } else {
+          showToast(result.message);
+        }
+        setDirty();
+        renderAll();
+      });
+    }
+
+    function renderStepTemplateForm(step) {
+      if (!step) return `<div class="empty-state">暂无 step 模板。</div>`;
+      return `
+        <div class="form-grid">
+          <div class="field">
+            <label for="stepHeaderIconInput">第一部分 icon</label>
+            <select class="select" id="stepHeaderIconInput">
+              ${configuredSubstepIconOptions(step.headerIconKey || "box")}
+            </select>
+            <div class="field-help">Step 第一部分使用 UI 定义的预设 icon。</div>
+          </div>
+          <div class="field">
+            <label for="stepTitleInput">第一部分 title</label>
+            <input class="input" id="stepTitleInput" value="${escapeHtml(textValue(step, "title"))}" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="stepSubtitleInput">第一部分 subtitle</label>
+            <input class="input" id="stepSubtitleInput" value="${escapeHtml(textValue(step, "subtitle"))}" maxlength="80">
+          </div>
+          <div class="template-section-card">
+            <div class="template-section-head">
+              <strong>第二部分：视频 / 图片</strong>
+              <label class="check-row">
+                <input id="mediaHiddenInput" type="checkbox" ${step.mediaHidden ? "checked" : ""}>
+                隐藏第二部分
+              </label>
+            </div>
+            <div class="template-media-choice">
+              <label><input type="radio" name="stepMediaType" value="video" ${step.mediaType === "video" ? "checked" : ""}> 视频</label>
+              <label><input type="radio" name="stepMediaType" value="image" ${step.mediaType === "image" ? "checked" : ""}> 图片</label>
+            </div>
+            ${!step.mediaType ? `<div class="field-help">未隐藏第二部分时，需要先选择视频或图片，再上传对应素材。</div>` : step.mediaType === "image" ? `
+              <div class="field">
+                <label for="stepMediaImageInput">上传图片</label>
+                <input class="input" id="stepMediaImageInput" type="file" accept="image/png,image/jpeg">
+                ${renderResources(step.image ? [step.image] : [])}
+              </div>
+            ` : `
+              <div class="field">
+                <label for="stepMediaVideoInput">上传视频</label>
+                <input class="input" id="stepMediaVideoInput" type="file" accept="video/mp4">
+                ${renderResources(step.video ? [step.video] : [])}
+              </div>
+            `}
+          </div>
+          <div class="field">
+            <label for="stepBodyIntroInput">第三部分正文头部文案</label>
+            <input class="input" id="stepBodyIntroInput" value="${escapeHtml(textValue(step, "bodyIntro"))}" maxlength="80">
+          </div>
+          <div class="field">
+            <label>第三部分：正文标题、内容、图片（${step.sections?.length || 0} / 3）</label>
+            <div class="field-help">第三部分可以添加 0～3 个；每个部分最多上传 10 张图片。固定顺序展示，不需要组件排序。</div>
+            <div class="template-section-list">
+              ${(step.sections || []).map((section, index) => renderStepTextImageSection(section, index)).join("") || `<div class="empty-state">暂无第三部分内容。</div>`}
+            </div>
+            <button class="btn" id="addStepSectionBtn" type="button" ${(step.sections?.length || 0) >= 3 ? "disabled" : ""}>添加正文图片区</button>
+          </div>
+          <div class="inline-actions">
+            <button class="btn danger" id="deleteStepBtn" type="button">删除当前 Step 页</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderStepTextImageSection(section, index) {
+      return `
+        <div class="template-section-card">
+          <div class="template-section-head">
+            <strong>正文图片区 ${index + 1}</strong>
+            <button class="btn text" type="button" data-section-delete="${index}">删除</button>
+          </div>
+          <div class="field">
+            <label for="sectionIcon${index}">正文 icon</label>
+            <select class="select" id="sectionIcon${index}" data-section-icon="${index}" ${section.iconHidden ? "disabled" : ""}>
+              ${configuredSubstepIconOptions(section.iconKey || "check")}
+            </select>
+            <label class="check-row">
+              <input type="checkbox" data-section-icon-hidden="${index}" ${section.iconHidden ? "checked" : ""}>
+              隐藏正文 icon
+            </label>
+          </div>
+          <div class="field">
+            <label for="sectionTitle${index}">正文标题</label>
+            <input class="input" id="sectionTitle${index}" value="${escapeHtml(textValue(section, "title"))}" data-section-title="${index}" maxlength="40">
+          </div>
+          <div class="field">
+            <label for="sectionContent${index}">内容</label>
+            <textarea class="textarea" id="sectionContent${index}" data-section-content="${index}">${escapeHtml(textValue(section, "content"))}</textarea>
+          </div>
+          <div class="field">
+            <label for="sectionImages${index}">图片</label>
+            <input class="input" id="sectionImages${index}" type="file" accept="image/png,image/jpeg" multiple data-section-images="${index}" ${(section.images || []).length >= 10 ? "disabled" : ""}>
+            ${renderSectionImages(section.images || [], index)}
+          </div>
+        </div>
+      `;
+    }
+
+    function bindStepTemplateForm(step) {
+      $("#stepHeaderIconInput")?.addEventListener("change", (event) => {
+        step.headerIconKey = event.target.value;
+        setDirty();
+        renderPreviewSurfaces();
+      });
+      $("#stepTitleInput")?.addEventListener("input", (event) => {
+        setTextValue(step, "title", event.target.value);
+        setDirty();
+        renderSteps();
+        renderPreviewSurfaces();
+      });
+      $("#stepSubtitleInput")?.addEventListener("input", (event) => {
+        setTextValue(step, "subtitle", event.target.value);
+        setDirty();
+        renderSteps();
+        renderPreviewSurfaces();
+      });
+      $("#stepBodyIntroInput")?.addEventListener("input", (event) => {
+        setTextValue(step, "bodyIntro", event.target.value);
+        setDirty();
+        renderPreviewSurfaces();
+      });
+      $("#mediaHiddenInput")?.addEventListener("change", (event) => {
+        step.mediaHidden = event.target.checked;
+        setDirty();
+        renderPreviewSurfaces();
+      });
+      document.querySelectorAll("[name='stepMediaType']").forEach((radio) => {
+        radio.addEventListener("change", (event) => {
+          step.mediaType = event.target.value;
+          setDirty();
+          renderAll();
+        });
+      });
+      $("#stepMediaVideoInput")?.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const result = validateFile(file, ["mp4"], 200);
+        if (result.ok) step.video = fileResource(file);
+        showToast(result.ok ? "视频已通过本地校验" : result.message);
+        setDirty();
+        renderAll();
+      });
+      $("#stepMediaImageInput")?.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const result = validateFile(file, ["png", "jpg", "jpeg"], 5);
+        if (result.ok) step.image = fileResource(file);
+        showToast(result.ok ? "图片已通过本地校验" : result.message);
+        setDirty();
+        renderAll();
+      });
+      $("#addStepSectionBtn")?.addEventListener("click", () => {
+        step.sections = step.sections || [];
+        if (step.sections.length >= 3) return showToast("第三部分最多添加 3 个");
+        step.sections.push(makeBlankTextImageSection(step.sections.length + 1));
+        setDirty();
+        renderAll();
+      });
+      document.querySelectorAll("[data-section-delete]").forEach((button) => {
+        button.addEventListener("click", () => {
+          step.sections.splice(Number(button.dataset.sectionDelete), 1);
+          setDirty();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-section-icon]").forEach((select) => {
+        select.addEventListener("change", () => {
+          const section = step.sections?.[Number(select.dataset.sectionIcon)];
+          if (!section) return;
+          section.iconKey = select.value;
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-section-icon-hidden]").forEach((input) => {
+        input.addEventListener("change", () => {
+          const section = step.sections?.[Number(input.dataset.sectionIconHidden)];
+          if (!section) return;
+          section.iconHidden = input.checked;
+          setDirty();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-section-title]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const section = step.sections?.[Number(input.dataset.sectionTitle)];
+          if (!section) return;
+          setTextValue(section, "title", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-section-content]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const section = step.sections?.[Number(input.dataset.sectionContent)];
+          if (!section) return;
+          setTextValue(section, "content", event.target.value);
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-section-images]").forEach((input) => {
+        input.addEventListener("change", (event) => {
+          const section = step.sections?.[Number(input.dataset.sectionImages)];
+          const files = Array.from(event.target.files || []);
+          if (!section || !files.length) return;
+          const currentCount = section.images?.length || 0;
+          if (currentCount + files.length > 10) {
+            showToast("每个正文图片区最多上传 10 张图片");
+            setDirty();
+            renderAll();
+            return;
+          }
+          const result = validateImageSet(files, files.length);
+          if (result.ok) {
+            section.images = [...(section.images || []), ...files.map(fileResource)];
+            showToast("图片已追加到正文图片区");
+          } else {
+            showToast(result.message);
+          }
+          setDirty();
+          renderAll();
+        });
+      });
+      document.querySelectorAll("[data-section-image-delete]").forEach((button) => {
+        button.addEventListener("click", () => {
+          const [sectionIndex, imageIndex] = button.dataset.sectionImageDelete.split(":").map(Number);
+          const section = step.sections?.[sectionIndex];
+          if (!section) return;
+          section.images.splice(imageIndex, 1);
+          setDirty();
+          renderAll();
+        });
+      });
+      $("#deleteStepBtn")?.addEventListener("click", deleteSelectedStep);
+    }
+
+    function validateConfig() {
+      const issues = [];
+      if (state.useWelcomeFinish) {
+        validateTemplatePage(state.welcomePage, "Welcome 模板", 2, 4, issues);
+        validateTemplatePage(state.finishPage, "Finish 模板", 2, 4, issues);
+      }
+      if (!state.manualPdfHidden && !state.manualPdf) issues.push({ level: "错误", type: "danger", text: "说明书入口未隐藏时需要上传 PDF 说明书。" });
+      sortedSteps().forEach((step) => {
+        (step.sections || []).forEach((section, index) => {
+          if ((section.images?.length || 0) > 10) issues.push({ level: "错误", type: "danger", text: `Step ${step.order} 第三部分 ${index + 1} 图片最多 10 张。` });
+        });
+      });
+      if (state.steps.length < 1) issues.push({ level: "错误", type: "danger", text: "至少需要 1 页 Step 模板。" });
+      if (state.steps.length > 7) issues.push({ level: "错误", type: "danger", text: "Step 模板最多支持 7 页。" });
+      sortedSteps().forEach((step) => {
+        const label = `Step ${step.order}`;
+        if (!textValue(step, "title")) issues.push({ level: "错误", type: "danger", text: `${label} 缺少 title。` });
+        if (!textValue(step, "subtitle")) issues.push({ level: "警告", type: "warning", text: `${label} 建议补充 subtitle。` });
+        if (!step.mediaHidden) {
+          if (!step.mediaType) issues.push({ level: "错误", type: "danger", text: `${label} 第二部分需要选择视频或图片。` });
+          if (step.mediaType === "image" && !step.image) issues.push({ level: "错误", type: "danger", text: `${label} 第二部分选择图片后需要上传图片。` });
+          if (step.mediaType === "video" && !step.video) issues.push({ level: "错误", type: "danger", text: `${label} 第二部分选择视频后需要上传 mp4。` });
+        }
+        if ((step.sections?.length || 0) > 3) issues.push({ level: "错误", type: "danger", text: `${label} 第三部分最多添加 3 个。` });
+        (step.sections || []).forEach((section, index) => {
+          if (!textValue(section, "title")) issues.push({ level: "错误", type: "danger", text: `${label} 第三部分 ${index + 1} 缺少正文标题。` });
+          if (!textValue(section, "content")) issues.push({ level: "错误", type: "danger", text: `${label} 第三部分 ${index + 1} 缺少内容。` });
+        });
+      });
+      return issues;
+    }
+
+    function validateTemplatePage(page, label, minSubsteps, maxSubsteps, issues) {
+      const items = normalizedSubsteps(page);
+      const markerType = normalizedSubstepMarkerType(page);
+      if (items.length < minSubsteps || items.length > maxSubsteps) {
+        issues.push({ level: "错误", type: "danger", text: `${label} substep 需要配置 ${minSubsteps}～${maxSubsteps} 个。` });
+      }
+      items.forEach((item, index) => {
+        if (markerType === "icon" && !(configuredSubstepIcon(item.iconKey) || item.customIcon || item.iconKey?.startsWith?.("custom:"))) {
+          issues.push({ level: "错误", type: "danger", text: `${label} substep ${index + 1} 选择 icon 时需要选择已配置 icon。` });
+        }
+        if (!textValue(item, "title")) issues.push({ level: "错误", type: "danger", text: `${label} substep ${index + 1} 缺少 title。` });
+        if (!textValue(item, "subtitle")) issues.push({ level: "警告", type: "warning", text: `${label} substep ${index + 1} 建议补充 subtitle。` });
+      });
+    }
+
+    function renderValidationBox(issues = validateConfig()) {
+      if (!state.validationRan) {
+        $("#validationBox").innerHTML = `
+          <div class="inspector-title-row">
+            <strong>配置校验</strong>
+            <span class="tag info">未运行</span>
+          </div>
+          <div class="field-help">点击“发布”时会校验结构和素材风险；保存草稿允许继续编辑。</div>
+        `;
+        return;
+      }
+      const errors = issues.filter((issue) => issue.type === "danger").length;
+      const warnings = issues.filter((issue) => issue.type === "warning").length;
+      const statusTag = errors ? `<span class="tag danger">${errors} 个错误</span>` : warnings ? `<span class="tag warning">${warnings} 个警告</span>` : `<span class="tag success">通过</span>`;
+      $("#validationBox").innerHTML = `
+        <div class="inspector-title-row">
+          <strong>配置校验</strong>
+          ${statusTag}
+        </div>
+        ${issues.length ? [...issues].sort((a, b) => (a.type === "danger" ? -1 : 1) - (b.type === "danger" ? -1 : 1)).slice(0, 5).map((issue) => `
+          <div class="validation-item">
+            <span class="tag ${issue.type}">${issue.level}</span>
+            <span>${escapeHtml(issue.text)}</span>
+          </div>
+        `).join("") : `<div class="field-help">当前配置可发布。发布后新增接口将返回当前语言已发布配置。</div>`}
+        ${issues.length > 5 ? `<div class="field-help">还有 ${issues.length - 5} 条问题未展示。</div>` : ""}
+      `;
+    }
+
+
+    function renderPreviewSurfaces() {
+      renderPhonePreview();
+    }
+
+    function renderPageOverview() {
+      const overview = $("#pageOverview");
+      if (!overview) return;
+      const steps = sortedSteps();
+      overview.innerHTML = `
+        <div class="page-preview-list">
+          ${steps.map((step, index) => renderPagePreviewCard(step, index)).join("")}
+        </div>
+      `;
+      overview.querySelectorAll("[data-page-preview-step]").forEach((button) => {
+        button.addEventListener("click", () => selectStep(button.dataset.pagePreviewStep, { previewScreen: "stepPage" }));
+      });
+    }
+
+    function renderPagePreviewCard(step, index) {
+      const active = step.id === state.selectedStepId ? "active" : "";
+      const title = textValue(step, "title") || `Step ${index + 1}`;
+      const subtitle = textValue(step, "subtitle") || "未填写 subtitle";
+      return `
+        <button class="page-preview-card ${active}" type="button" data-page-preview-step="${escapeHtml(step.id)}">
+          <div class="page-preview-title">${escapeHtml(title)}</div>
+          <div class="page-preview-desc">${escapeHtml(subtitle)}</div>
+        </button>
+      `;
+    }
+
     function renderAll() {
       updateStats();
       renderEntry();
       renderDrawer();
       renderLocaleSelect();
       renderSteps();
-      renderPreviewSurfaces();
+      renderPhonePreview();
       renderInspector();
       renderValidationBox();
+      renderImportLanguageModal();
       renderPrototypeAnnotations();
     }
 
@@ -6937,15 +8170,12 @@
     on("#addStepBtn", "click", addStep);
     on("#saveDraftBtn", "click", saveDraft);
     on("#publishConfigBtn", "click", publishConfig);
-    on("#exportConfigBtn", "click", exportCurrentLocaleConfig);
-    on("#importConfigBtn", "click", () => {
-      const input = $("#importConfigInput");
-      if (!input) return;
-      input.value = "";
-      input.click();
-    });
-    on("#importConfigInput", "change", (event) => {
-      importCurrentLocaleConfig(event.target.files?.[0]);
+    on("#importLanguageBtn", "click", importFromLocale);
+    on("#closeImportLanguageModal", "click", closeImportLanguageModal);
+    on("#cancelImportLanguageBtn", "click", closeImportLanguageModal);
+    on("#confirmImportLanguageBtn", "click", confirmImportFromLocale);
+    on("#importLanguageModal", "click", (event) => {
+      if (event.target?.id === "importLanguageModal") closeImportLanguageModal();
     });
     on("#validateBtn", "click", () => {
       state.drawerOpen = false;
