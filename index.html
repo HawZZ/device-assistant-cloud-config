@@ -3247,6 +3247,14 @@
       return [...state.steps].sort((a, b) => a.order - b.order);
     }
 
+    function visibleSteps() {
+      return state.stepsHidden ? [] : sortedSteps();
+    }
+
+    function visibleStepListItemCount() {
+      return visibleSteps().length + (state.manualPdfHidden ? 0 : 1);
+    }
+
     function sortedBlocks(step = selectedStep()) {
       return [...(step?.page.widgets || [])].sort((a, b) => a.order - b.order);
     }
@@ -3379,6 +3387,7 @@
       const finishMissing = ["title", "subtitle", "content"].some((field) => !state.finishPage?.[i18nKey(field)]?.[localeCode]?.trim())
         || (state.finishPage.abbrSteps || []).some((item) => ["title", "subtitle"].some((field) => !item?.[i18nKey(field)]?.[localeCode]?.trim()));
       if (welcomeMissing || finishMissing) return true;
+      if (state.stepsHidden) return false;
       return state.steps.some((step) => {
         const stepMissing = ["title", "subtitle"].some((field) => !step?.[i18nKey(field)]?.[localeCode]?.trim());
         const widgetMissing = sortedBlocks(step).some((widget) => {
@@ -3731,6 +3740,7 @@
           <input id="forceNoviceGuideToggle" type="checkbox" ${state.forceNoviceGuide ? "checked" : ""}>
           强制新手指引
         </label>
+        <div class="field-help">当用户完成设备添加后，点击设备面板强制进入新手引导。</div>
       `;
       $("#forceNoviceGuideToggle")?.addEventListener("change", (event) => {
         state.forceNoviceGuide = event.target.checked;
@@ -5910,8 +5920,16 @@
         title: "",
         titleI18n: { [state.activeLocale || "en"]: "" },
         subtitle: "",
-        subtitleI18n: { [state.activeLocale || "en"]: "" }
+        subtitleI18n: { [state.activeLocale || "en"]: "" },
+        durationValue: "",
+        durationUnit: "m"
       };
+    }
+
+    function durationLabel(item) {
+      if (!item?.durationValue) return "";
+      const unit = item.durationUnit === "h" || item.durationUnit === "s" ? item.durationUnit : "m";
+      return `${item.durationValue}${unit}`;
     }
 
     function makeBlankTextImageSection(index) {
@@ -5935,6 +5953,7 @@
         mediaHidden: false,
         mediaType: "",
         video: null,
+        videoCover: null,
         image: null,
         sections: []
       };
@@ -6037,8 +6056,9 @@
           || normalizedSubsteps(state.finishPage).some((item) => checkFields(item, ["title", "subtitle"]));
         if (finishMissing) return true;
       }
+      if (state.stepsHidden) return false;
       return state.steps.some((step) => {
-        const stepMissing = checkFields(step, ["title", "subtitle"]);
+        const stepMissing = checkFields(step, ["title"]);
         const sectionMissing = (step.sections || []).some((section) => checkFields(section, ["title", "content"]));
         return stepMissing || sectionMissing;
       });
@@ -6416,7 +6436,7 @@
             <div class="assistant-page-title">${escapeHtml(textValue(state.welcomePage, "title") || "未填写 title")}</div>
             <div class="assistant-page-subtitle">${escapeHtml(textValue(state.welcomePage, "subtitle") || "未填写 subtitle")}</div>
           </section>
-          ${renderTemplateSubstepsPreview(normalizedSubsteps(state.welcomePage), normalizedSubstepMarkerType(state.welcomePage))}
+          ${renderTemplateSubstepsPreview(normalizedSubsteps(state.welcomePage), normalizedSubstepMarkerType(state.welcomePage), true)}
           <button class="phone-primary-action" type="button" data-preview-step-list>Get started</button>
         </div>
       `;
@@ -6441,7 +6461,7 @@
       `;
     }
 
-    function renderTemplateSubstepsPreview(items, markerType) {
+    function renderTemplateSubstepsPreview(items, markerType, showDuration = false) {
       if (!items.length) return `<div class="empty-preview">暂无 substep。</div>`;
       return `
         <div class="abbr-list">
@@ -6451,6 +6471,7 @@
               <span>
                 <strong>${escapeHtml(textValue(item, "title") || `Substep ${index + 1}`)}</strong>
                 <small>${escapeHtml(textValue(item, "subtitle") || "未填写 subtitle")}</small>
+                ${showDuration && durationLabel(item) ? `<small>预计耗时 ${escapeHtml(durationLabel(item))}</small>` : ""}
               </span>
             </div>
           `).join("")}
@@ -6549,14 +6570,14 @@
               </select>
               <div class="field-help">该配置对当前模板的所有 substep 生效；选择 icon 后，每个 substep 需要选择已配置 icon。</div>
             </div>
-            ${renderTemplateSubstepEditor(items, markerType)}
+            ${renderTemplateSubstepEditor(items, markerType, isWelcome)}
             <button class="btn" id="addSubstepBtn" type="button" ${items.length >= limit ? "disabled" : ""}>新增 substep</button>
           </div>
         </div>
       `;
     }
 
-    function renderTemplateSubstepEditor(items, markerType) {
+    function renderTemplateSubstepEditor(items, markerType, showDuration = false) {
       if (!items.length) return `<div class="empty-state">暂无 substep，保存前至少配置 1 个。</div>`;
       return `
         <div class="resource-list">
@@ -6583,6 +6604,20 @@
                 <label for="substepSubtitle${index}">subtitle</label>
                 <input class="input" id="substepSubtitle${index}" value="${escapeHtml(textValue(item, "subtitle"))}" data-substep-subtitle="${index}" maxlength="80">
               </div>
+              ${showDuration ? `
+                <div class="field">
+                  <label for="substepDurationValue${index}">预计耗时</label>
+                  <div class="template-media-choice">
+                    <input class="input" id="substepDurationValue${index}" value="${escapeHtml(item.durationValue || "")}" data-substep-duration-value="${index}" inputmode="numeric" maxlength="4" placeholder="数值">
+                    <select class="select" data-substep-duration-unit="${index}" aria-label="预计耗时单位">
+                      <option value="h" ${item.durationUnit === "h" ? "selected" : ""}>h</option>
+                      <option value="m" ${item.durationUnit !== "h" && item.durationUnit !== "s" ? "selected" : ""}>m</option>
+                      <option value="s" ${item.durationUnit === "s" ? "selected" : ""}>s</option>
+                    </select>
+                  </div>
+                  <div class="field-help">仅 Welcome substep 配置，用于 APP 展示预计阅读 / 操作耗时。</div>
+                </div>
+              ` : ""}
             </div>
           `).join("")}
         </div>
@@ -6668,6 +6703,25 @@
           renderPreviewSurfaces();
         });
       });
+      document.querySelectorAll("[data-substep-duration-value]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const item = normalizedSubsteps(page)[Number(input.dataset.substepDurationValue)];
+          if (!item) return;
+          item.durationValue = event.target.value.replace(/[^\d]/g, "");
+          input.value = item.durationValue;
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-substep-duration-unit]").forEach((select) => {
+        select.addEventListener("change", (event) => {
+          const item = normalizedSubsteps(page)[Number(select.dataset.substepDurationUnit)];
+          if (!item) return;
+          item.durationUnit = event.target.value;
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
     }
 
     function renderStepTemplateForm(step) {
@@ -6707,6 +6761,12 @@
                 <label for="stepMediaVideoInput">上传视频</label>
                 <input class="input" id="stepMediaVideoInput" type="file" accept="video/mp4">
                 ${renderResources(step.video ? [step.video] : [])}
+              </div>
+              <div class="field">
+                <label for="stepMediaVideoCoverInput">上传视频封面图（可选）</label>
+                <input class="input" id="stepMediaVideoCoverInput" type="file" accept="image/png,image/jpeg">
+                <div class="field-help">支持 png / jpg / jpeg，不大于 5M；不上传则 APP 侧不展示封面图。</div>
+                ${renderResources(step.videoCover ? [step.videoCover] : [])}
               </div>
             `}
           </div>
@@ -6794,6 +6854,15 @@
         const result = validateFile(file, ["mp4"], 200);
         if (result.ok) step.video = fileResource(file);
         showToast(result.ok ? "视频已通过本地校验" : result.message);
+        setDirty();
+        renderAll();
+      });
+      $("#stepMediaVideoCoverInput")?.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const result = validateFile(file, ["png", "jpg", "jpeg"], 5);
+        if (result.ok) step.videoCover = fileResource(file);
+        showToast(result.ok ? "视频封面图已通过本地校验" : result.message);
         setDirty();
         renderAll();
       });
@@ -6919,7 +6988,6 @@
       sortedSteps().forEach((step) => {
         const label = `Step ${step.order}`;
         if (!textValue(step, "title")) issues.push({ level: "错误", type: "danger", text: `${label} 缺少 title。` });
-        if (!textValue(step, "subtitle")) issues.push({ level: "警告", type: "warning", text: `${label} 建议补充 subtitle。` });
         if (!step.mediaHidden) {
           if (!step.mediaType) issues.push({ level: "错误", type: "danger", text: `${label} 第二部分需要选择视频或图片。` });
           if (step.mediaType === "image" && !step.image) issues.push({ level: "错误", type: "danger", text: `${label} 第二部分选择图片后需要上传图片。` });
@@ -6967,6 +7035,7 @@
         useWelcomeFinish: true,
         useWelcome: true,
         useFinish: true,
+        stepsHidden: false,
         manualPdfHidden: false,
         manualPdf: null,
         productListed: true,
@@ -7167,7 +7236,7 @@
         if (welcomeMissing || finishMissing) return true;
       }
       return state.steps.some((step) => {
-        const stepMissing = checkFields(step, ["title", "subtitle"]);
+        const stepMissing = checkFields(step, ["title"]);
         const sectionMissing = (step.sections || []).some((section) => checkFields(section, ["title", "content"]));
         return stepMissing || sectionMissing;
       });
@@ -7181,6 +7250,7 @@
         headerIconKey: step.headerIconKey || "box",
         mediaHidden: Boolean(step.mediaHidden),
         mediaType: step.mediaType === "video" || step.mediaType === "image" ? step.mediaType : "",
+        videoCover: step.videoCover || null,
         bodyIntroI18n: step.bodyIntroI18n || {},
         sections: Array.isArray(step.sections)
           ? step.sections.slice(0, 3).map((section) => ({
@@ -7378,7 +7448,7 @@
         <div class="saved-preview-head">
           <div>
             <div class="saved-preview-title">设备助手模板配置预览</div>
-            <div class="saved-preview-meta">${escapeHtml(localeLabel())} / ${state.steps.length} step 模板 / ${state.useWelcomeFinish ? "含 Welcome + Finish" : "不含 Welcome + Finish"} / ${state.manualPdfHidden ? "说明书隐藏" : state.manualPdf ? "含说明书" : "未上传说明书"} / ${escapeHtml(meta.savedAt || "刚刚保存")}</div>
+            <div class="saved-preview-meta">${escapeHtml(localeLabel())} / Step list 可见项 ${visibleStepListItemCount()} / ${state.steps.length} step 模板 / ${state.useWelcomeFinish ? "含 Welcome + Finish" : "不含 Welcome + Finish"} / ${state.manualPdfHidden ? "说明书隐藏" : state.manualPdf ? "含说明书" : "未上传说明书"} / ${escapeHtml(meta.savedAt || "刚刚保存")}</div>
           </div>
           <span class="tag ${draftTag}">${draftLabel}</span>
         </div>
@@ -7440,7 +7510,7 @@
       if (!list) return;
       const entries = [
         { key: "welcome", label: "Welcome", desc: state.useWelcomeFinish ? "与 Finish 成对启用" : "与 Finish 成对隐藏" },
-        { key: "steps", label: "Step", desc: `${state.steps.length} / 7 页固定模板` },
+        { key: "steps", label: "Step", desc: state.stepsHidden ? "已隐藏，配置保留" : `${state.steps.length} / 7 页固定模板` },
         { key: "finish", label: "Finish", desc: state.useWelcomeFinish ? "与 Welcome 成对启用" : "与 Welcome 成对隐藏" },
         { key: "manual", label: "说明书 PDF", desc: state.manualPdfHidden ? "已隐藏" : state.manualPdf ? resourceName(state.manualPdf) : "未上传，可隐藏" }
       ];
@@ -7456,6 +7526,11 @@
           <input id="useWelcomeFinishToggle" type="checkbox" ${state.useWelcomeFinish ? "checked" : ""}>
           使用 Welcome + Finish 成对模板
         </label>
+        <label class="check-row">
+          <input id="stepsHiddenInput" type="checkbox" ${state.stepsHidden ? "checked" : ""}>
+          隐藏 Step 页
+        </label>
+        <div class="field-help">隐藏后 Step 不进入 APP step list 计数；Step 模板配置会保留，可继续编辑。</div>
       `;
       list.querySelectorAll("[data-assistant-page]").forEach((button) => {
         button.addEventListener("click", () => selectAssistantPage(button.dataset.assistantPage));
@@ -7467,6 +7542,11 @@
         if (!state.useWelcomeFinish && (state.selectedPage === "welcome" || state.selectedPage === "finish")) selectAssistantPage("steps");
         else renderAll();
         setDirty();
+      });
+      $("#stepsHiddenInput")?.addEventListener("change", (event) => {
+        state.stepsHidden = event.target.checked;
+        setDirty();
+        renderAll();
       });
     }
 
@@ -7484,6 +7564,7 @@
           <input id="forceNoviceGuideToggle" type="checkbox" ${state.forceNoviceGuide ? "checked" : ""}>
           强制新手指引
         </label>
+        <div class="field-help">当用户完成设备添加后，点击设备面板强制进入新手引导。</div>
       `;
       $("#forceNoviceGuideToggle")?.addEventListener("change", (event) => {
         state.forceNoviceGuide = event.target.checked;
@@ -7677,7 +7758,10 @@
         <section class="preview-block">
           <div class="preview-content">
             <div class="preview-block-title">${isImage ? "图片" : "视频"}</div>
-            ${isImage ? renderImageGalleryPreview(step.image ? [step.image] : [], `step-${step.id}-media`, "未上传图片") : `<div class="preview-media">${escapeHtml(resourceName(step.video, "未上传视频"))}</div>`}
+            ${isImage ? renderImageGalleryPreview(step.image ? [step.image] : [], `step-${step.id}-media`, "未上传图片") : `
+              <div class="preview-media">${escapeHtml(resourceName(step.video, "未上传视频"))}</div>
+              ${step.videoCover ? renderImageGalleryPreview([step.videoCover], `step-${step.id}-video-cover`, "未上传封面图") : ""}
+            `}
           </div>
         </section>
       `;
@@ -7692,7 +7776,7 @@
             <span class="abbr-icon">${escapeHtml(headerIcon)}</span>
             <span>
               <strong>${escapeHtml(textValue(step, "title") || `Step ${step.order}`)}</strong>
-              <small>${escapeHtml(textValue(step, "subtitle") || "未填写 subtitle")}</small>
+              ${textValue(step, "subtitle") ? `<small>${escapeHtml(textValue(step, "subtitle"))}</small>` : ""}
             </span>
           </div>
         </section>
@@ -7929,6 +8013,7 @@
           <div class="field">
             <label for="stepSubtitleInput">第一部分 subtitle</label>
             <input class="input" id="stepSubtitleInput" value="${escapeHtml(textValue(step, "subtitle"))}" maxlength="80">
+            <div class="field-help">subtitle 可留空；留空时 APP 侧不展示 subtitle。</div>
           </div>
           <div class="template-section-card">
             <div class="template-section-head">
@@ -8154,18 +8239,18 @@
         validateTemplatePage(state.welcomePage, "Welcome 模板", 2, 4, issues);
         validateTemplatePage(state.finishPage, "Finish 模板", 2, 4, issues);
       }
+      if (visibleStepListItemCount() < 1) issues.push({ level: "错误", type: "danger", text: "Step 页和说明书 PDF 至少需要保留一个非隐藏入口。" });
       if (!state.manualPdfHidden && !state.manualPdf) issues.push({ level: "错误", type: "danger", text: "说明书入口未隐藏时需要上传 PDF 说明书。" });
-      sortedSteps().forEach((step) => {
+      visibleSteps().forEach((step) => {
         (step.sections || []).forEach((section, index) => {
           if ((section.images?.length || 0) > 10) issues.push({ level: "错误", type: "danger", text: `Step ${step.order} 第三部分 ${index + 1} 图片最多 10 张。` });
         });
       });
       if (state.steps.length < 1) issues.push({ level: "错误", type: "danger", text: "至少需要 1 页 Step 模板。" });
       if (state.steps.length > 7) issues.push({ level: "错误", type: "danger", text: "Step 模板最多支持 7 页。" });
-      sortedSteps().forEach((step) => {
+      visibleSteps().forEach((step) => {
         const label = `Step ${step.order}`;
         if (!textValue(step, "title")) issues.push({ level: "错误", type: "danger", text: `${label} 缺少 title。` });
-        if (!textValue(step, "subtitle")) issues.push({ level: "警告", type: "warning", text: `${label} 建议补充 subtitle。` });
         if (!step.mediaHidden) {
           if (!step.mediaType) issues.push({ level: "错误", type: "danger", text: `${label} 第二部分需要选择视频或图片。` });
           if (step.mediaType === "image" && !step.image) issues.push({ level: "错误", type: "danger", text: `${label} 第二部分选择图片后需要上传图片。` });
@@ -8250,25 +8335,41 @@
     function renderPageOverview() {
       const overview = $("#pageOverview");
       if (!overview) return;
-      const steps = sortedSteps();
+      const steps = visibleSteps();
+      const showManual = !state.manualPdfHidden;
+      const total = visibleStepListItemCount();
       overview.innerHTML = `
         <div class="page-preview-list">
           ${steps.map((step, index) => renderPagePreviewCard(step, index)).join("")}
+          ${showManual ? renderManualPagePreviewCard(steps.length) : ""}
+          ${total ? "" : `<div class="empty-preview">Step 页和说明书 PDF 均已隐藏。</div>`}
         </div>
       `;
       overview.querySelectorAll("[data-page-preview-step]").forEach((button) => {
         button.addEventListener("click", () => selectStep(button.dataset.pagePreviewStep, { previewScreen: "stepPage" }));
       });
+      overview.querySelector("[data-page-preview-manual]")?.addEventListener("click", () => selectAssistantPage("manual"));
     }
 
     function renderPagePreviewCard(step, index) {
       const active = step.id === state.selectedStepId ? "active" : "";
       const title = textValue(step, "title") || `Step ${index + 1}`;
-      const subtitle = textValue(step, "subtitle") || "未填写 subtitle";
+      const subtitle = textValue(step, "subtitle");
       return `
         <button class="page-preview-card ${active}" type="button" data-page-preview-step="${escapeHtml(step.id)}">
           <div class="page-preview-title">${escapeHtml(title)}</div>
-          <div class="page-preview-desc">${escapeHtml(subtitle)}</div>
+          ${subtitle ? `<div class="page-preview-desc">${escapeHtml(subtitle)}</div>` : ""}
+        </button>
+      `;
+    }
+
+    function renderManualPagePreviewCard(index) {
+      const active = state.selectedPage === "manual" ? "active" : "";
+      const title = state.manualPdf ? resourceName(state.manualPdf) : "说明书 PDF";
+      return `
+        <button class="page-preview-card ${active}" type="button" data-page-preview-manual>
+          <div class="page-preview-title">${escapeHtml(title)}</div>
+          <div class="page-preview-desc">PDF 说明书</div>
         </button>
       `;
     }
