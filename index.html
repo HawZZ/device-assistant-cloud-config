@@ -4453,14 +4453,6 @@
                 <button class="btn text" type="button" data-abbr-delete="${index}">删除</button>
               </div>
               <div class="field">
-                <label for="abbrIconMode${index}">icon</label>
-                <select class="select" id="abbrIconMode${index}" data-abbr-icon-mode="${index}">
-                  <option value="preset" ${item.iconMode !== "upload" ? "selected" : ""}>选择预设 icon</option>
-                  <option value="upload" ${item.iconMode === "upload" ? "selected" : ""}>上传自定义 icon</option>
-                </select>
-                <div class="field-help">自定义 icon 支持 png / jpg / svg；默认按 1:1 处理，以长边为 1 自动缩放。</div>
-              </div>
-              <div class="field ${item.iconMode === "upload" ? "hidden" : ""}">
                 <label for="abbrIcon${index}">预设 icon</label>
                 <select class="select" id="abbrIcon${index}" data-abbr-icon="${index}">
                   <option value="box" ${item.presetIcon === "box" ? "selected" : ""}>box</option>
@@ -4468,11 +4460,7 @@
                   <option value="power" ${item.presetIcon === "power" ? "selected" : ""}>power</option>
                   <option value="check" ${item.presetIcon === "check" ? "selected" : ""}>check</option>
                 </select>
-              </div>
-              <div class="field ${item.iconMode === "upload" ? "" : "hidden"}">
-                <label for="abbrIconUpload${index}">自定义 icon</label>
-                <input class="input" id="abbrIconUpload${index}" type="file" accept=".png,.jpg,.svg" data-abbr-icon-upload="${index}">
-                <div class="field-help">${escapeHtml(resourceName(item.icon, "未上传自定义 icon"))}</div>
+                <div class="field-help">仅支持选择 UI 预设 icon。</div>
               </div>
               <div class="field">
                 <label for="abbrTitle${index}">title</label>
@@ -4543,15 +4531,6 @@
           renderAll();
         });
       });
-      document.querySelectorAll("[data-abbr-icon-mode]").forEach((select) => {
-        select.addEventListener("change", (event) => {
-          const item = page.abbrSteps?.[Number(select.dataset.abbrIconMode)];
-          if (!item) return;
-          item.iconMode = event.target.value;
-          setDirty();
-          renderAll();
-        });
-      });
       document.querySelectorAll("[data-abbr-icon]").forEach((select) => {
         select.addEventListener("change", (event) => {
           const item = page.abbrSteps?.[Number(select.dataset.abbrIcon)];
@@ -4560,23 +4539,6 @@
           item.presetIcon = event.target.value;
           setDirty();
           renderPreviewSurfaces();
-        });
-      });
-      document.querySelectorAll("[data-abbr-icon-upload]").forEach((input) => {
-        input.addEventListener("change", (event) => {
-          const item = page.abbrSteps?.[Number(input.dataset.abbrIconUpload)];
-          const file = event.target.files?.[0];
-          if (!item || !file) return;
-          const result = validateAbbrIconFile(file);
-          if (result.ok) {
-            item.iconMode = "upload";
-            item.icon = abbrIconResource(file);
-            showToast("自定义 icon 已通过本地校验");
-          } else {
-            showToast(result.message);
-          }
-          setDirty();
-          renderAll();
         });
       });
       document.querySelectorAll("[data-abbr-title]").forEach((input) => {
@@ -5445,22 +5407,6 @@
       return resource;
     }
 
-    function validateAbbrIconFile(file) {
-      const ext = file.name.split(".").pop().toLowerCase();
-      if (!["png", "jpg", "svg"].includes(ext)) {
-        return { ok: false, message: `自定义 icon 仅支持 png / jpg / svg，当前为 .${ext}` };
-      }
-      return { ok: true };
-    }
-
-    function abbrIconResource(file) {
-      return {
-        ...fileResource(file),
-        ratio: "1:1",
-        scaleRule: "long-edge-1"
-      };
-    }
-
     function resetBlockType(block, type) {
       const id = block.id;
       const order = block.order;
@@ -5667,8 +5613,7 @@
       }
       (page.abbrSteps || []).forEach((item, index) => {
         const prefix = `${label}第 ${index + 1} 个 abbr-step`;
-        if (item.iconMode === "upload" && !item.icon) issues.push({ level: "错误", type: "danger", text: `${prefix}选择自定义 icon 后需要上传 png / jpg / svg 文件。` });
-        if (item.iconMode !== "upload" && !item.presetIcon) issues.push({ level: "错误", type: "danger", text: `${prefix}需要选择预设 icon。` });
+        if (!item.presetIcon) issues.push({ level: "错误", type: "danger", text: `${prefix}需要选择预设 icon。` });
         if (!textValue(item, "title")) issues.push({ level: "错误", type: "danger", text: `${prefix}缺少 title。` });
         if (!textValue(item, "subtitle")) issues.push({ level: "警告", type: "warning", text: `${prefix}建议补充 subtitle。` });
         if (requireEta && !item.eta) issues.push({ level: "警告", type: "warning", text: `${prefix}建议补充 eta read time。` });
@@ -7170,17 +7115,13 @@
     }
 
     function configuredSubstepIconOptions(selectedKey) {
-      const customOption = selectedKey?.startsWith?.("custom:")
-        ? `<option value="${escapeHtml(selectedKey)}" selected>自定义 icon (${escapeHtml(selectedKey.replace("custom:", ""))})</option>`
-        : "";
-      return `${customOption}${configuredSubstepIcons.map((icon) => `
+      return configuredSubstepIcons.map((icon) => `
         <option value="${escapeHtml(icon.key)}" ${selectedKey === icon.key ? "selected" : ""}>${escapeHtml(icon.label)} (${escapeHtml(icon.key)})</option>
-      `).join("")}`;
+      `).join("");
     }
 
     function substepMarkerLabel(item, index, markerType) {
       if (markerType !== "icon") return String(index + 1);
-      if (item.customIcon || item.iconKey?.startsWith?.("custom:")) return "I";
       return configuredSubstepIcon(item.iconKey)?.mark || "?";
     }
 
@@ -7882,12 +7823,10 @@
                 <div class="field">
                   <label for="substepIcon${index}">icon<span class="required-mark">*</span></label>
                   <select class="select" id="substepIcon${index}" data-substep-icon="${index}">
-                    <option value="" ${item.iconKey ? "" : "selected"}>请选择预设 icon</option>
+                    <option value="" ${configuredSubstepIcon(item.iconKey) ? "" : "selected"}>请选择预设 icon</option>
                     ${configuredSubstepIconOptions(item.iconKey)}
                   </select>
-                  <div class="field-help">可选择预设 icon，也可上传自定义 icon。自定义 icon 支持 png / jpg / svg，默认 1:1，以长边为 1 自动缩放。</div>
-                  <input class="input" id="substepIconUpload${index}" type="file" accept=".png,.jpg,.jpeg,.svg,image/png,image/jpeg,image/svg+xml" data-substep-icon-upload="${index}">
-                  ${item.customIcon ? renderResources([item.customIcon]) : ""}
+                  <div class="field-help">仅支持选择 UI 预设 icon。</div>
                 </div>
               ` : ""}
               <div class="field">
@@ -7945,26 +7884,9 @@
           const item = normalizedSubsteps(page)[Number(select.dataset.substepIcon)];
           if (!item) return;
           item.iconKey = event.target.value;
-          if (!item.iconKey.startsWith("custom:")) item.customIcon = null;
+          item.customIcon = null;
           setDirty();
           renderPreviewSurfaces();
-        });
-      });
-      document.querySelectorAll("[data-substep-icon-upload]").forEach((input) => {
-        input.addEventListener("change", (event) => {
-          const item = normalizedSubsteps(page)[Number(input.dataset.substepIconUpload)];
-          const file = event.target.files?.[0];
-          if (!item || !file) return;
-          const result = validateFile(file, ["png", "jpg", "jpeg", "svg"], 0.1);
-          if (result.ok) {
-            item.customIcon = fileResource(file);
-            item.iconKey = `custom:${file.name}`;
-            showToast("自定义 icon 已通过本地校验");
-          } else {
-            showToast(result.message);
-          }
-          setDirty();
-          renderAll();
         });
       });
       document.querySelectorAll("[data-substep-title]").forEach((input) => {
@@ -8327,8 +8249,8 @@
         issues.push({ level: "错误", type: "danger", text: `${label} substep 需要配置 ${minSubsteps}～${maxSubsteps} 个。` });
       }
       items.forEach((item, index) => {
-        if (markerType === "icon" && !(configuredSubstepIcon(item.iconKey) || item.customIcon || item.iconKey?.startsWith?.("custom:"))) {
-          issues.push({ level: "错误", type: "danger", text: `${label} substep ${index + 1} 选择 icon 时需要选择已配置 icon。` });
+        if (markerType === "icon" && !configuredSubstepIcon(item.iconKey)) {
+          issues.push({ level: "错误", type: "danger", text: `${label} substep ${index + 1} 选择 icon 时需要选择预设 icon。` });
         }
         if (!textValue(item, "title")) issues.push({ level: "错误", type: "danger", text: `${label} substep ${index + 1} 缺少 title。` });
         if (!textValue(item, "subtitle")) issues.push({ level: "警告", type: "warning", text: `${label} substep ${index + 1} 建议补充 subtitle。` });
