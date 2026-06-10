@@ -1022,6 +1022,12 @@
       color: var(--el-text-color-primary);
     }
 
+    .required-mark {
+      color: var(--el-color-danger);
+      font-weight: 700;
+      margin-left: 2px;
+    }
+
     .page-entry-btn {
       min-height: 34px;
       border: 1px solid var(--el-border-color);
@@ -7524,13 +7530,17 @@
         `).join("")}
         <label class="check-row">
           <input id="useWelcomeFinishToggle" type="checkbox" ${state.useWelcomeFinish ? "checked" : ""}>
-          使用 Welcome + Finish 成对模板
+          展示 Welcome + Finish 成对模板
         </label>
         <label class="check-row">
-          <input id="stepsHiddenInput" type="checkbox" ${state.stepsHidden ? "checked" : ""}>
-          隐藏 Step 页
+          <input id="stepsVisibleInput" type="checkbox" ${state.stepsHidden ? "" : "checked"}>
+          展示 Step 页
         </label>
-        <div class="field-help">隐藏后 Step 不进入 APP step list 计数；Step 模板配置会保留，可继续编辑。</div>
+        <label class="check-row">
+          <input id="manualPdfVisibleInput" type="checkbox" ${state.manualPdfHidden ? "" : "checked"}>
+          展示说明书 PDF
+        </label>
+        <div class="field-help">勾选则展示，不勾选则隐藏；Step 页和说明书 PDF 至少保留一个非隐藏入口。</div>
       `;
       list.querySelectorAll("[data-assistant-page]").forEach((button) => {
         button.addEventListener("click", () => selectAssistantPage(button.dataset.assistantPage));
@@ -7543,8 +7553,13 @@
         else renderAll();
         setDirty();
       });
-      $("#stepsHiddenInput")?.addEventListener("change", (event) => {
-        state.stepsHidden = event.target.checked;
+      $("#stepsVisibleInput")?.addEventListener("change", (event) => {
+        state.stepsHidden = !event.target.checked;
+        setDirty();
+        renderAll();
+      });
+      $("#manualPdfVisibleInput")?.addEventListener("change", (event) => {
+        state.manualPdfHidden = !event.target.checked;
         setDirty();
         renderAll();
       });
@@ -7638,7 +7653,7 @@
             <div class="assistant-page-subtitle">APP 参数 subtitle</div>
           </section>
           <div class="app-param-note">主图、title、subtitle 由 APP 写入和引用参数，不在云端配置。</div>
-          ${renderTemplateSubstepsPreview(normalizedSubsteps(state.welcomePage), normalizedSubstepMarkerType(state.welcomePage))}
+          ${renderTemplateSubstepsPreview(normalizedSubsteps(state.welcomePage), normalizedSubstepMarkerType(state.welcomePage), true)}
           <button class="phone-primary-action" type="button" data-preview-step-list>Get started</button>
         </div>
       `;
@@ -7685,7 +7700,7 @@
       `;
     }
 
-    function renderTemplateSubstepsPreview(items, markerType) {
+    function renderTemplateSubstepsPreview(items, markerType, showDuration = false) {
       if (!items.length) return `<div class="empty-preview">暂无 substep。</div>`;
       return `
         <div class="abbr-list">
@@ -7695,6 +7710,7 @@
               <span>
                 <strong>${escapeHtml(textValue(item, "title") || `Substep ${index + 1}`)}</strong>
                 <small>${escapeHtml(textValue(item, "subtitle") || "未填写 subtitle")}</small>
+                ${showDuration && durationLabel(item) ? `<small>预计耗时 ${escapeHtml(durationLabel(item))}</small>` : ""}
               </span>
             </div>
           `).join("")}
@@ -7845,14 +7861,14 @@
               </select>
               <div class="field-help">该配置对当前模板的所有 substep 生效；只有每个 substep 的 icon 配置跟随 substep 单独维护。</div>
             </div>
-            ${renderTemplateSubstepEditor(items, markerType)}
+            ${renderTemplateSubstepEditor(items, markerType, isWelcome)}
             <button class="btn" id="addSubstepBtn" type="button" ${items.length >= limit ? "disabled" : ""}>新增 substep</button>
           </div>
         </div>
       `;
     }
 
-    function renderTemplateSubstepEditor(items, markerType) {
+    function renderTemplateSubstepEditor(items, markerType, showDuration = false) {
       if (!items.length) return `<div class="empty-state">暂无 substep，发布前至少配置 2 个。</div>`;
       return `
         <div class="resource-list">
@@ -7864,7 +7880,7 @@
               </div>
               ${markerType === "icon" ? `
                 <div class="field">
-                  <label for="substepIcon${index}">icon</label>
+                  <label for="substepIcon${index}">icon<span class="required-mark">*</span></label>
                   <select class="select" id="substepIcon${index}" data-substep-icon="${index}">
                     <option value="" ${item.iconKey ? "" : "selected"}>请选择预设 icon</option>
                     ${configuredSubstepIconOptions(item.iconKey)}
@@ -7875,13 +7891,27 @@
                 </div>
               ` : ""}
               <div class="field">
-                <label for="substepTitle${index}">title</label>
+                <label for="substepTitle${index}">title<span class="required-mark">*</span></label>
                 <input class="input" id="substepTitle${index}" value="${escapeHtml(textValue(item, "title"))}" data-substep-title="${index}" maxlength="40">
               </div>
               <div class="field">
                 <label for="substepSubtitle${index}">subtitle</label>
                 <input class="input" id="substepSubtitle${index}" value="${escapeHtml(textValue(item, "subtitle"))}" data-substep-subtitle="${index}" maxlength="80">
               </div>
+              ${showDuration ? `
+                <div class="field">
+                  <label for="substepDurationValue${index}">预计耗时</label>
+                  <div class="template-media-choice">
+                    <input class="input" id="substepDurationValue${index}" value="${escapeHtml(item.durationValue || "")}" data-substep-duration-value="${index}" inputmode="numeric" maxlength="4" placeholder="数值">
+                    <select class="select" data-substep-duration-unit="${index}" aria-label="预计耗时单位">
+                      <option value="h" ${item.durationUnit === "h" ? "selected" : ""}>h</option>
+                      <option value="m" ${item.durationUnit !== "h" && item.durationUnit !== "s" ? "selected" : ""}>m</option>
+                      <option value="s" ${item.durationUnit === "s" ? "selected" : ""}>s</option>
+                    </select>
+                  </div>
+                  <div class="field-help">仅 Welcome substep 配置，用于 APP 展示预计阅读 / 操作耗时。</div>
+                </div>
+              ` : ""}
             </div>
           `).join("")}
         </div>
@@ -7955,19 +7985,34 @@
           renderPreviewSurfaces();
         });
       });
+      document.querySelectorAll("[data-substep-duration-value]").forEach((input) => {
+        input.addEventListener("input", (event) => {
+          const item = normalizedSubsteps(page)[Number(input.dataset.substepDurationValue)];
+          if (!item) return;
+          item.durationValue = event.target.value.replace(/[^\d]/g, "");
+          input.value = item.durationValue;
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
+      document.querySelectorAll("[data-substep-duration-unit]").forEach((select) => {
+        select.addEventListener("change", (event) => {
+          const item = normalizedSubsteps(page)[Number(select.dataset.substepDurationUnit)];
+          if (!item) return;
+          item.durationUnit = event.target.value;
+          setDirty();
+          renderPreviewSurfaces();
+        });
+      });
     }
 
     function renderManualForm() {
       return `
         <div class="form-grid">
-          <label class="check-row">
-            <input id="manualPdfHiddenInput" type="checkbox" ${state.manualPdfHidden ? "checked" : ""}>
-            隐藏说明书入口
-          </label>
           <div class="field">
-            <label for="manualPdfInput">说明书 PDF</label>
+            <label for="manualPdfInput">说明书 PDF<span class="required-mark">*</span></label>
             <input class="input" id="manualPdfInput" type="file" accept="application/pdf,.pdf" ${state.manualPdfHidden ? "disabled" : ""}>
-            <div class="field-help">入口位于模板列表，按当前语言维护；仅支持 PDF，不大于 10MB；APP 端通过 WebView 嵌入打开。</div>
+            <div class="field-help">显隐在模板入口处控制；展示时必填。仅支持 PDF，不大于 10MB；APP 端通过 WebView 嵌入打开。</div>
             ${renderResources(state.manualPdf ? [state.manualPdf] : [])}
           </div>
         </div>
@@ -7975,11 +8020,6 @@
     }
 
     function bindManualForm() {
-      $("#manualPdfHiddenInput")?.addEventListener("change", (event) => {
-        state.manualPdfHidden = event.target.checked;
-        setDirty();
-        renderAll();
-      });
       $("#manualPdfInput")?.addEventListener("change", (event) => {
         const file = event.target.files?.[0];
         if (!file) return;
@@ -8007,7 +8047,7 @@
             <div class="field-help">Step 第一部分使用 UI 定义的预设 icon。</div>
           </div>
           <div class="field">
-            <label for="stepTitleInput">第一部分 title</label>
+            <label for="stepTitleInput">第一部分 title<span class="required-mark">*</span></label>
             <input class="input" id="stepTitleInput" value="${escapeHtml(textValue(step, "title"))}" maxlength="40">
           </div>
           <div class="field">
@@ -8017,7 +8057,7 @@
           </div>
           <div class="template-section-card">
             <div class="template-section-head">
-              <strong>第二部分：视频 / 图片</strong>
+              <strong>第二部分：视频 / 图片<span class="required-mark">*</span></strong>
               <label class="check-row">
                 <input id="mediaHiddenInput" type="checkbox" ${step.mediaHidden ? "checked" : ""}>
                 隐藏第二部分
@@ -8029,15 +8069,21 @@
             </div>
             ${!step.mediaType ? `<div class="field-help">未隐藏第二部分时，需要先选择视频或图片，再上传对应素材。</div>` : step.mediaType === "image" ? `
               <div class="field">
-                <label for="stepMediaImageInput">上传图片</label>
+                <label for="stepMediaImageInput">上传图片<span class="required-mark">*</span></label>
                 <input class="input" id="stepMediaImageInput" type="file" accept="image/png,image/jpeg">
                 ${renderResources(step.image ? [step.image] : [])}
               </div>
             ` : `
               <div class="field">
-                <label for="stepMediaVideoInput">上传视频</label>
+                <label for="stepMediaVideoInput">上传视频<span class="required-mark">*</span></label>
                 <input class="input" id="stepMediaVideoInput" type="file" accept="video/mp4">
                 ${renderResources(step.video ? [step.video] : [])}
+              </div>
+              <div class="field">
+                <label for="stepMediaVideoCoverInput">上传视频封面图（可选）</label>
+                <input class="input" id="stepMediaVideoCoverInput" type="file" accept="image/png,image/jpeg">
+                <div class="field-help">支持 png / jpg / jpeg，不大于 5M；不上传则 APP 侧不展示封面图。</div>
+                ${renderResources(step.videoCover ? [step.videoCover] : [])}
               </div>
             `}
           </div>
@@ -8078,11 +8124,11 @@
             </label>
           </div>
           <div class="field">
-            <label for="sectionTitle${index}">正文标题</label>
+            <label for="sectionTitle${index}">正文标题<span class="required-mark">*</span></label>
             <input class="input" id="sectionTitle${index}" value="${escapeHtml(textValue(section, "title"))}" data-section-title="${index}" maxlength="40">
           </div>
           <div class="field">
-            <label for="sectionContent${index}">内容</label>
+            <label for="sectionContent${index}">内容<span class="required-mark">*</span></label>
             <textarea class="textarea" id="sectionContent${index}" data-section-content="${index}">${escapeHtml(textValue(section, "content"))}</textarea>
           </div>
           <div class="field">
@@ -8135,6 +8181,15 @@
         const result = validateFile(file, ["mp4"], 200);
         if (result.ok) step.video = fileResource(file);
         showToast(result.ok ? "视频已通过本地校验" : result.message);
+        setDirty();
+        renderAll();
+      });
+      $("#stepMediaVideoCoverInput")?.addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const result = validateFile(file, ["png", "jpg", "jpeg"], 5);
+        if (result.ok) step.videoCover = fileResource(file);
+        showToast(result.ok ? "视频封面图已通过本地校验" : result.message);
         setDirty();
         renderAll();
       });
